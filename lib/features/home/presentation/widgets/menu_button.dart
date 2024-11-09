@@ -26,10 +26,10 @@ class MenuButton extends StatelessWidget {
           color: color,
           boxShadow: [
             BoxShadow(
-              color: AppColors.grey.withOpacity(0.5),
-              spreadRadius: 2,
-              blurRadius: 5,
-              offset: const Offset(4, 5),
+              color: AppColors.grey.withOpacity(0.6),
+              spreadRadius: 1,
+              blurRadius: 4,
+              offset: const Offset(4, 4),
             ),
           ],
         ),
