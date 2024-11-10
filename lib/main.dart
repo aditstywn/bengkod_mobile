@@ -1,6 +1,8 @@
-import 'package:bengkod_mobile_app/features/auth/data/datasource/auth_remote_datasource.dart';
-import 'package:bengkod_mobile_app/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:bengkod_mobile_app/features/auth/presentation/pages/splash_page.dart';
+import 'features/auth/data/datasource/auth_remote_datasource.dart';
+import 'features/auth/presentation/bloc/auth_bloc.dart';
+import 'features/auth/presentation/pages/splash_page.dart';
+import 'features/profile/data/datasource/profile_remote_datasorce.dart';
+import 'features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,8 +17,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AuthBloc(AuthRemoteDatasource()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => AuthBloc(AuthRemoteDatasource()),
+        ),
+        BlocProvider(
+          create: (context) => ProfileBloc(ProfileRemoteDatasorce()),
+        ),
+      ],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(

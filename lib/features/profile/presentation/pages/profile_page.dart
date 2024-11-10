@@ -1,14 +1,15 @@
-import 'package:bengkod_mobile_app/core/components/buttons.dart';
-import 'package:bengkod_mobile_app/core/extensions/build_context_ext.dart';
-import 'package:bengkod_mobile_app/features/auth/data/datasource/auth_local_datasource.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../../../core/components/buttons.dart';
 import '../../../../core/components/spaces.dart';
 import '../../../../core/config/app_color.dart';
+import '../../../../core/extensions/build_context_ext.dart';
+import '../../../auth/data/datasource/auth_local_datasource.dart';
 import '../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../auth/presentation/pages/login_page.dart';
+import '../bloc/profile_bloc.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -18,6 +19,12 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  @override
+  void initState() {
+    context.read<ProfileBloc>().add(const ProfileEvent.getProfile());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,92 +50,201 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             ),
             const SpaceHeight(30),
-            Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: AppColors.white,
-                  width: 5,
-                ),
-              ),
-              child: CircleAvatar(
-                radius: 62.5,
-                backgroundColor: AppColors.grey,
-                child: ClipOval(
-                  child: Image.asset(
-                    'assets/images/DSCF2616.JPG',
-                    fit: BoxFit.cover,
-                    width: 125,
-                    height: 125,
-                    alignment: Alignment.topCenter,
-                  ),
-                ),
-              ),
+            BlocBuilder<ProfileBloc, ProfileState>(
+              builder: (context, state) {
+                return state.maybeWhen(
+                  orElse: () {
+                    return Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: AppColors.white,
+                          width: 5,
+                        ),
+                      ),
+                      child: CircleAvatar(
+                        radius: 62.5,
+                        backgroundColor: Colors.grey[200],
+                        child: Icon(
+                          Icons.person,
+                          size: 50,
+                          color: Colors.grey[400],
+                        ),
+                      ),
+                    );
+                  },
+                  loading: () {
+                    return Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: AppColors.white,
+                          width: 5,
+                        ),
+                      ),
+                      child: CircleAvatar(
+                        radius: 62.5,
+                        backgroundColor: Colors.grey[200],
+                      ),
+                    );
+                  },
+                  getProfileSuccess: (profileResponseModel) {
+                    return Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: AppColors.white,
+                          width: 5,
+                        ),
+                      ),
+                      child: CircleAvatar(
+                        radius: 62.5,
+                        backgroundColor: Colors.grey[200],
+                        child: ClipOval(
+                          child: Image.network(
+                            profileResponseModel.data.image,
+                            fit: BoxFit.cover,
+                            width: 125,
+                            height: 125,
+                            alignment: Alignment.topCenter,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
             ),
             const SpaceHeight(20),
-            Card(
-              color: AppColors.white,
-              elevation: 2,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: const Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Nomor Induk Mahasiswa',
-                      style: TextStyle(
-                        color: AppColors.primary,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+            BlocBuilder<ProfileBloc, ProfileState>(
+              builder: (context, state) {
+                return state.maybeWhen(
+                  orElse: () {
+                    return SizedBox(
+                      height: 256,
+                      child: Card(
+                        color: AppColors.white,
+                        elevation: 2,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Padding(
+                          padding: EdgeInsets.all(16.0),
+                          child: Center(
+                            child: Text(
+                              'Gagal mendapatkan data profile',
+                              style: TextStyle(
+                                color: AppColors.grey,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                    Text(
-                      'A11.2022.14654',
-                      style: TextStyle(
-                        color: AppColors.grey,
-                        fontSize: 16,
+                    );
+                  },
+                  loading: () {
+                    return SizedBox(
+                      height: 256,
+                      child: Card(
+                        color: AppColors.white,
+                        elevation: 2,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        // child: const Padding(
+                        //   padding: EdgeInsets.all(16.0),
+                        //   child: Center(
+                        //     child: CircularProgressIndicator(),
+                        //   ),
+                        // ),
                       ),
-                    ),
-                    SpaceHeight(8),
-                    Text(
-                      'Nama Lengkap Mahasiswa',
-                      style: TextStyle(
-                        color: AppColors.primary,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                    );
+                  },
+                  getProfileSuccess: (profileResponseModel) {
+                    return Card(
+                      color: AppColors.white,
+                      elevation: 2,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                    ),
-                    Text(
-                      'Restu Aditya Setyawan',
-                      style: TextStyle(
-                        color: AppColors.grey,
-                        fontSize: 16,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Nomor Induk Mahasiswa',
+                              style: TextStyle(
+                                color: AppColors.primary,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              profileResponseModel.data.identityCode,
+                              style: const TextStyle(
+                                color: AppColors.grey,
+                                fontSize: 16,
+                              ),
+                            ),
+                            const SpaceHeight(8),
+                            const Text(
+                              'Nama Lengkap Mahasiswa',
+                              style: TextStyle(
+                                color: AppColors.primary,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              profileResponseModel.data.name,
+                              style: const TextStyle(
+                                color: AppColors.grey,
+                                fontSize: 16,
+                              ),
+                              overflow: TextOverflow.fade,
+                            ),
+                            const SpaceHeight(8),
+                            const Text(
+                              'Email Mahasiswa',
+                              style: TextStyle(
+                                color: AppColors.primary,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              profileResponseModel.data.email,
+                              style: const TextStyle(
+                                color: AppColors.grey,
+                                fontSize: 16,
+                              ),
+                            ),
+                            const SpaceHeight(8),
+                            const Text(
+                              'Role',
+                              style: TextStyle(
+                                color: AppColors.primary,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              profileResponseModel.data.role,
+                              style: const TextStyle(
+                                color: AppColors.grey,
+                                fontSize: 16,
+                              ),
+                            ),
+                            const SpaceHeight(8),
+                          ],
+                        ),
                       ),
-                      overflow: TextOverflow.fade,
-                    ),
-                    SpaceHeight(8),
-                    Text(
-                      'Email Mahasiswa',
-                      style: TextStyle(
-                        color: AppColors.primary,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      '111202214654@mhs.dinus.ac.id',
-                      style: TextStyle(
-                        color: AppColors.grey,
-                        fontSize: 16,
-                      ),
-                    ),
-                    SpaceHeight(8),
-                  ],
-                ),
-              ),
+                    );
+                  },
+                );
+              },
             ),
             const SpaceHeight(20),
             BlocConsumer<AuthBloc, AuthState>(

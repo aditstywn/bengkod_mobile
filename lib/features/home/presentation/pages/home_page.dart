@@ -1,19 +1,31 @@
-import 'package:bengkod_mobile_app/core/extensions/build_context_ext.dart';
-import 'package:bengkod_mobile_app/features/assignment/presentation/pages/assignment_page.dart';
-import 'package:bengkod_mobile_app/features/class/presentation/pages/class_page.dart';
-import 'package:bengkod_mobile_app/features/courses/presentation/pages/courses_page.dart';
-import 'package:bengkod_mobile_app/features/settings/presentation/pages/settings_page.dart';
 import 'package:flutter/material.dart';
-
-import 'package:bengkod_mobile_app/core/components/spaces.dart';
-import 'package:bengkod_mobile_app/core/config/app_color.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../core/components/spaces.dart';
+import '../../../../core/config/app_color.dart';
+import '../../../../core/extensions/build_context_ext.dart';
+import '../../../assignment/presentation/pages/assignment_page.dart';
 import '../../../assignment/presentation/widgets/assignment_card.dart';
+import '../../../class/presentation/pages/class_page.dart';
+import '../../../courses/presentation/pages/courses_page.dart';
+import '../../../profile/presentation/bloc/profile_bloc.dart';
+import '../../../settings/presentation/pages/settings_page.dart';
 import '../widgets/menu_button.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    context.read<ProfileBloc>().add(const ProfileEvent.getProfile());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,71 +52,97 @@ class HomePage extends StatelessWidget {
               ],
             ),
             const SpaceHeight(10),
-            Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 8,
-              ),
-              height: 97,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: AppColors.primary,
-                borderRadius: BorderRadius.circular(14),
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: AppColors.white,
-                        width: 3,
+            BlocBuilder<ProfileBloc, ProfileState>(
+              builder: (context, state) {
+                return state.maybeWhen(
+                  orElse: () {
+                    return Container(
+                      height: 97,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: AppColors.primary,
+                        borderRadius: BorderRadius.circular(14),
                       ),
-                    ),
-                    child: CircleAvatar(
-                      radius: 30,
-                      backgroundColor: AppColors.grey,
-                      child: ClipOval(
-                        child: Image.asset(
-                          'assets/images/DSCF2616.JPG',
-                          fit: BoxFit.cover,
-                          width: 60,
-                          height: 60,
-                          alignment: Alignment.topCenter,
-                        ),
+                    );
+                  },
+                  loading: () {
+                    return Container(
+                      height: 97,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: AppColors.primary,
+                        borderRadius: BorderRadius.circular(14),
                       ),
-                    ),
-                  ),
-                  const SpaceWidth(20),
-                  const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Adit Stywn',
-                        style: TextStyle(
-                          color: AppColors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        overflow: TextOverflow.ellipsis,
+                    );
+                  },
+                  getProfileSuccess: (profileResponseModel) {
+                    return Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 22,
+                        vertical: 8,
                       ),
-                      Text(
-                        'A11.2022.14654',
-                        style: TextStyle(color: AppColors.white),
+                      height: 97,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: AppColors.primary,
+                        borderRadius: BorderRadius.circular(14),
                       ),
-                    ],
-                  ),
-                  const Spacer(),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.arrow_forward_ios,
-                      color: AppColors.white,
-                    ),
-                  )
-                ],
-              ),
+                      child: Row(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: AppColors.white,
+                                width: 3,
+                              ),
+                            ),
+                            child: CircleAvatar(
+                              radius: 30,
+                              backgroundColor: AppColors.white,
+                              child: ClipOval(
+                                child: Image.network(
+                                  profileResponseModel.data.image,
+                                  fit: BoxFit.cover,
+                                  width: 60,
+                                  height: 60,
+                                  alignment: Alignment.topCenter,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SpaceWidth(20),
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  profileResponseModel.data.name,
+                                  style: const TextStyle(
+                                    color: AppColors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                ),
+                                Text(
+                                  profileResponseModel.data.identityCode,
+                                  style: const TextStyle(
+                                    color: AppColors.white,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
             ),
             const SpaceHeight(20),
             const Text(
