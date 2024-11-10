@@ -1,28 +1,26 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+import '../../../../core/extensions/build_context_ext.dart';
+import '../pages/information_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/components/spaces.dart';
 import '../../../../core/config/app_color.dart';
+import '../../data/models/response/class_response_model.dart';
 
 class ClassCard extends StatelessWidget {
-  final String day;
-  final String title;
-  final String description;
-  final String time;
-  final VoidCallback onTap;
+  final Class data;
   const ClassCard({
     super.key,
-    required this.day,
-    required this.title,
-    required this.description,
-    required this.time,
-    required this.onTap,
+    required this.data,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      onTap: () {
+        context.push(InformationPage(
+          id: data.id,
+        ));
+      },
       child: Stack(
         children: [
           Container(
@@ -48,20 +46,24 @@ class ClassCard extends StatelessWidget {
               children: [
                 const SpaceHeight(40),
                 Text(
-                  title,
+                  data.name,
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: AppColors.white,
                   ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
                 const SpaceHeight(6),
                 Text(
-                  description,
+                  data.description,
                   style: const TextStyle(
                     fontSize: 12,
                     color: AppColors.white,
                   ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),
@@ -85,7 +87,7 @@ class ClassCard extends StatelessWidget {
               ),
               child: Center(
                 child: Text(
-                  day,
+                  data.day,
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -98,13 +100,26 @@ class ClassCard extends StatelessWidget {
           Positioned(
             bottom: 16,
             left: 18,
-            child: Text(
-              time,
-              style: const TextStyle(
-                fontSize: 16,
-                color: AppColors.white,
-                fontWeight: FontWeight.bold,
-              ),
+            child: Row(
+              children: [
+                Text(
+                  '${data.timeStart} - ${data.timeEnd}',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: AppColors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SpaceWidth(10),
+                Text(
+                  '( ${data.room} )',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: AppColors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
           ),
         ],
