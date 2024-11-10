@@ -1,10 +1,13 @@
 import 'package:bengkod_mobile_app/core/components/buttons.dart';
 import 'package:bengkod_mobile_app/core/extensions/build_context_ext.dart';
+import 'package:bengkod_mobile_app/features/auth/data/datasource/auth_local_datasource.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../../core/components/spaces.dart';
 import '../../../../core/config/app_color.dart';
+import '../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../auth/presentation/pages/login_page.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -128,11 +131,58 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
             const SpaceHeight(20),
-            Button.filled(
-              onPressed: () {
-                context.pushReplacement(const LoginPage());
+            BlocConsumer<AuthBloc, AuthState>(
+              listener: (context, state) {
+                state.maybeWhen(
+                  orElse: () {},
+                  logoutSuccess: (logoutResponseModel) {
+                    AuthLocalDatasource().removeAuthData();
+                    context.pushReplacement(const LoginPage());
+                  },
+                  error: (message) {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Row(
+                            children: [
+                              Icon(
+                                Icons.error,
+                                color: Colors.red,
+                              ),
+                              SpaceWidth(8),
+                              Text('Info Error'),
+                            ],
+                          ),
+                          content: Text(message),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text('OK'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                );
               },
-              label: 'Logout',
+              builder: (context, state) {
+                return state.maybeWhen(orElse: () {
+                  return Button.filled(
+                    onPressed: () {
+                      context.read<AuthBloc>().add(const AuthEvent.logout());
+                    },
+                    label: 'Logout',
+                  );
+                }, loading: () {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                });
+              },
             ),
           ],
         ),
