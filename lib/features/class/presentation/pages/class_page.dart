@@ -43,7 +43,7 @@ class _ClassPageState extends State<ClassPage> {
             getClassSuccess: (classResponseModel) {
               return ListView.separated(
                 padding: const EdgeInsets.symmetric(
-                  vertical: 8,
+                  vertical: 16,
                   horizontal: 16,
                 ),
                 itemCount: classResponseModel.data.length,

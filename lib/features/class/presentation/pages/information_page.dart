@@ -49,10 +49,9 @@ class _InformationPageState extends State<InformationPage> {
       body: ListView(
         padding: const EdgeInsets.symmetric(
           horizontal: 16,
-          vertical: 8,
+          vertical: 16,
         ),
         children: [
-          const SpaceHeight(16),
           Row(
             children: [
               Container(
