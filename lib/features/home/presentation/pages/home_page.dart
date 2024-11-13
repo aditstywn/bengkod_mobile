@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -101,12 +102,23 @@ class _HomePageState extends State<HomePage> {
                               radius: 30,
                               backgroundColor: AppColors.white,
                               child: ClipOval(
-                                child: Image.network(
-                                  profileResponseModel.data.image,
+                                // child: Image.network(
+                                //   profileResponseModel.data.image,
+                                //   fit: BoxFit.cover,
+                                //   width: 60,
+                                //   height: 60,
+                                //   alignment: Alignment.topCenter,
+                                // ),
+                                child: CachedNetworkImage(
+                                  imageUrl: profileResponseModel.data.image,
                                   fit: BoxFit.cover,
                                   width: 60,
                                   height: 60,
                                   alignment: Alignment.topCenter,
+                                  placeholder: (context, url) =>
+                                      const CircularProgressIndicator(),
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.error),
                                 ),
                               ),
                             ),

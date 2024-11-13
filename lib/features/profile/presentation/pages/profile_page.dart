@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -101,12 +102,23 @@ class _ProfilePageState extends State<ProfilePage> {
                         radius: 62.5,
                         backgroundColor: Colors.grey[200],
                         child: ClipOval(
-                          child: Image.network(
-                            profileResponseModel.data.image,
+                          // child: Image.network(
+                          //   profileResponseModel.data.image,
+                          //   fit: BoxFit.cover,
+                          //   width: 125,
+                          //   height: 125,
+                          //   alignment: Alignment.topCenter,
+                          // ),
+                          child: CachedNetworkImage(
+                            imageUrl: profileResponseModel.data.image,
                             fit: BoxFit.cover,
                             width: 125,
                             height: 125,
                             alignment: Alignment.topCenter,
+                            placeholder: (context, url) =>
+                                const CircularProgressIndicator(),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
                           ),
                         ),
                       ),
