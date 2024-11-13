@@ -103,13 +103,15 @@ class Button extends StatelessWidget {
                 children: [
                   icon ?? const SizedBox.shrink(),
                   if (icon != null) const SizedBox(width: 10.0),
-                  Text(
-                    label,
-                    style: TextStyle(
-                      color: textColor,
-                      fontSize: fontSize,
-                      fontWeight: FontWeight.w700,
-                      overflow: TextOverflow.ellipsis,
+                  Flexible(
+                    child: Text(
+                      label,
+                      style: TextStyle(
+                        color: textColor,
+                        fontSize: fontSize,
+                        fontWeight: FontWeight.w700,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ),
                   iconRight ?? const SizedBox.shrink(),

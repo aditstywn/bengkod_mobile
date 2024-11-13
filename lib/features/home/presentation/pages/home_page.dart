@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/components/spaces.dart';
 import '../../../../core/config/app_color.dart';
 import '../../../../core/extensions/build_context_ext.dart';
-import '../../../assignment/presentation/pages/assignment_page.dart';
+import '../../../assignment/presentation/pages/class_assignment_page.dart';
 import '../../../assignment/presentation/widgets/assignment_card.dart';
 import '../../../class/presentation/pages/class_page.dart';
 import '../../../courses/presentation/pages/courses_page.dart';
@@ -174,7 +174,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 MenuButton(
                   onTap: () {
-                    context.push(const AssignmentPage());
+                    context.push(const ClassAssignmentPage());
                   },
                   color: AppColors.assignment,
                   title: 'Assignment',
@@ -294,7 +294,7 @@ class _HomePageState extends State<HomePage> {
               onTap: () {},
               title:
                   'Studi Kasus Mobile Developer - Ready to Upload Assignment Cobalah untuk membuat aplikasi mobile sederhana dengan menggunakan Flutter',
-              subtitle: 'Bengkel Koding Mobile - Review',
+              description: 'Bengkel Koding Mobile - Review',
               start: ' 12 Oct 2024. 18.00 ',
               deadline: ' 12 Oct 2024. 18.00 ',
               status: 'Belum Dikumpulkan',

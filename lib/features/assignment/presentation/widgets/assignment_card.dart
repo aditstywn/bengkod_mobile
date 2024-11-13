@@ -7,7 +7,7 @@ import '../../../../core/config/app_color.dart';
 
 class AssignmentCard extends StatelessWidget {
   final String title;
-  final String subtitle;
+  final String description;
   final String start;
   final String deadline;
   final String status;
@@ -17,7 +17,7 @@ class AssignmentCard extends StatelessWidget {
   const AssignmentCard({
     super.key,
     required this.title,
-    required this.subtitle,
+    required this.description,
     required this.start,
     required this.deadline,
     required this.status,
@@ -73,7 +73,7 @@ class AssignmentCard extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                         Text(
-                          subtitle,
+                          description,
                           style: const TextStyle(
                             fontSize: 14,
                             color: AppColors.grey,
@@ -96,14 +96,14 @@ class AssignmentCard extends StatelessWidget {
                       Text(
                         'Start $start',
                         style: const TextStyle(
-                          fontSize: 12,
+                          fontSize: 10,
                         ),
                       ),
                       Text(
                         'Deadline $deadline',
                         style: const TextStyle(
                           color: AppColors.red,
-                          fontSize: 12,
+                          fontSize: 10,
                         ),
                       ),
                     ],
