@@ -16,103 +16,82 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 8,
+      appBar: AppBar(
+        backgroundColor: AppColors.white,
+        title: const Text(
+          'Settings',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
           ),
-          children: [
-            Row(
+        ),
+        centerTitle: true,
+      ),
+      body: ListView(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
+        children: [
+          Card(
+            color: AppColors.white,
+            elevation: 2,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: ListTile(
+              onTap: () {
+                context.push(const ChangePasswordPage());
+              },
+              title: const Text(
+                'Change Password',
+                style: TextStyle(
+                  color: AppColors.primary,
+                ),
+              ),
+              trailing: const Icon(
+                Icons.arrow_forward_ios,
+                size: 18,
+              ),
+            ),
+          ),
+          const SpaceHeight(10),
+          Card(
+            color: AppColors.white,
+            elevation: 2,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: const Column(
               children: [
-                TextButton.icon(
-                  onPressed: context.pop,
-                  label: const Text(
-                    'Back',
+                ListTile(
+                  title: Text(
+                    'About Us',
                     style: TextStyle(
-                      fontSize: 16,
-                      color: AppColors.grey,
+                      color: AppColors.primary,
                     ),
                   ),
-                  icon: const Icon(
-                    Icons.arrow_back_ios,
-                    color: AppColors.grey,
-                    size: 16,
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    size: 18,
                   ),
                 ),
-                const Spacer(),
-                const Text(
-                  'Settings',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                ListTile(
+                  title: Text(
+                    'Privacy Policy',
+                    style: TextStyle(
+                      color: AppColors.primary,
+                    ),
+                  ),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    size: 18,
                   ),
                 ),
-                const Spacer(),
-                const Spacer(),
               ],
             ),
-            const SpaceHeight(16),
-            Card(
-              color: AppColors.white,
-              elevation: 2,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: ListTile(
-                onTap: () {
-                  context.push(const ChangePasswordPage());
-                },
-                title: const Text(
-                  'Change Password',
-                  style: TextStyle(
-                    color: AppColors.primary,
-                  ),
-                ),
-                trailing: const Icon(
-                  Icons.arrow_forward_ios,
-                  size: 18,
-                ),
-              ),
-            ),
-            const SpaceHeight(10),
-            Card(
-              color: AppColors.white,
-              elevation: 2,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: const Column(
-                children: [
-                  ListTile(
-                    title: Text(
-                      'About Us',
-                      style: TextStyle(
-                        color: AppColors.primary,
-                      ),
-                    ),
-                    trailing: Icon(
-                      Icons.arrow_forward_ios,
-                      size: 18,
-                    ),
-                  ),
-                  ListTile(
-                    title: Text(
-                      'Privacy Policy',
-                      style: TextStyle(
-                        color: AppColors.primary,
-                      ),
-                    ),
-                    trailing: Icon(
-                      Icons.arrow_forward_ios,
-                      size: 18,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
