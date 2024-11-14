@@ -8,13 +8,13 @@ import '../models/response/profile_response_model.dart';
 class ProfileRemoteDatasorce {
   Future<Either<String, ProfileResponseModel>> getProfile() async {
     try {
-      final authData = await AuthLocalDatasource().getAuthData();
+      final token = await AuthLocalDatasource().getToken();
       final response = await http.get(
         Uri.parse('${Url.baseUrl}/api/v1/auth/profile'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json',
-          'Authorization': 'Bearer ${authData.token}',
+          'Authorization': 'Bearer $token',
         },
       );
 

@@ -1,6 +1,6 @@
-import 'package:bengkod_mobile_app/core/components/spaces.dart';
-import 'package:bengkod_mobile_app/core/config/app_color.dart';
-import 'package:bengkod_mobile_app/features/profile/presentation/pages/profile_page.dart';
+import '../core/components/spaces.dart';
+import '../core/config/app_color.dart';
+import 'profile/presentation/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

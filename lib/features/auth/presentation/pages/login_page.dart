@@ -84,6 +84,7 @@ class _LoginPageState extends State<LoginPage> {
                 orElse: () {},
                 loginSuccess: (loginResponseModel) {
                   AuthLocalDatasource().saveAuthData(loginResponseModel);
+                  AuthLocalDatasource().saveToken(loginResponseModel.token);
 
                   context.pushReplacement(const MainNav());
                 },

@@ -1,6 +1,7 @@
 import 'package:bengkod_mobile_app/features/auth/data/datasource/auth_remote_datasource.dart';
 import 'package:bengkod_mobile_app/features/auth/data/models/request/login_request_model.dart';
 import 'package:bengkod_mobile_app/features/auth/data/models/response/logout_response_model.dart';
+import 'package:bengkod_mobile_app/features/auth/data/models/response/refresh_token_response_model.dart';
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -33,6 +34,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       response.fold(
         (l) => emit(_Error(l)),
         (r) => emit(_LogoutSuccess(r)),
+      );
+    });
+
+    on<_RefreshToken>((event, emit) async {
+      emit(const _Loading());
+
+      final response = await authRemoteDatasource.refreshToken();
+
+      response.fold(
+        (l) => emit(_Error(l)),
+        (r) => emit(_RefreshTokenSuccess(r)),
       );
     });
   }

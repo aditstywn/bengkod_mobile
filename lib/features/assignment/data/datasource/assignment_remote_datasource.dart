@@ -20,13 +20,13 @@ class AssignmentRemoteDatasource {
   Future<Either<String, ClassAssignmentResponseModel>>
       getClassAssignment() async {
     try {
-      final authData = await AuthLocalDatasource().getAuthData();
+      final token = await AuthLocalDatasource().getToken();
       final response = await http.get(
         Uri.parse('${Url.baseUrl}/api/v1/mobile/student/assignment/classroom'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json',
-          'Authorization': 'Bearer ${authData.token}',
+          'Authorization': 'Bearer $token',
         },
       );
 
@@ -42,14 +42,14 @@ class AssignmentRemoteDatasource {
 
   Future<Either<String, AssignmentResponseModel>> getAssignment(int id) async {
     try {
-      final authData = await AuthLocalDatasource().getAuthData();
+      final token = await AuthLocalDatasource().getToken();
       final response = await http.get(
         Uri.parse(
             '${Url.baseUrl}/api/v1/mobile/student/assignment/classroom/$id/assignments?paginate=10'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json',
-          'Authorization': 'Bearer ${authData.token}',
+          'Authorization': 'Bearer $token',
         },
       );
 
@@ -66,14 +66,14 @@ class AssignmentRemoteDatasource {
   Future<Either<String, DetailAssignmentResponseModel>> getDetailAssignment(
       int idClass, int idAssignment) async {
     try {
-      final authData = await AuthLocalDatasource().getAuthData();
+      final token = await AuthLocalDatasource().getToken();
       final response = await http.get(
         Uri.parse(
             '${Url.baseUrl}/api/v1/mobile/student/assignment/classroom/$idClass/assignments/$idAssignment/detail'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json',
-          'Authorization': 'Bearer ${authData.token}',
+          'Authorization': 'Bearer $token',
         },
       );
 
@@ -93,12 +93,12 @@ class AssignmentRemoteDatasource {
   Future<Either<String, UploadTaskResponseModel>> uploadTask(int idClass,
       int idAssignment, UploadTaskRequestModel uploadTaskRequestModel) async {
     try {
-      final authData = await AuthLocalDatasource().getAuthData();
+      final token = await AuthLocalDatasource().getToken();
 
       var headers = {
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': 'application/json',
-        'Authorization': 'Bearer ${authData.token}',
+        'Authorization': 'Bearer $token',
       };
 
       var request = http.MultipartRequest(
@@ -131,14 +131,14 @@ class AssignmentRemoteDatasource {
   Future<Either<String, SubmitAssignmentResponseModel>> submitTask(
       int idClass, int idAssignment) async {
     try {
-      final authData = await AuthLocalDatasource().getAuthData();
+      final token = await AuthLocalDatasource().getToken();
       final response = await http.post(
         Uri.parse(
             '${Url.baseUrl}/api/v1/mobile/student/assignment/classroom/$idClass/assignments/$idAssignment/task/submit'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json',
-          'Authorization': 'Bearer ${authData.token}',
+          'Authorization': 'Bearer $token',
         },
       );
 
