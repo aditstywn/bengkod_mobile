@@ -177,95 +177,199 @@ class _DetailCoursesPageState extends State<DetailCoursesPage> {
                       ),
                     ),
                   ),
-                  if (articleResponseModel.data.prev != null) ...[
-                    Positioned(
-                      left: 16,
-                      bottom: 10,
-                      child: InkWell(
-                        onTap: () {
-                          if (articleResponseModel.data.prev != null) {
-                            context.pushReplacement(
-                              DetailCoursesPage(
-                                idCourses: widget.idCourses,
-                                idArticle: articleResponseModel.data.prev!.id,
-                              ),
-                            );
-                          }
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 8),
-                          decoration: BoxDecoration(
-                            color: AppColors.primary,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Row(
-                            children: [
-                              const Icon(
-                                Icons.arrow_back,
-                                size: 18,
-                                color: Colors.white,
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                articleResponseModel.data.prev!.name
-                                    .truncateCharacters(10),
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.white,
+                  // if (articleResponseModel.data.prev != null) ...[
+                  // Positioned(
+                  //   left: 16,
+                  //   bottom: 10,
+                  //   child: InkWell(
+                  //     onTap: () {
+                  //       if (articleResponseModel.data.prev != null) {
+                  //         context.pushReplacement(
+                  //           DetailCoursesPage(
+                  //             idCourses: widget.idCourses,
+                  //             idArticle: articleResponseModel.data.prev!.id,
+                  //           ),
+                  //         );
+                  //       }
+                  //     },
+                  //     child: Container(
+                  //       padding: const EdgeInsets.symmetric(
+                  //           horizontal: 12, vertical: 8),
+                  //       decoration: BoxDecoration(
+                  //         color: AppColors.primary,
+                  //         borderRadius: BorderRadius.circular(8),
+                  //       ),
+                  //       child: Row(
+                  //         children: [
+                  //           const Icon(
+                  //             Icons.arrow_back,
+                  //             size: 18,
+                  //             color: Colors.white,
+                  //           ),
+                  //           const SizedBox(width: 8),
+                  //           Text(
+                  //             articleResponseModel.data.prev!.name
+                  //                 .truncateCharacters(10),
+                  //             style: const TextStyle(
+                  //               fontSize: 12,
+                  //               color: Colors.white,
+                  //             ),
+                  //           ),
+                  //         ],
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  // ],
+                  // if (articleResponseModel.data.next != null) ...[
+                  //   Positioned(
+                  //     right: 16,
+                  //     bottom: 10,
+                  //     child: InkWell(
+                  //       onTap: () {
+                  //         if (articleResponseModel.data.next != null) {
+                  //           context.pushReplacement(
+                  //             DetailCoursesPage(
+                  //               idCourses: widget.idCourses,
+                  //               idArticle: articleResponseModel.data.next!.id,
+                  //             ),
+                  //           );
+                  //         }
+                  //       },
+                  //       child: Container(
+                  //         padding: const EdgeInsets.symmetric(
+                  //             horizontal: 12, vertical: 8),
+                  //         decoration: BoxDecoration(
+                  //           color: AppColors.primary,
+                  //           borderRadius: BorderRadius.circular(8),
+                  //         ),
+                  //         child: Row(
+                  //           children: [
+                  //             Text(
+                  //               articleResponseModel.data.next!.name
+                  //                   .truncateCharacters(10),
+                  //               style: const TextStyle(
+                  //                 fontSize: 12,
+                  //                 color: Colors.white,
+                  //               ),
+                  //               maxLines: 1,
+                  //             ),
+                  //             const SizedBox(width: 8),
+                  //             const Icon(
+                  //               Icons.arrow_forward,
+                  //               size: 18,
+                  //               color: Colors.white,
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ],
+                  if (articleResponseModel.data.prev != null ||
+                      articleResponseModel.data.next != null)
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            if (articleResponseModel.data.prev != null)
+                              InkWell(
+                                onTap: () {
+                                  if (articleResponseModel.data.prev != null) {
+                                    context.pushReplacement(
+                                      DetailCoursesPage(
+                                        idCourses: widget.idCourses,
+                                        idArticle:
+                                            articleResponseModel.data.prev!.id,
+                                      ),
+                                    );
+                                  }
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 8),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.primary,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.arrow_back,
+                                        size: 18,
+                                        color: Colors.white,
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        articleResponseModel.data.prev!.name
+                                            .truncateCharacters(10),
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
+                              )
+                            else
+                              const SizedBox(
+                                width: 48,
                               ),
-                            ],
-                          ),
+                            const Spacer(),
+                            if (articleResponseModel.data.next != null)
+                              InkWell(
+                                onTap: () {
+                                  if (articleResponseModel.data.next != null) {
+                                    context.pushReplacement(
+                                      DetailCoursesPage(
+                                        idCourses: widget.idCourses,
+                                        idArticle:
+                                            articleResponseModel.data.next!.id,
+                                      ),
+                                    );
+                                  }
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 8),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.primary,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        articleResponseModel.data.next!.name
+                                            .truncateCharacters(10),
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.white,
+                                        ),
+                                        maxLines: 1,
+                                      ),
+                                      const SizedBox(width: 8),
+                                      const Icon(
+                                        Icons.arrow_forward,
+                                        size: 18,
+                                        color: Colors.white,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            else
+                              const SizedBox(
+                                width: 48,
+                              )
+                          ],
                         ),
                       ),
                     ),
-                  ],
-                  if (articleResponseModel.data.next != null) ...[
-                    Positioned(
-                      right: 16,
-                      bottom: 10,
-                      child: InkWell(
-                        onTap: () {
-                          if (articleResponseModel.data.next != null) {
-                            context.pushReplacement(
-                              DetailCoursesPage(
-                                idCourses: widget.idCourses,
-                                idArticle: articleResponseModel.data.next!.id,
-                              ),
-                            );
-                          }
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 8),
-                          decoration: BoxDecoration(
-                            color: AppColors.primary,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Row(
-                            children: [
-                              Text(
-                                articleResponseModel.data.next!.name
-                                    .truncateCharacters(10),
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.white,
-                                ),
-                                maxLines: 1,
-                              ),
-                              const SizedBox(width: 8),
-                              const Icon(
-                                Icons.arrow_forward,
-                                size: 18,
-                                color: Colors.white,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
                 ],
               );
             },
