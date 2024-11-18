@@ -1,13 +1,19 @@
-import 'package:bengkod_mobile_app/core/extensions/build_context_ext.dart';
+import '../../../../core/extensions/build_context_ext.dart';
+import '../bloc/lesson/lesson_bloc.dart';
+import '../../data/models/response/lesson_response_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../core/components/spaces.dart';
 import '../../../../core/config/app_color.dart';
+import '../bloc/courses/courses_bloc.dart';
 import '../widgets/courses_card.dart';
+import 'detail_courses_page.dart';
 
 class CoursesPage extends StatefulWidget {
-  const CoursesPage({super.key});
+  final int idClass;
+  const CoursesPage({super.key, required this.idClass});
 
   @override
   State<CoursesPage> createState() => _CoursesPageState();
@@ -15,214 +21,213 @@ class CoursesPage extends StatefulWidget {
 
 class _CoursesPageState extends State<CoursesPage> {
   @override
+  void initState() {
+    context.read<CoursesBloc>().add(CoursesEvent.getCourses(widget.idClass));
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 8,
+      appBar: AppBar(
+        backgroundColor: AppColors.white,
+        title: const Text(
+          'Courses',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
           ),
+        ),
+        centerTitle: true,
+      ),
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        child: Column(
           children: [
-            Row(
-              children: [
-                TextButton.icon(
-                  onPressed: () => context.pop(),
-                  label: const Text(
-                    'Back',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: AppColors.grey,
+            BlocBuilder<CoursesBloc, CoursesState>(
+              builder: (context, state) {
+                return state.maybeWhen(
+                  orElse: () => const SizedBox(),
+                  loading: () => Container(
+                    height: 100,
+                    decoration: BoxDecoration(
+                      color: AppColors.greyMuda,
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  icon: const Icon(
-                    Icons.arrow_back_ios,
-                    color: AppColors.grey,
-                    size: 16,
+                  getCoursesSuccess: (coursesResponseModel) {
+                    final courses = coursesResponseModel.data;
+
+                    context
+                        .read<LessonBloc>()
+                        .add(LessonEvent.getLesson(courses[0].id));
+
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: courses.map((course) {
+                          return Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  context.read<LessonBloc>().add(
+                                        LessonEvent.getLesson(course.id),
+                                      );
+                                },
+                                child: CoursesCard(
+                                  length: courses.length,
+                                  color: AppColors.pink,
+                                  icon: course.image,
+                                  title: course.title,
+                                ),
+                              ),
+                              const SpaceWidth(10),
+                            ],
+                          );
+                        }).toList(),
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+            const SpaceHeight(20),
+            BlocBuilder<LessonBloc, LessonState>(
+              builder: (context, state) {
+                return state.maybeWhen(
+                  orElse: () => const SizedBox(),
+                  loading: () => Container(
+                    height: 200,
+                    decoration: BoxDecoration(
+                      color: AppColors.white,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Center(
+                      child: CircularProgressIndicator(),
+                    ),
                   ),
+                  getLessonSuccess: (lessonResponseModel) {
+                    final sections = lessonResponseModel.data[0].sections;
+
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildTitleCourses(lessonResponseModel),
+                        const SizedBox(height: 10),
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: sections.length,
+                          itemBuilder: (context, index) {
+                            final section = sections[index];
+                            final articles = section.articles;
+                            return _buildArticle(section, articles, context,
+                                lessonResponseModel);
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Container _buildTitleCourses(LessonResponseModel lessonResponseModel) {
+    return Container(
+      margin: const EdgeInsets.only(left: 3, right: 3),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      height: 65,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: AppColors.primary,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Center(
+        child: Text(
+          lessonResponseModel.data[0].title,
+          style: const TextStyle(
+            color: AppColors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
+  }
+
+  SizedBox _buildArticle(Section section, List<Article> articles,
+      BuildContext context, LessonResponseModel lessonResponseModel) {
+    return SizedBox(
+      width: double.infinity,
+      child: Card(
+        color: AppColors.white,
+        elevation: 2,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(14),
+              child: Text(
+                section.name,
+                style: const TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.primary,
                 ),
-                const Spacer(),
-                const Text(
-                  'Courses',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const Spacer(),
-                const Spacer(),
-              ],
-            ),
-            const SpaceHeight(16),
-            const SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  CoursesCard(
-                    color: AppColors.pink,
-                    icon: 'assets/icons/icon_hp.svg',
-                    title: 'Mobile',
-                    subtitle: 'Development',
-                  ),
-                  SpaceWidth(10),
-                  CoursesCard(
-                    color: AppColors.course,
-                    icon: 'assets/icons/icon_hp.svg',
-                    title: 'Data Science',
-                    subtitle: 'Pemula',
-                  ),
-                  SpaceWidth(10),
-                ],
               ),
             ),
-            const SpaceHeight(20),
-            Card(
-              color: AppColors.white,
-              elevation: 2,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(left: 16, top: 16),
-                    child: Text(
-                      'Persiapan Belajar',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+            Column(
+              children: List.generate(
+                articles.length,
+                (articleIndex) {
+                  final article = articles[articleIndex];
+
+                  return ListTile(
+                    leading: article.completed
+                        ? SvgPicture.asset(
+                            'assets/icons/icon_checkist2.svg',
+                            width: 18,
+                          )
+                        : CircleAvatar(
+                            backgroundColor: Colors.grey[300],
+                            radius: 9,
+                          ),
+                    title: TextButton(
+                      onPressed: () {
+                        context.push(
+                          DetailCoursesPage(
+                            idCourses: lessonResponseModel.data[0].id,
+                            idArticle: article.id,
+                          ),
+                        );
+                      },
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        overlayColor: Colors.transparent,
+                      ),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          article.title,
+                          style: const TextStyle(
+                            fontSize: 15,
+                            color: AppColors.primary,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                  ListTile(
-                    leading: SvgPicture.asset(
-                      'assets/icons/icon_checkist2.svg',
-                      width: 18,
-                    ),
-                    title: const Text(
-                      'Konsep Dasar Bahasa Pemograman Dart',
-                    ),
-                  ),
-                  ListTile(
-                    leading: SvgPicture.asset(
-                      'assets/icons/icon_checkist2.svg',
-                      width: 18,
-                    ),
-                    title: const Text(
-                      'Pengenalan Flutter',
-                    ),
-                  ),
-                  ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: Colors.grey[300],
-                      radius: 9,
-                    ),
-                    title: const Text(
-                      'Dasar Flutter',
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SpaceHeight(20),
-            Card(
-              color: AppColors.white,
-              elevation: 2,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(left: 16, top: 16),
-                    child: Text(
-                      'Konsep',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  ListTile(
-                    leading: SvgPicture.asset(
-                      'assets/icons/icon_checkist2.svg',
-                      width: 18,
-                    ),
-                    title: const Text(
-                      'User Interface',
-                    ),
-                  ),
-                  ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: Colors.grey[300],
-                      radius: 9,
-                    ),
-                    title: const Text(
-                      'Routing & Navigation',
-                    ),
-                  ),
-                  ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: Colors.grey[300],
-                      radius: 9,
-                    ),
-                    title: const Text(
-                      'Pengujian & Debugging',
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SpaceHeight(20),
-            Card(
-              color: AppColors.white,
-              elevation: 2,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(left: 16, top: 16),
-                    child: Text(
-                      'Studi Kasus',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: Colors.grey[300],
-                      radius: 9,
-                    ),
-                    title: const Text(
-                      'Proyek 1: Aplikasi Chat',
-                    ),
-                  ),
-                  ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: Colors.grey[300],
-                      radius: 9,
-                    ),
-                    title: const Text(
-                      'Proyek 2: Aplikasi E-Commerce',
-                    ),
-                  ),
-                  ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: Colors.grey[300],
-                      radius: 9,
-                    ),
-                    title: const Text(
-                      'Study Case: Aplikasi Pemesanan Makanan',
-                    ),
-                  ),
-                ],
+                  );
+                },
               ),
             ),
           ],

@@ -9,7 +9,7 @@ import '../../../../core/extensions/build_context_ext.dart';
 import '../../../assignment/presentation/pages/class_assignment_page.dart';
 import '../../../assignment/presentation/widgets/assignment_card.dart';
 import '../../../class/presentation/pages/class_page.dart';
-import '../../../courses/presentation/pages/courses_page.dart';
+import '../../../courses/presentation/pages/class_courses_page.dart';
 import '../../../profile/presentation/bloc/profile_bloc.dart';
 import '../../../settings/presentation/pages/settings_page.dart';
 import '../widgets/menu_button.dart';
@@ -194,7 +194,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 MenuButton(
                   onTap: () {
-                    context.push(const CoursesPage());
+                    context.push(const ClassCoursesPage());
                   },
                   color: AppColors.course,
                   title: 'Courses',

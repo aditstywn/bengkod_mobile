@@ -1,4 +1,9 @@
-import 'package:bengkod_mobile_app/features/assignment/presentation/bloc/submit/submit_bloc.dart';
+import 'package:bengkod_mobile_app/features/courses/presentation/bloc/article/article_bloc.dart';
+import 'package:bengkod_mobile_app/features/courses/presentation/bloc/lesson/lesson_bloc.dart';
+
+import 'features/assignment/presentation/bloc/submit/submit_bloc.dart';
+import 'features/courses/data/datasource/courses_remote_datasource.dart';
+import 'features/courses/presentation/bloc/courses/courses_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -64,6 +69,15 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => SubmitBloc(AssignmentRemoteDatasource()),
+        ),
+        BlocProvider(
+          create: (context) => CoursesBloc(CoursesRemoteDatasource()),
+        ),
+        BlocProvider(
+          create: (context) => LessonBloc(CoursesRemoteDatasource()),
+        ),
+        BlocProvider(
+          create: (context) => ArticleBloc(CoursesRemoteDatasource()),
         ),
       ],
       child: MaterialApp(
