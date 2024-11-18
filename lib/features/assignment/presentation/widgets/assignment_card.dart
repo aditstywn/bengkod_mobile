@@ -96,14 +96,14 @@ class AssignmentCard extends StatelessWidget {
                       Text(
                         'Start $start',
                         style: const TextStyle(
-                          fontSize: 10,
+                          fontSize: 9,
                         ),
                       ),
                       Text(
                         'Deadline $deadline',
                         style: const TextStyle(
                           color: AppColors.red,
-                          fontSize: 10,
+                          fontSize: 9,
                         ),
                       ),
                     ],
