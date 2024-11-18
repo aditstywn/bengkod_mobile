@@ -1,3 +1,5 @@
+import 'package:bengkod_mobile_app/features/home/presentation/bloc/active_course/active_course_bloc.dart';
+import 'package:bengkod_mobile_app/features/home/presentation/bloc/latest_assignment/latest_assignment_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +9,7 @@ import '../../../../core/components/spaces.dart';
 import '../../../../core/config/app_color.dart';
 import '../../../../core/extensions/build_context_ext.dart';
 import '../../../assignment/presentation/pages/class_assignment_page.dart';
+import '../../../assignment/presentation/pages/detail_assignment_page.dart';
 import '../../../assignment/presentation/widgets/assignment_card.dart';
 import '../../../class/presentation/pages/class_page.dart';
 import '../../../courses/presentation/pages/class_courses_page.dart';
@@ -25,6 +28,12 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     context.read<ProfileBloc>().add(const ProfileEvent.getProfile());
+    context
+        .read<LatestAssignmentBloc>()
+        .add(const LatestAssignmentEvent.getLatestAssignment());
+    context
+        .read<ActiveCourseBloc>()
+        .add(const ActiveCourseEvent.getActiveCourse());
     super.initState();
   }
 
@@ -102,13 +111,6 @@ class _HomePageState extends State<HomePage> {
                               radius: 30,
                               backgroundColor: AppColors.white,
                               child: ClipOval(
-                                // child: Image.network(
-                                //   profileResponseModel.data.image,
-                                //   fit: BoxFit.cover,
-                                //   width: 60,
-                                //   height: 60,
-                                //   alignment: Alignment.topCenter,
-                                // ),
                                 child: CachedNetworkImage(
                                   imageUrl: profileResponseModel.data.image,
                                   fit: BoxFit.cover,
@@ -220,77 +222,59 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             const SpaceHeight(10),
-            Card(
-              elevation: 1,
-              color: AppColors.white,
-              child: ListTile(
-                title: const Text(
-                  'Flutter Development',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                subtitle: const Text(
-                  'Dart Programming Language',
-                  style: TextStyle(
-                    color: AppColors.grey,
-                  ),
-                ),
-                trailing: const Text(
-                  '80%',
-                  style: TextStyle(
-                    color: AppColors.primary,
-                    fontSize: 14,
-                  ),
-                ),
-                leading: Container(
-                  width: 50,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    image: const DecorationImage(
-                      image: AssetImage('assets/images/Rectangle 24.png'),
-                      fit: BoxFit.cover,
+            BlocBuilder<ActiveCourseBloc, ActiveCourseState>(
+              builder: (context, state) {
+                return state.maybeWhen(
+                  orElse: () => const SizedBox(),
+                  loading: () => Container(
+                    height: 70,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: AppColors.white,
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    borderRadius: BorderRadius.circular(8.0),
                   ),
-                ),
-              ),
-            ),
-            Card(
-              elevation: 1,
-              color: AppColors.white,
-              child: ListTile(
-                title: const Text(
-                  'Flutter Development',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                subtitle: const Text(
-                  'Dart Programming Language',
-                  style: TextStyle(
-                    color: AppColors.grey,
-                  ),
-                ),
-                trailing: const Text(
-                  '80%',
-                  style: TextStyle(
-                    color: AppColors.primary,
-                    fontSize: 14,
-                  ),
-                ),
-                leading: Container(
-                  width: 50,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    image: const DecorationImage(
-                      image: AssetImage('assets/images/Rectangle 24.png'),
-                      fit: BoxFit.cover,
-                    ),
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                ),
-              ),
+                  getActiveCourseSuccess: (activeCourseResponseModel) {
+                    return Card(
+                      elevation: 1,
+                      color: AppColors.white,
+                      child: ListTile(
+                        title: const Text(
+                          'Flutter Development',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        subtitle: const Text(
+                          'Dart Programming Language',
+                          style: TextStyle(
+                            color: AppColors.grey,
+                          ),
+                        ),
+                        trailing: const Text(
+                          '80%',
+                          style: TextStyle(
+                            color: AppColors.primary,
+                            fontSize: 14,
+                          ),
+                        ),
+                        leading: Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            image: const DecorationImage(
+                              image:
+                                  AssetImage('assets/images/Rectangle 24.png'),
+                              fit: BoxFit.cover,
+                            ),
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
             ),
             const SpaceHeight(20),
             const Text(
@@ -302,16 +286,50 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             const SpaceHeight(10),
-            AssignmentCard(
-              onTap: () {},
-              title:
-                  'Studi Kasus Mobile Developer - Ready to Upload Assignment Cobalah untuk membuat aplikasi mobile sederhana dengan menggunakan Flutter',
-              description: 'Bengkel Koding Mobile - Review',
-              start: ' 12 Oct 2024. 18.00 ',
-              deadline: ' 12 Oct 2024. 18.00 ',
-              status: 'Belum Dikumpulkan',
-              color: AppColors.pink,
-              colorBg: AppColors.assignBgPink,
+            BlocBuilder<LatestAssignmentBloc, LatestAssignmentState>(
+              builder: (context, state) {
+                return state.maybeWhen(
+                  orElse: () => const SizedBox(),
+                  loading: () => Container(
+                    height: 150,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: AppColors.white,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  getLatestAssignmentSuccess: (latestAssignmentResponseModel) {
+                    return AssignmentCard(
+                      onTap: () {
+                        context.push(
+                          DetailAssignmentPage(
+                            idAssignment: latestAssignmentResponseModel.data.id,
+                            idClass:
+                                latestAssignmentResponseModel.data.classroomId,
+                          ),
+                        );
+                      },
+                      title: latestAssignmentResponseModel.data.title,
+                      description:
+                          latestAssignmentResponseModel.data.description,
+                      start: '-',
+                      deadline: latestAssignmentResponseModel.data.deadline,
+                      status:
+                          latestAssignmentResponseModel.data.isUploaded == true
+                              ? 'Sudah Dikumpulkan'
+                              : 'Belum Dikumpulkan',
+                      color:
+                          latestAssignmentResponseModel.data.isUploaded == true
+                              ? AppColors.assignGreen
+                              : AppColors.pink,
+                      colorBg:
+                          latestAssignmentResponseModel.data.isUploaded == true
+                              ? AppColors.assignBgGreen
+                              : AppColors.assignBgPink,
+                    );
+                  },
+                );
+              },
             ),
             const SpaceHeight(20),
           ],
