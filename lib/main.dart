@@ -1,5 +1,6 @@
-import 'package:bengkod_mobile_app/features/courses/presentation/bloc/article/article_bloc.dart';
-import 'package:bengkod_mobile_app/features/courses/presentation/bloc/lesson/lesson_bloc.dart';
+import 'features/courses/presentation/bloc/article/article_bloc.dart';
+import 'features/courses/presentation/bloc/lesson/lesson_bloc.dart';
+import 'features/settings/presentation/bloc/settings_bloc.dart';
 
 import 'features/assignment/presentation/bloc/submit/submit_bloc.dart';
 import 'features/courses/data/datasource/courses_remote_datasource.dart';
@@ -23,6 +24,7 @@ import 'features/class/presentation/bloc/instructor/instructor_bloc.dart';
 import 'features/class/presentation/bloc/student/student_bloc.dart';
 import 'features/profile/data/datasource/profile_remote_datasorce.dart';
 import 'features/profile/presentation/bloc/profile_bloc.dart';
+import 'features/settings/data/datasource/settings_remote_datasource.dart';
 
 void main() {
   runApp(const MyApp());
@@ -78,6 +80,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => ArticleBloc(CoursesRemoteDatasource()),
+        ),
+        BlocProvider(
+          create: (context) => SettingsBloc(SettingsRemoteDatasource()),
         ),
       ],
       child: MaterialApp(
