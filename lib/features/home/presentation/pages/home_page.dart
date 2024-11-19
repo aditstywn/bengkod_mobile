@@ -1,5 +1,3 @@
-import 'package:bengkod_mobile_app/features/home/presentation/bloc/active_course/active_course_bloc.dart';
-import 'package:bengkod_mobile_app/features/home/presentation/bloc/latest_assignment/latest_assignment_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,8 +11,11 @@ import '../../../assignment/presentation/pages/detail_assignment_page.dart';
 import '../../../assignment/presentation/widgets/assignment_card.dart';
 import '../../../class/presentation/pages/class_page.dart';
 import '../../../courses/presentation/pages/class_courses_page.dart';
+import '../../../courses/presentation/pages/courses_page.dart';
 import '../../../profile/presentation/bloc/profile_bloc.dart';
 import '../../../settings/presentation/pages/settings_page.dart';
+import '../bloc/active_course/active_course_bloc.dart';
+import '../bloc/latest_assignment/latest_assignment_bloc.dart';
 import '../widgets/menu_button.dart';
 
 class HomePage extends StatefulWidget {
@@ -235,42 +236,111 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   getActiveCourseSuccess: (activeCourseResponseModel) {
-                    return Card(
-                      elevation: 1,
-                      color: AppColors.white,
-                      child: ListTile(
-                        title: const Text(
-                          'Flutter Development',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
+                    if (activeCourseResponseModel.data!.isEmpty) {
+                      return Container(
+                        height: 70,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: AppColors.white,
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        subtitle: const Text(
-                          'Dart Programming Language',
-                          style: TextStyle(
-                            color: AppColors.grey,
-                          ),
-                        ),
-                        trailing: const Text(
-                          '80%',
-                          style: TextStyle(
-                            color: AppColors.primary,
-                            fontSize: 14,
-                          ),
-                        ),
-                        leading: Container(
-                          width: 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            image: const DecorationImage(
-                              image:
-                                  AssetImage('assets/images/Rectangle 24.png'),
-                              fit: BoxFit.cover,
+                        child: const Center(
+                          child: Text(
+                            'No Active Course',
+                            style: TextStyle(
+                              color: AppColors.grey,
+                              fontSize: 14,
                             ),
-                            borderRadius: BorderRadius.circular(8.0),
                           ),
                         ),
-                      ),
+                      );
+                    }
+                    return ListView.builder(
+                      itemCount: activeCourseResponseModel.data!.length,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        final course = activeCourseResponseModel.data![index];
+                        return InkWell(
+                          onTap: () {
+                            context.push(
+                              CoursesPage(idClass: course.classroom!.id!),
+                            );
+                          },
+                          child: Card(
+                            elevation: 1,
+                            color: AppColors.white,
+                            child: ListTile(
+                              title: Text(
+                                course.title!,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              subtitle: Text(
+                                course.description!,
+                                style: const TextStyle(
+                                    color: AppColors.grey,
+                                    overflow: TextOverflow.ellipsis),
+                              ),
+                              trailing: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  const CircularProgressIndicator(
+                                    value: 1.0,
+                                    strokeWidth: 4.0,
+                                    color: AppColors.greyMuda,
+                                  ),
+                                  CircularProgressIndicator(
+                                    value:
+                                        (double.parse(course.courseProgress!) /
+                                            100),
+                                    strokeWidth: 4.0,
+                                    valueColor: const AlwaysStoppedAnimation(
+                                        AppColors.green),
+                                  ),
+                                  Text(
+                                    '${course.courseProgress}%',
+                                    style: const TextStyle(
+                                      color: AppColors.primary,
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              leading: Container(
+                                width: 50,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.2),
+                                      spreadRadius: 1,
+                                      blurRadius: 5,
+                                      offset: const Offset(2, 4),
+                                    ),
+                                  ],
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  child: CachedNetworkImage(
+                                    imageUrl: course.image!,
+                                    fit: BoxFit.cover,
+                                    width: 50,
+                                    height: 50,
+                                    alignment: Alignment.topCenter,
+                                    placeholder: (context, url) =>
+                                        const CircularProgressIndicator(),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(Icons.error),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
                     );
                   },
                 );

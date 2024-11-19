@@ -13,7 +13,8 @@ import 'detail_courses_page.dart';
 
 class CoursesPage extends StatefulWidget {
   final int idClass;
-  const CoursesPage({super.key, required this.idClass});
+  final int? idCourses;
+  const CoursesPage({super.key, required this.idClass, this.idCourses});
 
   @override
   State<CoursesPage> createState() => _CoursesPageState();
@@ -58,10 +59,15 @@ class _CoursesPageState extends State<CoursesPage> {
                   ),
                   getCoursesSuccess: (coursesResponseModel) {
                     final courses = coursesResponseModel.data;
-
-                    context
-                        .read<LessonBloc>()
-                        .add(LessonEvent.getLesson(courses[0].id));
+                    if (widget.idCourses != null) {
+                      context.read<LessonBloc>().add(
+                            LessonEvent.getLesson(widget.idCourses!),
+                          );
+                    } else {
+                      context
+                          .read<LessonBloc>()
+                          .add(LessonEvent.getLesson(courses[0].id));
+                    }
 
                     return SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
