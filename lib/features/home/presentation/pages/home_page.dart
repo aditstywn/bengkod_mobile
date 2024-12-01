@@ -226,7 +226,23 @@ class _HomePageState extends State<HomePage> {
             BlocBuilder<ActiveCourseBloc, ActiveCourseState>(
               builder: (context, state) {
                 return state.maybeWhen(
-                  orElse: () => const SizedBox(),
+                  orElse: () => Container(
+                    height: 70,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: AppColors.white,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Center(
+                      child: Text(
+                        'No Data Active Course',
+                        style: TextStyle(
+                          color: AppColors.grey,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                  ),
                   loading: () => Container(
                     height: 70,
                     width: double.infinity,
@@ -359,7 +375,23 @@ class _HomePageState extends State<HomePage> {
             BlocBuilder<LatestAssignmentBloc, LatestAssignmentState>(
               builder: (context, state) {
                 return state.maybeWhen(
-                  orElse: () => const SizedBox(),
+                  orElse: () => Container(
+                    height: 150,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: AppColors.white,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Center(
+                      child: Text(
+                        'No Data Latest Assignment',
+                        style: TextStyle(
+                          color: AppColors.grey,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                  ),
                   loading: () => Container(
                     height: 150,
                     width: double.infinity,
