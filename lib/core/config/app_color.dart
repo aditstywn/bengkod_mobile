@@ -11,6 +11,8 @@ class AppColors {
 
   static const Color grey = Color(0xff797C7B);
 
+  static const Color greyMuda = Color.fromARGB(255, 197, 197, 197);
+
   static const Color black = Color(0xff000E08);
 
   static const Color red = Color(0xffF04A4C);

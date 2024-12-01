@@ -9,4 +9,7 @@ class AuthState with _$AuthState {
   const factory AuthState.logoutSuccess(
       LogoutResponseModel logoutResponseModel) = _LogoutSuccess;
   const factory AuthState.error(String message) = _Error;
+  const factory AuthState.refreshTokenSuccess(
+          RefreshTokenResponseModel refreshTokenResponseModel) =
+      _RefreshTokenSuccess;
 }

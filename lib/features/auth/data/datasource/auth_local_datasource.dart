@@ -20,6 +20,16 @@ class AuthLocalDatasource {
     return LoginResponseModel.fromJson(authData!);
   }
 
+  Future<void> saveToken(String token) async {
+    final pref = await SharedPreferences.getInstance();
+    await pref.setString('token', token);
+  }
+
+  Future<String> getToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('token')!;
+  }
+
   Future<bool> isAuth() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.containsKey('auth_data');

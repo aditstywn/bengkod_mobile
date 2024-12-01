@@ -21,6 +21,7 @@ mixin _$AuthEvent {
     required TResult Function() started,
     required TResult Function(LoginRequestModel loginRequestModel) login,
     required TResult Function() logout,
+    required TResult Function() refreshToken,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -28,6 +29,7 @@ mixin _$AuthEvent {
     TResult? Function()? started,
     TResult? Function(LoginRequestModel loginRequestModel)? login,
     TResult? Function()? logout,
+    TResult? Function()? refreshToken,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -35,6 +37,7 @@ mixin _$AuthEvent {
     TResult Function()? started,
     TResult Function(LoginRequestModel loginRequestModel)? login,
     TResult Function()? logout,
+    TResult Function()? refreshToken,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -43,6 +46,7 @@ mixin _$AuthEvent {
     required TResult Function(_Started value) started,
     required TResult Function(_Login value) login,
     required TResult Function(_Logout value) logout,
+    required TResult Function(_RefreshToken value) refreshToken,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -50,6 +54,7 @@ mixin _$AuthEvent {
     TResult? Function(_Started value)? started,
     TResult? Function(_Login value)? login,
     TResult? Function(_Logout value)? logout,
+    TResult? Function(_RefreshToken value)? refreshToken,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -57,6 +62,7 @@ mixin _$AuthEvent {
     TResult Function(_Started value)? started,
     TResult Function(_Login value)? login,
     TResult Function(_Logout value)? logout,
+    TResult Function(_RefreshToken value)? refreshToken,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -126,6 +132,7 @@ class _$StartedImpl implements _Started {
     required TResult Function() started,
     required TResult Function(LoginRequestModel loginRequestModel) login,
     required TResult Function() logout,
+    required TResult Function() refreshToken,
   }) {
     return started();
   }
@@ -136,6 +143,7 @@ class _$StartedImpl implements _Started {
     TResult? Function()? started,
     TResult? Function(LoginRequestModel loginRequestModel)? login,
     TResult? Function()? logout,
+    TResult? Function()? refreshToken,
   }) {
     return started?.call();
   }
@@ -146,6 +154,7 @@ class _$StartedImpl implements _Started {
     TResult Function()? started,
     TResult Function(LoginRequestModel loginRequestModel)? login,
     TResult Function()? logout,
+    TResult Function()? refreshToken,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -160,6 +169,7 @@ class _$StartedImpl implements _Started {
     required TResult Function(_Started value) started,
     required TResult Function(_Login value) login,
     required TResult Function(_Logout value) logout,
+    required TResult Function(_RefreshToken value) refreshToken,
   }) {
     return started(this);
   }
@@ -170,6 +180,7 @@ class _$StartedImpl implements _Started {
     TResult? Function(_Started value)? started,
     TResult? Function(_Login value)? login,
     TResult? Function(_Logout value)? logout,
+    TResult? Function(_RefreshToken value)? refreshToken,
   }) {
     return started?.call(this);
   }
@@ -180,6 +191,7 @@ class _$StartedImpl implements _Started {
     TResult Function(_Started value)? started,
     TResult Function(_Login value)? login,
     TResult Function(_Logout value)? logout,
+    TResult Function(_RefreshToken value)? refreshToken,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -265,6 +277,7 @@ class _$LoginImpl implements _Login {
     required TResult Function() started,
     required TResult Function(LoginRequestModel loginRequestModel) login,
     required TResult Function() logout,
+    required TResult Function() refreshToken,
   }) {
     return login(loginRequestModel);
   }
@@ -275,6 +288,7 @@ class _$LoginImpl implements _Login {
     TResult? Function()? started,
     TResult? Function(LoginRequestModel loginRequestModel)? login,
     TResult? Function()? logout,
+    TResult? Function()? refreshToken,
   }) {
     return login?.call(loginRequestModel);
   }
@@ -285,6 +299,7 @@ class _$LoginImpl implements _Login {
     TResult Function()? started,
     TResult Function(LoginRequestModel loginRequestModel)? login,
     TResult Function()? logout,
+    TResult Function()? refreshToken,
     required TResult orElse(),
   }) {
     if (login != null) {
@@ -299,6 +314,7 @@ class _$LoginImpl implements _Login {
     required TResult Function(_Started value) started,
     required TResult Function(_Login value) login,
     required TResult Function(_Logout value) logout,
+    required TResult Function(_RefreshToken value) refreshToken,
   }) {
     return login(this);
   }
@@ -309,6 +325,7 @@ class _$LoginImpl implements _Login {
     TResult? Function(_Started value)? started,
     TResult? Function(_Login value)? login,
     TResult? Function(_Logout value)? logout,
+    TResult? Function(_RefreshToken value)? refreshToken,
   }) {
     return login?.call(this);
   }
@@ -319,6 +336,7 @@ class _$LoginImpl implements _Login {
     TResult Function(_Started value)? started,
     TResult Function(_Login value)? login,
     TResult Function(_Logout value)? logout,
+    TResult Function(_RefreshToken value)? refreshToken,
     required TResult orElse(),
   }) {
     if (login != null) {
@@ -384,6 +402,7 @@ class _$LogoutImpl implements _Logout {
     required TResult Function() started,
     required TResult Function(LoginRequestModel loginRequestModel) login,
     required TResult Function() logout,
+    required TResult Function() refreshToken,
   }) {
     return logout();
   }
@@ -394,6 +413,7 @@ class _$LogoutImpl implements _Logout {
     TResult? Function()? started,
     TResult? Function(LoginRequestModel loginRequestModel)? login,
     TResult? Function()? logout,
+    TResult? Function()? refreshToken,
   }) {
     return logout?.call();
   }
@@ -404,6 +424,7 @@ class _$LogoutImpl implements _Logout {
     TResult Function()? started,
     TResult Function(LoginRequestModel loginRequestModel)? login,
     TResult Function()? logout,
+    TResult Function()? refreshToken,
     required TResult orElse(),
   }) {
     if (logout != null) {
@@ -418,6 +439,7 @@ class _$LogoutImpl implements _Logout {
     required TResult Function(_Started value) started,
     required TResult Function(_Login value) login,
     required TResult Function(_Logout value) logout,
+    required TResult Function(_RefreshToken value) refreshToken,
   }) {
     return logout(this);
   }
@@ -428,6 +450,7 @@ class _$LogoutImpl implements _Logout {
     TResult? Function(_Started value)? started,
     TResult? Function(_Login value)? login,
     TResult? Function(_Logout value)? logout,
+    TResult? Function(_RefreshToken value)? refreshToken,
   }) {
     return logout?.call(this);
   }
@@ -438,6 +461,7 @@ class _$LogoutImpl implements _Logout {
     TResult Function(_Started value)? started,
     TResult Function(_Login value)? login,
     TResult Function(_Logout value)? logout,
+    TResult Function(_RefreshToken value)? refreshToken,
     required TResult orElse(),
   }) {
     if (logout != null) {
@@ -452,6 +476,123 @@ abstract class _Logout implements AuthEvent {
 }
 
 /// @nodoc
+abstract class _$$RefreshTokenImplCopyWith<$Res> {
+  factory _$$RefreshTokenImplCopyWith(
+          _$RefreshTokenImpl value, $Res Function(_$RefreshTokenImpl) then) =
+      __$$RefreshTokenImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$RefreshTokenImplCopyWithImpl<$Res>
+    extends _$AuthEventCopyWithImpl<$Res, _$RefreshTokenImpl>
+    implements _$$RefreshTokenImplCopyWith<$Res> {
+  __$$RefreshTokenImplCopyWithImpl(
+      _$RefreshTokenImpl _value, $Res Function(_$RefreshTokenImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of AuthEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$RefreshTokenImpl implements _RefreshToken {
+  const _$RefreshTokenImpl();
+
+  @override
+  String toString() {
+    return 'AuthEvent.refreshToken()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$RefreshTokenImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function(LoginRequestModel loginRequestModel) login,
+    required TResult Function() logout,
+    required TResult Function() refreshToken,
+  }) {
+    return refreshToken();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function(LoginRequestModel loginRequestModel)? login,
+    TResult? Function()? logout,
+    TResult? Function()? refreshToken,
+  }) {
+    return refreshToken?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function(LoginRequestModel loginRequestModel)? login,
+    TResult Function()? logout,
+    TResult Function()? refreshToken,
+    required TResult orElse(),
+  }) {
+    if (refreshToken != null) {
+      return refreshToken();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_Login value) login,
+    required TResult Function(_Logout value) logout,
+    required TResult Function(_RefreshToken value) refreshToken,
+  }) {
+    return refreshToken(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_Login value)? login,
+    TResult? Function(_Logout value)? logout,
+    TResult? Function(_RefreshToken value)? refreshToken,
+  }) {
+    return refreshToken?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_Login value)? login,
+    TResult Function(_Logout value)? logout,
+    TResult Function(_RefreshToken value)? refreshToken,
+    required TResult orElse(),
+  }) {
+    if (refreshToken != null) {
+      return refreshToken(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _RefreshToken implements AuthEvent {
+  const factory _RefreshToken() = _$RefreshTokenImpl;
+}
+
+/// @nodoc
 mixin _$AuthState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
@@ -462,6 +603,9 @@ mixin _$AuthState {
     required TResult Function(LogoutResponseModel logoutResponseModel)
         logoutSuccess,
     required TResult Function(String message) error,
+    required TResult Function(
+            RefreshTokenResponseModel refreshTokenResponseModel)
+        refreshTokenSuccess,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -471,6 +615,8 @@ mixin _$AuthState {
     TResult? Function(LoginResponseModel loginResponseModel)? loginSuccess,
     TResult? Function(LogoutResponseModel logoutResponseModel)? logoutSuccess,
     TResult? Function(String message)? error,
+    TResult? Function(RefreshTokenResponseModel refreshTokenResponseModel)?
+        refreshTokenSuccess,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -480,6 +626,8 @@ mixin _$AuthState {
     TResult Function(LoginResponseModel loginResponseModel)? loginSuccess,
     TResult Function(LogoutResponseModel logoutResponseModel)? logoutSuccess,
     TResult Function(String message)? error,
+    TResult Function(RefreshTokenResponseModel refreshTokenResponseModel)?
+        refreshTokenSuccess,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -490,6 +638,7 @@ mixin _$AuthState {
     required TResult Function(_LoginSuccess value) loginSuccess,
     required TResult Function(_LogoutSuccess value) logoutSuccess,
     required TResult Function(_Error value) error,
+    required TResult Function(_RefreshTokenSuccess value) refreshTokenSuccess,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -499,6 +648,7 @@ mixin _$AuthState {
     TResult? Function(_LoginSuccess value)? loginSuccess,
     TResult? Function(_LogoutSuccess value)? logoutSuccess,
     TResult? Function(_Error value)? error,
+    TResult? Function(_RefreshTokenSuccess value)? refreshTokenSuccess,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -508,6 +658,7 @@ mixin _$AuthState {
     TResult Function(_LoginSuccess value)? loginSuccess,
     TResult Function(_LogoutSuccess value)? logoutSuccess,
     TResult Function(_Error value)? error,
+    TResult Function(_RefreshTokenSuccess value)? refreshTokenSuccess,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -581,6 +732,9 @@ class _$InitialImpl implements _Initial {
     required TResult Function(LogoutResponseModel logoutResponseModel)
         logoutSuccess,
     required TResult Function(String message) error,
+    required TResult Function(
+            RefreshTokenResponseModel refreshTokenResponseModel)
+        refreshTokenSuccess,
   }) {
     return initial();
   }
@@ -593,6 +747,8 @@ class _$InitialImpl implements _Initial {
     TResult? Function(LoginResponseModel loginResponseModel)? loginSuccess,
     TResult? Function(LogoutResponseModel logoutResponseModel)? logoutSuccess,
     TResult? Function(String message)? error,
+    TResult? Function(RefreshTokenResponseModel refreshTokenResponseModel)?
+        refreshTokenSuccess,
   }) {
     return initial?.call();
   }
@@ -605,6 +761,8 @@ class _$InitialImpl implements _Initial {
     TResult Function(LoginResponseModel loginResponseModel)? loginSuccess,
     TResult Function(LogoutResponseModel logoutResponseModel)? logoutSuccess,
     TResult Function(String message)? error,
+    TResult Function(RefreshTokenResponseModel refreshTokenResponseModel)?
+        refreshTokenSuccess,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -621,6 +779,7 @@ class _$InitialImpl implements _Initial {
     required TResult Function(_LoginSuccess value) loginSuccess,
     required TResult Function(_LogoutSuccess value) logoutSuccess,
     required TResult Function(_Error value) error,
+    required TResult Function(_RefreshTokenSuccess value) refreshTokenSuccess,
   }) {
     return initial(this);
   }
@@ -633,6 +792,7 @@ class _$InitialImpl implements _Initial {
     TResult? Function(_LoginSuccess value)? loginSuccess,
     TResult? Function(_LogoutSuccess value)? logoutSuccess,
     TResult? Function(_Error value)? error,
+    TResult? Function(_RefreshTokenSuccess value)? refreshTokenSuccess,
   }) {
     return initial?.call(this);
   }
@@ -645,6 +805,7 @@ class _$InitialImpl implements _Initial {
     TResult Function(_LoginSuccess value)? loginSuccess,
     TResult Function(_LogoutSuccess value)? logoutSuccess,
     TResult Function(_Error value)? error,
+    TResult Function(_RefreshTokenSuccess value)? refreshTokenSuccess,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -706,6 +867,9 @@ class _$LoadingImpl implements _Loading {
     required TResult Function(LogoutResponseModel logoutResponseModel)
         logoutSuccess,
     required TResult Function(String message) error,
+    required TResult Function(
+            RefreshTokenResponseModel refreshTokenResponseModel)
+        refreshTokenSuccess,
   }) {
     return loading();
   }
@@ -718,6 +882,8 @@ class _$LoadingImpl implements _Loading {
     TResult? Function(LoginResponseModel loginResponseModel)? loginSuccess,
     TResult? Function(LogoutResponseModel logoutResponseModel)? logoutSuccess,
     TResult? Function(String message)? error,
+    TResult? Function(RefreshTokenResponseModel refreshTokenResponseModel)?
+        refreshTokenSuccess,
   }) {
     return loading?.call();
   }
@@ -730,6 +896,8 @@ class _$LoadingImpl implements _Loading {
     TResult Function(LoginResponseModel loginResponseModel)? loginSuccess,
     TResult Function(LogoutResponseModel logoutResponseModel)? logoutSuccess,
     TResult Function(String message)? error,
+    TResult Function(RefreshTokenResponseModel refreshTokenResponseModel)?
+        refreshTokenSuccess,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -746,6 +914,7 @@ class _$LoadingImpl implements _Loading {
     required TResult Function(_LoginSuccess value) loginSuccess,
     required TResult Function(_LogoutSuccess value) logoutSuccess,
     required TResult Function(_Error value) error,
+    required TResult Function(_RefreshTokenSuccess value) refreshTokenSuccess,
   }) {
     return loading(this);
   }
@@ -758,6 +927,7 @@ class _$LoadingImpl implements _Loading {
     TResult? Function(_LoginSuccess value)? loginSuccess,
     TResult? Function(_LogoutSuccess value)? logoutSuccess,
     TResult? Function(_Error value)? error,
+    TResult? Function(_RefreshTokenSuccess value)? refreshTokenSuccess,
   }) {
     return loading?.call(this);
   }
@@ -770,6 +940,7 @@ class _$LoadingImpl implements _Loading {
     TResult Function(_LoginSuccess value)? loginSuccess,
     TResult Function(_LogoutSuccess value)? logoutSuccess,
     TResult Function(_Error value)? error,
+    TResult Function(_RefreshTokenSuccess value)? refreshTokenSuccess,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -859,6 +1030,9 @@ class _$LoginSuccessImpl implements _LoginSuccess {
     required TResult Function(LogoutResponseModel logoutResponseModel)
         logoutSuccess,
     required TResult Function(String message) error,
+    required TResult Function(
+            RefreshTokenResponseModel refreshTokenResponseModel)
+        refreshTokenSuccess,
   }) {
     return loginSuccess(loginResponseModel);
   }
@@ -871,6 +1045,8 @@ class _$LoginSuccessImpl implements _LoginSuccess {
     TResult? Function(LoginResponseModel loginResponseModel)? loginSuccess,
     TResult? Function(LogoutResponseModel logoutResponseModel)? logoutSuccess,
     TResult? Function(String message)? error,
+    TResult? Function(RefreshTokenResponseModel refreshTokenResponseModel)?
+        refreshTokenSuccess,
   }) {
     return loginSuccess?.call(loginResponseModel);
   }
@@ -883,6 +1059,8 @@ class _$LoginSuccessImpl implements _LoginSuccess {
     TResult Function(LoginResponseModel loginResponseModel)? loginSuccess,
     TResult Function(LogoutResponseModel logoutResponseModel)? logoutSuccess,
     TResult Function(String message)? error,
+    TResult Function(RefreshTokenResponseModel refreshTokenResponseModel)?
+        refreshTokenSuccess,
     required TResult orElse(),
   }) {
     if (loginSuccess != null) {
@@ -899,6 +1077,7 @@ class _$LoginSuccessImpl implements _LoginSuccess {
     required TResult Function(_LoginSuccess value) loginSuccess,
     required TResult Function(_LogoutSuccess value) logoutSuccess,
     required TResult Function(_Error value) error,
+    required TResult Function(_RefreshTokenSuccess value) refreshTokenSuccess,
   }) {
     return loginSuccess(this);
   }
@@ -911,6 +1090,7 @@ class _$LoginSuccessImpl implements _LoginSuccess {
     TResult? Function(_LoginSuccess value)? loginSuccess,
     TResult? Function(_LogoutSuccess value)? logoutSuccess,
     TResult? Function(_Error value)? error,
+    TResult? Function(_RefreshTokenSuccess value)? refreshTokenSuccess,
   }) {
     return loginSuccess?.call(this);
   }
@@ -923,6 +1103,7 @@ class _$LoginSuccessImpl implements _LoginSuccess {
     TResult Function(_LoginSuccess value)? loginSuccess,
     TResult Function(_LogoutSuccess value)? logoutSuccess,
     TResult Function(_Error value)? error,
+    TResult Function(_RefreshTokenSuccess value)? refreshTokenSuccess,
     required TResult orElse(),
   }) {
     if (loginSuccess != null) {
@@ -1021,6 +1202,9 @@ class _$LogoutSuccessImpl implements _LogoutSuccess {
     required TResult Function(LogoutResponseModel logoutResponseModel)
         logoutSuccess,
     required TResult Function(String message) error,
+    required TResult Function(
+            RefreshTokenResponseModel refreshTokenResponseModel)
+        refreshTokenSuccess,
   }) {
     return logoutSuccess(logoutResponseModel);
   }
@@ -1033,6 +1217,8 @@ class _$LogoutSuccessImpl implements _LogoutSuccess {
     TResult? Function(LoginResponseModel loginResponseModel)? loginSuccess,
     TResult? Function(LogoutResponseModel logoutResponseModel)? logoutSuccess,
     TResult? Function(String message)? error,
+    TResult? Function(RefreshTokenResponseModel refreshTokenResponseModel)?
+        refreshTokenSuccess,
   }) {
     return logoutSuccess?.call(logoutResponseModel);
   }
@@ -1045,6 +1231,8 @@ class _$LogoutSuccessImpl implements _LogoutSuccess {
     TResult Function(LoginResponseModel loginResponseModel)? loginSuccess,
     TResult Function(LogoutResponseModel logoutResponseModel)? logoutSuccess,
     TResult Function(String message)? error,
+    TResult Function(RefreshTokenResponseModel refreshTokenResponseModel)?
+        refreshTokenSuccess,
     required TResult orElse(),
   }) {
     if (logoutSuccess != null) {
@@ -1061,6 +1249,7 @@ class _$LogoutSuccessImpl implements _LogoutSuccess {
     required TResult Function(_LoginSuccess value) loginSuccess,
     required TResult Function(_LogoutSuccess value) logoutSuccess,
     required TResult Function(_Error value) error,
+    required TResult Function(_RefreshTokenSuccess value) refreshTokenSuccess,
   }) {
     return logoutSuccess(this);
   }
@@ -1073,6 +1262,7 @@ class _$LogoutSuccessImpl implements _LogoutSuccess {
     TResult? Function(_LoginSuccess value)? loginSuccess,
     TResult? Function(_LogoutSuccess value)? logoutSuccess,
     TResult? Function(_Error value)? error,
+    TResult? Function(_RefreshTokenSuccess value)? refreshTokenSuccess,
   }) {
     return logoutSuccess?.call(this);
   }
@@ -1085,6 +1275,7 @@ class _$LogoutSuccessImpl implements _LogoutSuccess {
     TResult Function(_LoginSuccess value)? loginSuccess,
     TResult Function(_LogoutSuccess value)? logoutSuccess,
     TResult Function(_Error value)? error,
+    TResult Function(_RefreshTokenSuccess value)? refreshTokenSuccess,
     required TResult orElse(),
   }) {
     if (logoutSuccess != null) {
@@ -1182,6 +1373,9 @@ class _$ErrorImpl implements _Error {
     required TResult Function(LogoutResponseModel logoutResponseModel)
         logoutSuccess,
     required TResult Function(String message) error,
+    required TResult Function(
+            RefreshTokenResponseModel refreshTokenResponseModel)
+        refreshTokenSuccess,
   }) {
     return error(message);
   }
@@ -1194,6 +1388,8 @@ class _$ErrorImpl implements _Error {
     TResult? Function(LoginResponseModel loginResponseModel)? loginSuccess,
     TResult? Function(LogoutResponseModel logoutResponseModel)? logoutSuccess,
     TResult? Function(String message)? error,
+    TResult? Function(RefreshTokenResponseModel refreshTokenResponseModel)?
+        refreshTokenSuccess,
   }) {
     return error?.call(message);
   }
@@ -1206,6 +1402,8 @@ class _$ErrorImpl implements _Error {
     TResult Function(LoginResponseModel loginResponseModel)? loginSuccess,
     TResult Function(LogoutResponseModel logoutResponseModel)? logoutSuccess,
     TResult Function(String message)? error,
+    TResult Function(RefreshTokenResponseModel refreshTokenResponseModel)?
+        refreshTokenSuccess,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -1222,6 +1420,7 @@ class _$ErrorImpl implements _Error {
     required TResult Function(_LoginSuccess value) loginSuccess,
     required TResult Function(_LogoutSuccess value) logoutSuccess,
     required TResult Function(_Error value) error,
+    required TResult Function(_RefreshTokenSuccess value) refreshTokenSuccess,
   }) {
     return error(this);
   }
@@ -1234,6 +1433,7 @@ class _$ErrorImpl implements _Error {
     TResult? Function(_LoginSuccess value)? loginSuccess,
     TResult? Function(_LogoutSuccess value)? logoutSuccess,
     TResult? Function(_Error value)? error,
+    TResult? Function(_RefreshTokenSuccess value)? refreshTokenSuccess,
   }) {
     return error?.call(this);
   }
@@ -1246,6 +1446,7 @@ class _$ErrorImpl implements _Error {
     TResult Function(_LoginSuccess value)? loginSuccess,
     TResult Function(_LogoutSuccess value)? logoutSuccess,
     TResult Function(_Error value)? error,
+    TResult Function(_RefreshTokenSuccess value)? refreshTokenSuccess,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -1264,5 +1465,180 @@ abstract class _Error implements AuthState {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$RefreshTokenSuccessImplCopyWith<$Res> {
+  factory _$$RefreshTokenSuccessImplCopyWith(_$RefreshTokenSuccessImpl value,
+          $Res Function(_$RefreshTokenSuccessImpl) then) =
+      __$$RefreshTokenSuccessImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({RefreshTokenResponseModel refreshTokenResponseModel});
+}
+
+/// @nodoc
+class __$$RefreshTokenSuccessImplCopyWithImpl<$Res>
+    extends _$AuthStateCopyWithImpl<$Res, _$RefreshTokenSuccessImpl>
+    implements _$$RefreshTokenSuccessImplCopyWith<$Res> {
+  __$$RefreshTokenSuccessImplCopyWithImpl(_$RefreshTokenSuccessImpl _value,
+      $Res Function(_$RefreshTokenSuccessImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? refreshTokenResponseModel = null,
+  }) {
+    return _then(_$RefreshTokenSuccessImpl(
+      null == refreshTokenResponseModel
+          ? _value.refreshTokenResponseModel
+          : refreshTokenResponseModel // ignore: cast_nullable_to_non_nullable
+              as RefreshTokenResponseModel,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$RefreshTokenSuccessImpl implements _RefreshTokenSuccess {
+  const _$RefreshTokenSuccessImpl(this.refreshTokenResponseModel);
+
+  @override
+  final RefreshTokenResponseModel refreshTokenResponseModel;
+
+  @override
+  String toString() {
+    return 'AuthState.refreshTokenSuccess(refreshTokenResponseModel: $refreshTokenResponseModel)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RefreshTokenSuccessImpl &&
+            (identical(other.refreshTokenResponseModel,
+                    refreshTokenResponseModel) ||
+                other.refreshTokenResponseModel == refreshTokenResponseModel));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, refreshTokenResponseModel);
+
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RefreshTokenSuccessImplCopyWith<_$RefreshTokenSuccessImpl> get copyWith =>
+      __$$RefreshTokenSuccessImplCopyWithImpl<_$RefreshTokenSuccessImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(LoginResponseModel loginResponseModel)
+        loginSuccess,
+    required TResult Function(LogoutResponseModel logoutResponseModel)
+        logoutSuccess,
+    required TResult Function(String message) error,
+    required TResult Function(
+            RefreshTokenResponseModel refreshTokenResponseModel)
+        refreshTokenSuccess,
+  }) {
+    return refreshTokenSuccess(refreshTokenResponseModel);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(LoginResponseModel loginResponseModel)? loginSuccess,
+    TResult? Function(LogoutResponseModel logoutResponseModel)? logoutSuccess,
+    TResult? Function(String message)? error,
+    TResult? Function(RefreshTokenResponseModel refreshTokenResponseModel)?
+        refreshTokenSuccess,
+  }) {
+    return refreshTokenSuccess?.call(refreshTokenResponseModel);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(LoginResponseModel loginResponseModel)? loginSuccess,
+    TResult Function(LogoutResponseModel logoutResponseModel)? logoutSuccess,
+    TResult Function(String message)? error,
+    TResult Function(RefreshTokenResponseModel refreshTokenResponseModel)?
+        refreshTokenSuccess,
+    required TResult orElse(),
+  }) {
+    if (refreshTokenSuccess != null) {
+      return refreshTokenSuccess(refreshTokenResponseModel);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_LoginSuccess value) loginSuccess,
+    required TResult Function(_LogoutSuccess value) logoutSuccess,
+    required TResult Function(_Error value) error,
+    required TResult Function(_RefreshTokenSuccess value) refreshTokenSuccess,
+  }) {
+    return refreshTokenSuccess(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_LoginSuccess value)? loginSuccess,
+    TResult? Function(_LogoutSuccess value)? logoutSuccess,
+    TResult? Function(_Error value)? error,
+    TResult? Function(_RefreshTokenSuccess value)? refreshTokenSuccess,
+  }) {
+    return refreshTokenSuccess?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_LoginSuccess value)? loginSuccess,
+    TResult Function(_LogoutSuccess value)? logoutSuccess,
+    TResult Function(_Error value)? error,
+    TResult Function(_RefreshTokenSuccess value)? refreshTokenSuccess,
+    required TResult orElse(),
+  }) {
+    if (refreshTokenSuccess != null) {
+      return refreshTokenSuccess(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _RefreshTokenSuccess implements AuthState {
+  const factory _RefreshTokenSuccess(
+          final RefreshTokenResponseModel refreshTokenResponseModel) =
+      _$RefreshTokenSuccessImpl;
+
+  RefreshTokenResponseModel get refreshTokenResponseModel;
+
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$RefreshTokenSuccessImplCopyWith<_$RefreshTokenSuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

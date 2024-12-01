@@ -11,13 +11,13 @@ import '../models/response/instructor_class_response_model.dart';
 class ClassRemoteDatasource {
   Future<Either<String, ClassResponseModel>> getClass() async {
     try {
-      final authData = await AuthLocalDatasource().getAuthData();
+      final token = await AuthLocalDatasource().getToken();
       final response = await http.get(
         Uri.parse('${Url.baseUrl}/api/v1/mobile/student/classroom/'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json',
-          'Authorization': 'Bearer ${authData.token}',
+          'Authorization': 'Bearer $token',
         },
       );
 
@@ -34,14 +34,14 @@ class ClassRemoteDatasource {
   Future<Either<String, InstructorClassResponseModel>> getInstructor(
       int id) async {
     try {
-      final authData = await AuthLocalDatasource().getAuthData();
+      final token = await AuthLocalDatasource().getToken();
       final response = await http.get(
         Uri.parse(
             '${Url.baseUrl}/api/v1/mobile/student/classroom/$id/instructors'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json',
-          'Authorization': 'Bearer ${authData.token}',
+          'Authorization': 'Bearer $token',
         },
       );
 
@@ -58,14 +58,14 @@ class ClassRemoteDatasource {
   Future<Either<String, InformationClassResponseModel>> getInformation(
       int id) async {
     try {
-      final authData = await AuthLocalDatasource().getAuthData();
+      final token = await AuthLocalDatasource().getToken();
       final response = await http.get(
         Uri.parse(
             '${Url.baseUrl}/api/v1/mobile/student/classroom/$id/informations'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json',
-          'Authorization': 'Bearer ${authData.token}',
+          'Authorization': 'Bearer $token',
         },
       );
 
@@ -81,14 +81,14 @@ class ClassRemoteDatasource {
 
   Future<Either<String, StudentClassResponseModel>> getStudent(int id) async {
     try {
-      final authData = await AuthLocalDatasource().getAuthData();
+      final token = await AuthLocalDatasource().getToken();
       final response = await http.get(
         Uri.parse(
             '${Url.baseUrl}/api/v1/mobile/student/classroom/$id/classmates'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json',
-          'Authorization': 'Bearer ${authData.token}',
+          'Authorization': 'Bearer $token',
         },
       );
 

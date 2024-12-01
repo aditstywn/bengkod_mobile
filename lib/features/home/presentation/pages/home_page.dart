@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -6,11 +7,15 @@ import '../../../../core/components/spaces.dart';
 import '../../../../core/config/app_color.dart';
 import '../../../../core/extensions/build_context_ext.dart';
 import '../../../assignment/presentation/pages/class_assignment_page.dart';
+import '../../../assignment/presentation/pages/detail_assignment_page.dart';
 import '../../../assignment/presentation/widgets/assignment_card.dart';
 import '../../../class/presentation/pages/class_page.dart';
+import '../../../courses/presentation/pages/class_courses_page.dart';
 import '../../../courses/presentation/pages/courses_page.dart';
 import '../../../profile/presentation/bloc/profile_bloc.dart';
 import '../../../settings/presentation/pages/settings_page.dart';
+import '../bloc/active_course/active_course_bloc.dart';
+import '../bloc/latest_assignment/latest_assignment_bloc.dart';
 import '../widgets/menu_button.dart';
 
 class HomePage extends StatefulWidget {
@@ -24,6 +29,12 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     context.read<ProfileBloc>().add(const ProfileEvent.getProfile());
+    context
+        .read<LatestAssignmentBloc>()
+        .add(const LatestAssignmentEvent.getLatestAssignment());
+    context
+        .read<ActiveCourseBloc>()
+        .add(const ActiveCourseEvent.getActiveCourse());
     super.initState();
   }
 
@@ -101,12 +112,16 @@ class _HomePageState extends State<HomePage> {
                               radius: 30,
                               backgroundColor: AppColors.white,
                               child: ClipOval(
-                                child: Image.network(
-                                  profileResponseModel.data.image,
+                                child: CachedNetworkImage(
+                                  imageUrl: profileResponseModel.data.image,
                                   fit: BoxFit.cover,
                                   width: 60,
                                   height: 60,
                                   alignment: Alignment.topCenter,
+                                  placeholder: (context, url) =>
+                                      const CircularProgressIndicator(),
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.error),
                                 ),
                               ),
                             ),
@@ -182,7 +197,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 MenuButton(
                   onTap: () {
-                    context.push(const CoursesPage());
+                    context.push(const ClassCoursesPage());
                   },
                   color: AppColors.course,
                   title: 'Courses',
@@ -208,77 +223,144 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             const SpaceHeight(10),
-            Card(
-              elevation: 1,
-              color: AppColors.white,
-              child: ListTile(
-                title: const Text(
-                  'Flutter Development',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                subtitle: const Text(
-                  'Dart Programming Language',
-                  style: TextStyle(
-                    color: AppColors.grey,
-                  ),
-                ),
-                trailing: const Text(
-                  '80%',
-                  style: TextStyle(
-                    color: AppColors.primary,
-                    fontSize: 14,
-                  ),
-                ),
-                leading: Container(
-                  width: 50,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    image: const DecorationImage(
-                      image: AssetImage('assets/images/Rectangle 24.png'),
-                      fit: BoxFit.cover,
+            BlocBuilder<ActiveCourseBloc, ActiveCourseState>(
+              builder: (context, state) {
+                return state.maybeWhen(
+                  orElse: () => Container(
+                    height: 70,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: AppColors.white,
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                ),
-              ),
-            ),
-            Card(
-              elevation: 1,
-              color: AppColors.white,
-              child: ListTile(
-                title: const Text(
-                  'Flutter Development',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                subtitle: const Text(
-                  'Dart Programming Language',
-                  style: TextStyle(
-                    color: AppColors.grey,
-                  ),
-                ),
-                trailing: const Text(
-                  '80%',
-                  style: TextStyle(
-                    color: AppColors.primary,
-                    fontSize: 14,
-                  ),
-                ),
-                leading: Container(
-                  width: 50,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    image: const DecorationImage(
-                      image: AssetImage('assets/images/Rectangle 24.png'),
-                      fit: BoxFit.cover,
+                    child: const Center(
+                      child: Text(
+                        'No Data Active Course',
+                        style: TextStyle(
+                          color: AppColors.grey,
+                          fontSize: 14,
+                        ),
+                      ),
                     ),
-                    borderRadius: BorderRadius.circular(8.0),
                   ),
-                ),
-              ),
+                  loading: () => Container(
+                    height: 70,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: AppColors.white,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  getActiveCourseSuccess: (activeCourseResponseModel) {
+                    if (activeCourseResponseModel.data!.isEmpty) {
+                      return Container(
+                        height: 70,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: AppColors.white,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Center(
+                          child: Text(
+                            'No Active Course',
+                            style: TextStyle(
+                              color: AppColors.grey,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                    return ListView.builder(
+                      itemCount: activeCourseResponseModel.data!.length,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        final course = activeCourseResponseModel.data![index];
+                        return InkWell(
+                          onTap: () {
+                            context.push(
+                              CoursesPage(idClass: course.classroom!.id!),
+                            );
+                          },
+                          child: Card(
+                            elevation: 1,
+                            color: AppColors.white,
+                            child: ListTile(
+                              title: Text(
+                                course.title!,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              subtitle: Text(
+                                course.description!,
+                                style: const TextStyle(
+                                    color: AppColors.grey,
+                                    overflow: TextOverflow.ellipsis),
+                              ),
+                              trailing: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  const CircularProgressIndicator(
+                                    value: 1.0,
+                                    strokeWidth: 4.0,
+                                    color: AppColors.greyMuda,
+                                  ),
+                                  CircularProgressIndicator(
+                                    value:
+                                        (double.parse(course.courseProgress!) /
+                                            100),
+                                    strokeWidth: 4.0,
+                                    valueColor: const AlwaysStoppedAnimation(
+                                        AppColors.green),
+                                  ),
+                                  Text(
+                                    '${course.courseProgress}%',
+                                    style: const TextStyle(
+                                      color: AppColors.primary,
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              leading: Container(
+                                width: 50,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.2),
+                                      spreadRadius: 1,
+                                      blurRadius: 5,
+                                      offset: const Offset(2, 4),
+                                    ),
+                                  ],
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  child: CachedNetworkImage(
+                                    imageUrl: course.image!,
+                                    fit: BoxFit.cover,
+                                    width: 50,
+                                    height: 50,
+                                    alignment: Alignment.topCenter,
+                                    placeholder: (context, url) =>
+                                        const CircularProgressIndicator(),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(Icons.error),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                );
+              },
             ),
             const SpaceHeight(20),
             const Text(
@@ -290,16 +372,66 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             const SpaceHeight(10),
-            AssignmentCard(
-              onTap: () {},
-              title:
-                  'Studi Kasus Mobile Developer - Ready to Upload Assignment Cobalah untuk membuat aplikasi mobile sederhana dengan menggunakan Flutter',
-              description: 'Bengkel Koding Mobile - Review',
-              start: ' 12 Oct 2024. 18.00 ',
-              deadline: ' 12 Oct 2024. 18.00 ',
-              status: 'Belum Dikumpulkan',
-              color: AppColors.pink,
-              colorBg: AppColors.assignBgPink,
+            BlocBuilder<LatestAssignmentBloc, LatestAssignmentState>(
+              builder: (context, state) {
+                return state.maybeWhen(
+                  orElse: () => Container(
+                    height: 150,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: AppColors.white,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Center(
+                      child: Text(
+                        'No Data Latest Assignment',
+                        style: TextStyle(
+                          color: AppColors.grey,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                  ),
+                  loading: () => Container(
+                    height: 150,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: AppColors.white,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  getLatestAssignmentSuccess: (latestAssignmentResponseModel) {
+                    return AssignmentCard(
+                      onTap: () {
+                        context.push(
+                          DetailAssignmentPage(
+                            idAssignment: latestAssignmentResponseModel.data.id,
+                            idClass:
+                                latestAssignmentResponseModel.data.classroomId,
+                          ),
+                        );
+                      },
+                      title: latestAssignmentResponseModel.data.title,
+                      description:
+                          latestAssignmentResponseModel.data.description,
+                      start: '-',
+                      deadline: latestAssignmentResponseModel.data.deadline,
+                      status:
+                          latestAssignmentResponseModel.data.isUploaded == true
+                              ? 'Sudah Dikumpulkan'
+                              : 'Belum Dikumpulkan',
+                      color:
+                          latestAssignmentResponseModel.data.isUploaded == true
+                              ? AppColors.assignGreen
+                              : AppColors.pink,
+                      colorBg:
+                          latestAssignmentResponseModel.data.isUploaded == true
+                              ? AppColors.assignBgGreen
+                              : AppColors.assignBgPink,
+                    );
+                  },
+                );
+              },
             ),
             const SpaceHeight(20),
           ],
