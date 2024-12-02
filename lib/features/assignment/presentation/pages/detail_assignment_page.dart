@@ -172,6 +172,8 @@ class _DetailAssignmentPageState extends State<DetailAssignmentPage> {
                               await AssignmentRemoteDatasource().downloadTask(
                                   detailAssignmentResponseModel
                                       .data.questionFile!);
+                              print(detailAssignmentResponseModel
+                                  .data.questionFile);
                             },
                             label: detailAssignmentResponseModel
                                         .data.questionFile !=
@@ -200,6 +202,8 @@ class _DetailAssignmentPageState extends State<DetailAssignmentPage> {
                                         .downloadTask(
                                             detailAssignmentResponseModel
                                                 .data.tasks[0].answerFile);
+                                    print(detailAssignmentResponseModel
+                                        .data.tasks[0].answerFile);
                                   },
                                   label: 'Click to Download your File',
                                   color: AppColors.assignGreen,

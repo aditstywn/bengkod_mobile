@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
 class AssignmentResponseModel {
@@ -29,6 +30,8 @@ class AssignmentResponseModel {
 
 class Assignment {
   final int id;
+  final int? idClass;
+  final String? titleClass;
   final String title;
   final String description;
   final DateTime startTime;
@@ -38,6 +41,8 @@ class Assignment {
 
   Assignment({
     required this.id,
+    this.idClass,
+    this.titleClass,
     required this.title,
     required this.description,
     required this.startTime,
@@ -53,6 +58,8 @@ class Assignment {
 
   factory Assignment.fromMap(Map<String, dynamic> json) => Assignment(
         id: json["id"],
+        idClass: null,
+        titleClass: null,
         title: json["title"],
         description: json["description"],
         startTime: DateTime.parse(json["start_time"]),
@@ -63,6 +70,8 @@ class Assignment {
 
   Map<String, dynamic> toMap() => {
         "id": id,
+        "id_class": idClass,
+        "title_class": titleClass,
         "title": title,
         "description": description,
         "start_time": startTime.toIso8601String(),
@@ -70,6 +79,23 @@ class Assignment {
         "is_uploaded": isUploaded,
         "tasks": List<dynamic>.from(tasks.map((x) => x)),
       };
+
+  Assignment copyWith({
+    int? idClass,
+    String? titleClass,
+  }) {
+    return Assignment(
+      id: id,
+      idClass: idClass ?? this.idClass,
+      titleClass: titleClass ?? this.titleClass,
+      title: title,
+      description: description,
+      startTime: startTime,
+      deadline: deadline,
+      isUploaded: isUploaded,
+      tasks: tasks,
+    );
+  }
 }
 
 class Meta {
