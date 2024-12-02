@@ -44,6 +44,13 @@ class ClassAndAssignmentBloc
               },
             ),
           );
+          assignment.sort((a, b) {
+            if (a.isUploaded != b.isUploaded) {
+              return a.isUploaded ? 1 : -1; // false lebih dulu
+            }
+            return a.startTime
+                .compareTo(b.startTime); // Urutkan berdasarkan waktu
+          });
           emit(_GetClassAndAssignmentSuccess(assignment));
         },
       );

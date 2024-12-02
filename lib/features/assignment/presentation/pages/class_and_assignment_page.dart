@@ -58,13 +58,50 @@ class _ClassAndAssignmentPageState extends State<ClassAndAssignmentPage> {
                 itemBuilder: (context, index) {
                   return AssignmentCard(
                     onTap: () {
-                      context.push(
-                        DetailAssignmentPage(
-                          idAssignment: assignmentResponseModel[index].id,
-                          idClass: assignmentResponseModel[index].idClass!,
-                        ),
-                      );
+                      if (assignmentResponseModel[index]
+                          .deadline
+                          .isBefore(DateTime.now())) {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text(
+                              'Tugas Ditutup !!!',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            content: const Text(
+                              'Tugas ini sudah melewati batas waktu pengumpulan.',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            actions: [
+                              TextButton(
+                                style: TextButton.styleFrom(
+                                  backgroundColor: AppColors.primary,
+                                ),
+                                onPressed: () => Navigator.pop(context),
+                                child: const Text(
+                                  'OK',
+                                  style: TextStyle(
+                                    color: AppColors.white,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      } else {
+                        context.push(
+                          DetailAssignmentPage(
+                            idAssignment: assignmentResponseModel[index].id,
+                            idClass: assignmentResponseModel[index].idClass!,
+                          ),
+                        );
+                      }
                     },
+                    classTitle: assignmentResponseModel[index].titleClass,
                     title: assignmentResponseModel[index].title,
                     description: assignmentResponseModel[index].description,
                     start: assignmentResponseModel[index]
@@ -75,7 +112,11 @@ class _ClassAndAssignmentPageState extends State<ClassAndAssignmentPage> {
                         .toFormattedTime(),
                     status: assignmentResponseModel[index].isUploaded == true
                         ? 'Sudah Dikumpulkan'
-                        : 'Belum Dikumpulkan',
+                        : assignmentResponseModel[index]
+                                .deadline
+                                .isBefore(DateTime.now())
+                            ? 'Telat Dikumpulkan'
+                            : 'Belum Dikumpulkan',
                     color: assignmentResponseModel[index].isUploaded == true
                         ? AppColors.assignGreen
                         : AppColors.pink,
