@@ -280,8 +280,14 @@ class _HomePageState extends State<HomePage> {
                         return InkWell(
                           onTap: () {
                             context.push(
-                              CoursesPage(idClass: course.classroom!.id!),
+                              CoursesPage(
+                                idClass: course.classroom!.id!,
+                                idCourses: course.id,
+                              ),
                             );
+                            // id di active course tidak sama dengan di class
+                            print(course.classroom!.id);
+                            print(course.id);
                           },
                           child: Card(
                             elevation: 1,
