@@ -50,6 +50,7 @@ class _HomePageState extends State<HomePage> {
                 SvgPicture.asset(
                   'assets/icons/icon_home.svg',
                   color: AppColors.primary,
+                  width: 24,
                 ),
                 const SpaceWidth(10),
                 const Text(

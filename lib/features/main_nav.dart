@@ -1,3 +1,5 @@
+import 'presence/presentation/pages/history_page.dart';
+
 import '../core/components/spaces.dart';
 import '../core/config/app_color.dart';
 import 'profile/presentation/pages/profile_page.dart';
@@ -18,9 +20,7 @@ class _MainNavState extends State<MainNav> {
 
   final List<Widget> _pages = [
     const HomePage(),
-    const Center(
-      child: Text('Presence'),
-    ),
+    const HistoryPage(),
     const ProfilePage(),
   ];
 
