@@ -1,4 +1,5 @@
 import 'package:bengkod_mobile_app/core/extensions/build_context_ext.dart';
+import 'package:bengkod_mobile_app/features/presence/presentation/pages/history_presence_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -75,7 +76,9 @@ class _HistoryPageState extends State<HistoryPage> {
                           itemCount: classResponseModel.data.length,
                           itemBuilder: (context, index) {
                             return ClassCard(
-                              onTap: () {},
+                              onTap: () {
+                                context.push(const HistoryPresencePage());
+                              },
                               data: classResponseModel.data[index],
                             );
                           },

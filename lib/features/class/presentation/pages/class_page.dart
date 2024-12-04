@@ -1,3 +1,4 @@
+import 'package:bengkod_mobile_app/core/extensions/build_context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -5,6 +6,7 @@ import '../../../../core/components/spaces.dart';
 import '../../../../core/config/app_color.dart';
 import '../bloc/class/class_bloc.dart';
 import '../widgets/class_card.dart';
+import 'information_page.dart';
 
 class ClassPage extends StatefulWidget {
   const ClassPage({super.key});
@@ -49,6 +51,11 @@ class _ClassPageState extends State<ClassPage> {
                 itemCount: classResponseModel.data.length,
                 itemBuilder: (context, index) {
                   return ClassCard(
+                    onTap: () {
+                      context.push(InformationPage(
+                        id: classResponseModel.data[index].id,
+                      ));
+                    },
                     data: classResponseModel.data[index],
                   );
                 },
