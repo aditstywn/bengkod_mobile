@@ -75,6 +75,7 @@ class _HistoryPageState extends State<HistoryPage> {
                           itemCount: classResponseModel.data.length,
                           itemBuilder: (context, index) {
                             return ClassCard(
+                              onTap: () {},
                               data: classResponseModel.data[index],
                             );
                           },
