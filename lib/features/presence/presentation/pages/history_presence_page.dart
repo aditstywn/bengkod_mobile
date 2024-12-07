@@ -32,9 +32,7 @@ class _HistoryPresencePageState extends State<HistoryPresencePage> {
         padding: const EdgeInsets.all(16),
         children: [
           GestureDetector(
-            onTap: () {
-              context.push(const DetailPresencePage());
-            },
+            onTap: () {},
             child: Card(
               elevation: 1,
               color: AppColors.white,

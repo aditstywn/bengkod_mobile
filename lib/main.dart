@@ -1,3 +1,7 @@
+import 'features/presence/data/datasource/presence_remote_datasource.dart';
+import 'features/presence/presentation/bloc/absenceHistory/absence_history_bloc.dart';
+import 'features/presence/presentation/bloc/attendanceHistory/attendance_history_bloc.dart';
+import 'features/presence/presentation/bloc/presences/presences_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -91,6 +95,16 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => ActiveCourseBloc(HomeRemoteDatasource()),
+        ),
+        BlocProvider(
+          create: (context) => PresencesBloc(PresenceRemoteDatasource()),
+        ),
+        BlocProvider(
+          create: (context) =>
+              AttendanceHistoryBloc(PresenceRemoteDatasource()),
+        ),
+        BlocProvider(
+          create: (context) => AbsenceHistoryBloc(PresenceRemoteDatasource()),
         ),
       ],
       child: MaterialApp(
