@@ -23,6 +23,8 @@ import 'features/courses/presentation/bloc/lesson/lesson_bloc.dart';
 import 'features/home/data/datasorce/home_remote_datasource.dart';
 import 'features/home/presentation/bloc/active_course/active_course_bloc.dart';
 import 'features/home/presentation/bloc/latest_assignment/latest_assignment_bloc.dart';
+import 'features/presence/data/datasource/presence_remote_datasource.dart';
+import 'features/presence/presentation/bloc/presences/presences_bloc.dart';
 import 'features/profile/data/datasource/profile_remote_datasorce.dart';
 import 'features/profile/presentation/bloc/profile_bloc.dart';
 import 'features/settings/data/datasource/settings_remote_datasource.dart';
@@ -91,6 +93,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => ActiveCourseBloc(HomeRemoteDatasource()),
+        ),
+        BlocProvider(
+          create: (context) => PresencesBloc(PresenceRemoteDatasource()),
         ),
       ],
       child: MaterialApp(

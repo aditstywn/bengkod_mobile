@@ -1,10 +1,8 @@
-import 'package:bengkod_mobile_app/core/components/spaces.dart';
-import 'package:bengkod_mobile_app/core/extensions/build_context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../core/components/spaces.dart';
 import '../../../../core/config/app_color.dart';
-import 'detail_presence_page.dart';
 
 class HistoryPresencePage extends StatefulWidget {
   const HistoryPresencePage({super.key});
@@ -32,9 +30,7 @@ class _HistoryPresencePageState extends State<HistoryPresencePage> {
         padding: const EdgeInsets.all(16),
         children: [
           GestureDetector(
-            onTap: () {
-              context.push(const DetailPresencePage());
-            },
+            onTap: () {},
             child: Card(
               elevation: 1,
               color: AppColors.white,

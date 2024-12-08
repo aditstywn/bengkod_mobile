@@ -1,22 +1,22 @@
-import 'package:bengkod_mobile_app/core/extensions/build_context_ext.dart';
-import 'package:bengkod_mobile_app/features/presence/presentation/pages/history_presence_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../../core/components/spaces.dart';
 import '../../../../core/config/app_color.dart';
+import '../../../../core/extensions/build_context_ext.dart';
 import '../../../class/presentation/bloc/class/class_bloc.dart';
 import '../../../class/presentation/widgets/class_card.dart';
+import 'detail_presence_page.dart';
 
-class HistoryPage extends StatefulWidget {
-  const HistoryPage({super.key});
+class PresencePage extends StatefulWidget {
+  const PresencePage({super.key});
 
   @override
-  State<HistoryPage> createState() => _HistoryPageState();
+  State<PresencePage> createState() => _PresencePageState();
 }
 
-class _HistoryPageState extends State<HistoryPage> {
+class _PresencePageState extends State<PresencePage> {
   @override
   void initState() {
     context.read<ClassBloc>().add(const ClassEvent.getClass());
@@ -77,7 +77,9 @@ class _HistoryPageState extends State<HistoryPage> {
                           itemBuilder: (context, index) {
                             return ClassCard(
                               onTap: () {
-                                context.push(const HistoryPresencePage());
+                                context.push(DetailPresencePage(
+                                  dataClass: classResponseModel.data[index],
+                                ));
                               },
                               data: classResponseModel.data[index],
                             );
