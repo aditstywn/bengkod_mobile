@@ -1,3 +1,4 @@
+import 'package:bengkod_mobile_app/features/presence/presentation/pages/scaner_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -41,7 +42,7 @@ class _PresencePageState extends State<PresencePage> {
                     ),
                     const SpaceWidth(10),
                     const Text(
-                      'Home',
+                      'Presence',
                       style: TextStyle(
                         color: AppColors.primary,
                         fontSize: 24,
@@ -98,7 +99,9 @@ class _PresencePageState extends State<PresencePage> {
               left: context.deviceWidth / 2 - 80,
               right: context.deviceWidth / 2 - 80,
               child: GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  context.push(const ScanerPage());
+                },
                 child: Container(
                   height: 44,
                   width: 160,
