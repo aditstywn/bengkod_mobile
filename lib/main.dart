@@ -1,3 +1,4 @@
+import 'package:bengkod_mobile_app/features/assignment/presentation/bloc/classAndAssigment/class_and_assignment_bloc.dart';
 import 'package:bengkod_mobile_app/features/presence/presentation/bloc/scanQr/scan_qr_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -76,6 +77,10 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => SubmitBloc(AssignmentRemoteDatasource()),
+        ),
+        BlocProvider(
+          create: (context) =>
+              ClassAndAssignmentBloc(AssignmentRemoteDatasource()),
         ),
         BlocProvider(
           create: (context) => CoursesBloc(CoursesRemoteDatasource()),

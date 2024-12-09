@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:bengkod_mobile_app/core/extensions/date_time_ext.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,6 +9,7 @@ import '../../../../core/components/buttons.dart';
 import '../../../../core/components/spaces.dart';
 import '../../../../core/config/app_color.dart';
 import '../../../../core/extensions/build_context_ext.dart';
+import '../../../../core/extensions/date_time_ext.dart';
 import '../../data/datasource/assignment_remote_datasource.dart';
 import '../../data/models/request/upload_task_request_model.dart';
 import '../bloc/detailAssignment/detail_assignment_bloc.dart';
@@ -168,7 +168,10 @@ class _DetailAssignmentPageState extends State<DetailAssignmentPage> {
                           ),
                           const SpaceHeight(10),
                           Button.filled(
-                            onPressed: () {
+                            onPressed: () async {
+                              await AssignmentRemoteDatasource().downloadTask(
+                                  detailAssignmentResponseModel
+                                      .data.questionFile!);
                               print(detailAssignmentResponseModel
                                   .data.questionFile);
                             },
@@ -195,11 +198,12 @@ class _DetailAssignmentPageState extends State<DetailAssignmentPage> {
                           task == true
                               ? Button.filled(
                                   onPressed: () async {
-                                    // String url = detailAssignmentResponseModel
-                                    //     .data.tasks[0].answerFile;
-
-                                    AssignmentRemoteDatasource().downloadTask(
-                                        'https://api-indoor-duration.natagw.my.id/person-duration/show-labeled-image/?filename=d5d3f0a2ba10e004313a158f447c5ebc.jpg');
+                                    await AssignmentRemoteDatasource()
+                                        .downloadTask(
+                                            detailAssignmentResponseModel
+                                                .data.tasks[0].answerFile);
+                                    print(detailAssignmentResponseModel
+                                        .data.tasks[0].answerFile);
                                   },
                                   label: 'Click to Download your File',
                                   color: AppColors.assignGreen,

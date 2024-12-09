@@ -6,7 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/components/spaces.dart';
 import '../../../../core/config/app_color.dart';
 import '../../../../core/extensions/build_context_ext.dart';
-import '../../../assignment/presentation/pages/class_assignment_page.dart';
+import '../../../assignment/presentation/pages/class_and_assignment_page.dart';
 import '../../../assignment/presentation/pages/detail_assignment_page.dart';
 import '../../../assignment/presentation/widgets/assignment_card.dart';
 import '../../../class/presentation/pages/class_page.dart';
@@ -190,7 +190,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 MenuButton(
                   onTap: () {
-                    context.push(const ClassAssignmentPage());
+                    context.push(const ClassAndAssignmentPage());
                   },
                   color: AppColors.assignment,
                   title: 'Assignment',
