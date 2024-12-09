@@ -38,6 +38,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 SvgPicture.asset(
                   'assets/icons/icon_profile.svg',
                   color: AppColors.primary,
+                  width: 24,
                 ),
                 const SpaceWidth(10),
                 const Text(

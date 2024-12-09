@@ -1,5 +1,6 @@
 import '../core/components/spaces.dart';
 import '../core/config/app_color.dart';
+import 'presence/presentation/pages/presence_page.dart';
 import 'profile/presentation/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -18,9 +19,7 @@ class _MainNavState extends State<MainNav> {
 
   final List<Widget> _pages = [
     const HomePage(),
-    const Center(
-      child: Text('Presence'),
-    ),
+    const PresencePage(),
     const ProfilePage(),
   ];
 

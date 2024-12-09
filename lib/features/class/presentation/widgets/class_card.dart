@@ -1,5 +1,3 @@
-import '../../../../core/extensions/build_context_ext.dart';
-import '../pages/information_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/components/spaces.dart';
@@ -8,19 +6,17 @@ import '../../data/models/response/class_response_model.dart';
 
 class ClassCard extends StatelessWidget {
   final Class data;
+  final VoidCallback onTap;
   const ClassCard({
     super.key,
     required this.data,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        context.push(InformationPage(
-          id: data.id,
-        ));
-      },
+      onTap: onTap,
       child: Stack(
         children: [
           Container(
