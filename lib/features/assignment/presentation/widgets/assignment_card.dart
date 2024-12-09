@@ -37,7 +37,7 @@ class AssignmentCard extends StatelessWidget {
         elevation: 1,
         color: AppColors.white,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(10),
         ),
         child: Stack(
           children: [
@@ -45,7 +45,7 @@ class AssignmentCard extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
-                  const SpaceHeight(45),
+                  const SpaceHeight(35),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -124,24 +124,24 @@ class AssignmentCard extends StatelessWidget {
               top: 0,
               left: 0,
               child: Container(
-                height: 50,
+                height: 40,
                 width: context.deviceWidth / 2,
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 8,
+                  horizontal: 14,
                   vertical: 4,
                 ),
                 decoration: const BoxDecoration(
                   color: AppColors.primary,
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    bottomRight: Radius.circular(20),
+                    topLeft: Radius.circular(10),
+                    bottomRight: Radius.circular(10),
                   ),
                 ),
                 child: Center(
                   child: Text(
                     classTitle ?? 'Assignment',
                     style: const TextStyle(
-                      fontSize: 16,
+                      fontSize: 12,
                       fontWeight: FontWeight.bold,
                       color: AppColors.white,
                       overflow: TextOverflow.ellipsis,
