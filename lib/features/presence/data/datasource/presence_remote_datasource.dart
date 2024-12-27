@@ -1,9 +1,11 @@
+import 'package:bengkod_mobile_app/features/presence/data/models/request/izin_request_model.dart';
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../../core/config/url.dart';
 import '../../../auth/data/datasource/auth_local_datasource.dart';
 import '../models/response/absence_history_response_model.dart';
+import '../models/response/absence_response_model.dart';
 import '../models/response/attendace_history_response_model.dart';
 import '../models/response/presences_response_model.dart';
 import '../models/response/scan_qr_response_model.dart';
@@ -105,6 +107,48 @@ class PresenceRemoteDatasource {
       }
     } catch (e) {
       return const Left('Get Absence History Gagal');
+    }
+  }
+
+  Future<Either<String, AbsenceResponseModel>> absence(
+      IzinRequestModel izin) async {
+    try {
+      final token = await AuthLocalDatasource().getToken();
+
+      var headers = {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      };
+
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(
+            '${Url.baseUrl}/api/v1/mobile/student/presences/absences/store'),
+      );
+
+      request.fields.addAll(izin.toMap());
+
+      request.files.add(
+        await http.MultipartFile.fromPath(
+          'attachment',
+          izin.file.path.toString(),
+        ),
+      );
+
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response = await request.send();
+
+      final body = await response.stream.bytesToString();
+
+      if (response.statusCode == 200) {
+        return Right(AbsenceResponseModel.fromJson(body));
+      } else {
+        return const Left('Gagal upload absence');
+      }
+    } catch (e) {
+      return const Left('Gagal upload absence');
     }
   }
 }

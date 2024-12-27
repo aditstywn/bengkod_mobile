@@ -1,4 +1,8 @@
+import 'package:bengkod_mobile_app/features/assignment/data/datasource/assignment_remote_datasource.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../core/extensions/build_context_ext.dart';
+import '../pages/izin_page.dart';
 
 import '../../../../core/components/spaces.dart';
 import '../../../../core/config/app_color.dart';
@@ -7,8 +11,10 @@ import '../../data/models/response/attendace_history_response_model.dart';
 import '../../data/models/response/presences_response_model.dart';
 
 class ListPresensi extends StatelessWidget {
+  final String className;
   const ListPresensi({
     super.key,
+    required this.className,
     required this.presences,
     required this.attendances,
     required this.absences,
@@ -68,7 +74,6 @@ class ListPresensi extends StatelessWidget {
           if (absence.approveStatus == 1) {
             status = 'Menunggu';
           } else if (absence.approveStatus == 2) {
-            // status = 'Disetujui';
             status = 'Izin';
           } else if (absence.approveStatus == 3) {
             status = 'Ditolak';
@@ -221,8 +226,46 @@ class ListPresensi extends StatelessWidget {
                                                   ),
                                                 ),
                                                 const SpaceHeight(8),
+                                                Row(
+                                                  children: [
+                                                    const Text(
+                                                      'File : ',
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        color:
+                                                            AppColors.tertiary,
+                                                      ),
+                                                    ),
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        AssignmentRemoteDatasource()
+                                                            .downloadTask(absence!
+                                                                .attachment!);
+                                                      },
+                                                      child: const Text(
+                                                        'Unduh File',
+                                                        style: TextStyle(
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            color: AppColors
+                                                                .course,
+                                                            fontStyle: FontStyle
+                                                                .italic,
+                                                            decoration:
+                                                                TextDecoration
+                                                                    .underline),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                const SpaceHeight(8),
                                                 Text(
-                                                  'Catatan : ${absence.approveNote ?? '-'}',
+                                                  absence.approveNote != null
+                                                      ? 'Catatan : ${absence.approveNote}'
+                                                      : '',
                                                   style: const TextStyle(
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.w400,
@@ -253,7 +296,12 @@ class ListPresensi extends StatelessWidget {
                                   }
                                 : upComming
                                     ? () {
-                                        print('upcoming');
+                                        context.push(
+                                          IzinPage(
+                                            presence: presences[index],
+                                            className: className,
+                                          ),
+                                        );
                                       }
                                     : null,
                         style: ElevatedButton.styleFrom(

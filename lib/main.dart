@@ -1,5 +1,6 @@
-import 'package:bengkod_mobile_app/features/assignment/presentation/bloc/classAndAssigment/class_and_assignment_bloc.dart';
-import 'package:bengkod_mobile_app/features/presence/presentation/bloc/scanQr/scan_qr_bloc.dart';
+import 'features/assignment/presentation/bloc/classAndAssigment/class_and_assignment_bloc.dart';
+import 'features/presence/presentation/bloc/absence/absence_bloc.dart';
+import 'features/presence/presentation/bloc/scanQr/scan_qr_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -105,6 +106,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => ScanQrBloc(PresenceRemoteDatasource()),
+        ),
+        BlocProvider(
+          create: (context) => AbsenceBloc(PresenceRemoteDatasource()),
         ),
       ],
       child: MaterialApp(

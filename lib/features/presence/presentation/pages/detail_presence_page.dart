@@ -55,6 +55,7 @@ class _DetailPresencePageState extends State<DetailPresencePage> {
               final presences = presencesResponse.presences.data;
               final attendances = attendancesResponse.data;
               final absences = absencesResponse.data;
+              final statistic = presencesResponse.statistic;
 
               return ListView(
                 padding: const EdgeInsets.all(16),
@@ -155,17 +156,33 @@ class _DetailPresencePageState extends State<DetailPresencePage> {
                             ],
                           ),
                           const SizedBox(height: 40),
-                          const Stack(
+                          Stack(
                             alignment: Alignment.center,
                             children: [
+                              const SizedBox(
+                                width: 134,
+                                height: 134,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 30,
+                                  value: 1,
+                                  backgroundColor: Colors.transparent,
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    AppColors.greyMuda,
+                                  ),
+                                ),
+                              ),
                               SizedBox(
                                 width: 134,
                                 height: 134,
                                 child: CircularProgressIndicator(
                                   strokeWidth: 30,
-                                  value: 1.0,
+                                  value: (statistic.unattendedPercentage +
+                                          statistic.absentPercentage +
+                                          statistic.attendedPercentage) /
+                                      100,
                                   backgroundColor: Colors.transparent,
-                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                  valueColor:
+                                      const AlwaysStoppedAnimation<Color>(
                                     AppColors.redTua,
                                   ),
                                 ),
@@ -175,9 +192,12 @@ class _DetailPresencePageState extends State<DetailPresencePage> {
                                 height: 134,
                                 child: CircularProgressIndicator(
                                   strokeWidth: 30,
-                                  value: 0.9,
+                                  value: (statistic.absentPercentage +
+                                          statistic.attendedPercentage) /
+                                      100,
                                   backgroundColor: Colors.transparent,
-                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                  valueColor:
+                                      const AlwaysStoppedAnimation<Color>(
                                     AppColors.course,
                                   ),
                                 ),
@@ -187,9 +207,10 @@ class _DetailPresencePageState extends State<DetailPresencePage> {
                                 height: 134,
                                 child: CircularProgressIndicator(
                                   strokeWidth: 30,
-                                  value: 0.7,
+                                  value: (statistic.attendedPercentage / 100),
                                   backgroundColor: Colors.transparent,
-                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                  valueColor:
+                                      const AlwaysStoppedAnimation<Color>(
                                     AppColors.primary,
                                   ),
                                 ),
@@ -198,14 +219,14 @@ class _DetailPresencePageState extends State<DetailPresencePage> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    '50%',
-                                    style: TextStyle(
+                                    '${statistic.attendedPercentage}%',
+                                    style: const TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.black,
                                     ),
                                   ),
-                                  Text(
+                                  const Text(
                                     'Present',
                                     style: TextStyle(
                                       fontSize: 12,
@@ -223,6 +244,7 @@ class _DetailPresencePageState extends State<DetailPresencePage> {
                   ),
                   const SizedBox(height: 16),
                   ListPresensi(
+                    className: widget.dataClass.name,
                     presences: presences,
                     attendances: attendances,
                     absences: absences,

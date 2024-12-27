@@ -31,7 +31,7 @@ class AbsenceDatum {
   final int id;
   final String absenceType;
   final String notes;
-  final String attachment;
+  final String? attachment;
   final int approveStatus;
   final String approveStatusLabel;
   final DateTime approveChangedAt;
@@ -43,7 +43,7 @@ class AbsenceDatum {
     required this.id,
     required this.absenceType,
     required this.notes,
-    required this.attachment,
+    this.attachment,
     required this.approveStatus,
     required this.approveStatusLabel,
     required this.approveChangedAt,
