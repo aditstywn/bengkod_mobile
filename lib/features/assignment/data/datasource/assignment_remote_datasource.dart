@@ -172,7 +172,7 @@ class AssignmentRemoteDatasource {
   //   }
   // }
 
-  Future<void> downloadTask(String url) async {
+  Future<bool> downloadTask(String url) async {
     try {
       var response = await http.get(Uri.parse(url));
 
@@ -201,11 +201,14 @@ class AssignmentRemoteDatasource {
         // ignore: duplicate_ignore
         // ignore: avoid_print
         print("File berhasil diunduh dan disimpan di $filePath");
+        return true;
       } else {
         print("Gagal mendownload file. Status code: ${response.statusCode}");
+        return false;
       }
     } catch (e) {
       print("Terjadi error: $e");
+      return false;
     }
   }
 }

@@ -1,14 +1,14 @@
-import 'package:bengkod_mobile_app/features/assignment/data/datasource/assignment_remote_datasource.dart';
+import 'package:bengkod_mobile_app/core/components/show_top_notification.dart';
 import 'package:flutter/material.dart';
-
-import '../../../../core/extensions/build_context_ext.dart';
-import '../pages/izin_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/components/spaces.dart';
 import '../../../../core/config/app_color.dart';
+import '../../../../core/extensions/build_context_ext.dart';
 import '../../data/models/response/absence_history_response_model.dart';
 import '../../data/models/response/attendace_history_response_model.dart';
 import '../../data/models/response/presences_response_model.dart';
+import '../pages/izin_page.dart';
 
 class ListPresensi extends StatelessWidget {
   final String className;
@@ -26,6 +26,30 @@ class ListPresensi extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Future<void> launchInBrowser(Uri url, BuildContext context) async {
+      try {
+        if (!await launchUrl(
+          url,
+          mode: LaunchMode.externalApplication,
+        )) {
+          if (context.mounted) {
+            ShowTopNotification(success: false).show(
+              context,
+              'Gagal membuka link...',
+            );
+          }
+          throw Exception('Could not launch $url');
+        }
+      } catch (e) {
+        if (context.mounted) {
+          ShowTopNotification(success: false).show(
+            context,
+            'Terjadi kesalahan: ${e.toString()}',
+          );
+        }
+      }
+    }
+
     return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -239,10 +263,37 @@ class ListPresensi extends StatelessWidget {
                                                       ),
                                                     ),
                                                     GestureDetector(
-                                                      onTap: () {
-                                                        AssignmentRemoteDatasource()
-                                                            .downloadTask(absence!
-                                                                .attachment!);
+                                                      onTap: () async {
+                                                        launchInBrowser(
+                                                            Uri.parse(absence!
+                                                                .attachment!),
+                                                            context);
+                                                        // final success =
+                                                        //     await AssignmentRemoteDatasource()
+                                                        //         .downloadTask(
+                                                        //             absence!
+                                                        //                 .attachment!);
+
+                                                        // if (success) {
+                                                        //   if (context.mounted) {
+                                                        //     ShowTopNotification(
+                                                        //             success:
+                                                        //                 true)
+                                                        //         .show(
+                                                        //       context,
+                                                        //       'File berhasil diunduh...',
+                                                        //     );
+                                                        //   }
+                                                        // } else {
+                                                        //   if (context.mounted) {
+                                                        //     ShowTopNotification(
+                                                        //       success: false,
+                                                        //     ).show(
+                                                        //       context,
+                                                        //       'Gagal mengunduh file...',
+                                                        //     );
+                                                        //   }
+                                                        // }
                                                       },
                                                       child: const Text(
                                                         'Unduh File',

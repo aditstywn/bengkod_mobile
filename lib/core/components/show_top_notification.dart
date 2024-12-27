@@ -1,9 +1,14 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
 import '../config/app_color.dart';
 
 class ShowTopNotification {
+  final bool success;
   OverlayEntry? _overlayEntry;
+  ShowTopNotification({
+    required this.success,
+  });
 
   void show(BuildContext context, String message) {
     // Hapus notifikasi sebelumnya jika masih aktif
@@ -20,7 +25,7 @@ class ShowTopNotification {
           child: Container(
             height: 40,
             decoration: BoxDecoration(
-              color: AppColors.primary,
+              color: success != true ? AppColors.redTua : AppColors.green,
               borderRadius: BorderRadius.circular(30),
             ),
             padding: const EdgeInsets.symmetric(
@@ -34,8 +39,9 @@ class ShowTopNotification {
                   message,
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 12,
+                    fontSize: 15,
                   ),
+                  overflow: TextOverflow.ellipsis,
                 ),
                 // InkWell(
                 //   onTap: () {
