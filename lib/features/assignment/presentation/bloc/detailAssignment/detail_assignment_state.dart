@@ -8,5 +8,7 @@ class DetailAssignmentState with _$DetailAssignmentState {
   const factory DetailAssignmentState.getDetailAssignmentSuccess(
           DetailAssignmentResponseModel detailAssignmentResponseModel) =
       _getDetailAssignmentSuccess;
+  const factory DetailAssignmentState.downloadFileSuccess(String message) =
+      _DownloadFileSuccess;
   const factory DetailAssignmentState.error(String message) = _Error;
 }

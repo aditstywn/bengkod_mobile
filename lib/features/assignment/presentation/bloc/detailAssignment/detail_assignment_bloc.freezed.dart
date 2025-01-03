@@ -21,18 +21,21 @@ mixin _$DetailAssignmentEvent {
     required TResult Function() started,
     required TResult Function(int idClass, int idAssignment)
         getDetailAssignment,
+    required TResult Function(String url) downloadFile,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(int idClass, int idAssignment)? getDetailAssignment,
+    TResult? Function(String url)? downloadFile,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(int idClass, int idAssignment)? getDetailAssignment,
+    TResult Function(String url)? downloadFile,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -40,18 +43,21 @@ mixin _$DetailAssignmentEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_GetDetailAssignment value) getDetailAssignment,
+    required TResult Function(_DownloadFile value) downloadFile,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_GetDetailAssignment value)? getDetailAssignment,
+    TResult? Function(_DownloadFile value)? downloadFile,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_GetDetailAssignment value)? getDetailAssignment,
+    TResult Function(_DownloadFile value)? downloadFile,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -123,6 +129,7 @@ class _$StartedImpl implements _Started {
     required TResult Function() started,
     required TResult Function(int idClass, int idAssignment)
         getDetailAssignment,
+    required TResult Function(String url) downloadFile,
   }) {
     return started();
   }
@@ -132,6 +139,7 @@ class _$StartedImpl implements _Started {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(int idClass, int idAssignment)? getDetailAssignment,
+    TResult? Function(String url)? downloadFile,
   }) {
     return started?.call();
   }
@@ -141,6 +149,7 @@ class _$StartedImpl implements _Started {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(int idClass, int idAssignment)? getDetailAssignment,
+    TResult Function(String url)? downloadFile,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -154,6 +163,7 @@ class _$StartedImpl implements _Started {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_GetDetailAssignment value) getDetailAssignment,
+    required TResult Function(_DownloadFile value) downloadFile,
   }) {
     return started(this);
   }
@@ -163,6 +173,7 @@ class _$StartedImpl implements _Started {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_GetDetailAssignment value)? getDetailAssignment,
+    TResult? Function(_DownloadFile value)? downloadFile,
   }) {
     return started?.call(this);
   }
@@ -172,6 +183,7 @@ class _$StartedImpl implements _Started {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_GetDetailAssignment value)? getDetailAssignment,
+    TResult Function(_DownloadFile value)? downloadFile,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -266,6 +278,7 @@ class _$GetDetailAssignmentImpl implements _GetDetailAssignment {
     required TResult Function() started,
     required TResult Function(int idClass, int idAssignment)
         getDetailAssignment,
+    required TResult Function(String url) downloadFile,
   }) {
     return getDetailAssignment(idClass, idAssignment);
   }
@@ -275,6 +288,7 @@ class _$GetDetailAssignmentImpl implements _GetDetailAssignment {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(int idClass, int idAssignment)? getDetailAssignment,
+    TResult? Function(String url)? downloadFile,
   }) {
     return getDetailAssignment?.call(idClass, idAssignment);
   }
@@ -284,6 +298,7 @@ class _$GetDetailAssignmentImpl implements _GetDetailAssignment {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(int idClass, int idAssignment)? getDetailAssignment,
+    TResult Function(String url)? downloadFile,
     required TResult orElse(),
   }) {
     if (getDetailAssignment != null) {
@@ -297,6 +312,7 @@ class _$GetDetailAssignmentImpl implements _GetDetailAssignment {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_GetDetailAssignment value) getDetailAssignment,
+    required TResult Function(_DownloadFile value) downloadFile,
   }) {
     return getDetailAssignment(this);
   }
@@ -306,6 +322,7 @@ class _$GetDetailAssignmentImpl implements _GetDetailAssignment {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_GetDetailAssignment value)? getDetailAssignment,
+    TResult? Function(_DownloadFile value)? downloadFile,
   }) {
     return getDetailAssignment?.call(this);
   }
@@ -315,6 +332,7 @@ class _$GetDetailAssignmentImpl implements _GetDetailAssignment {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_GetDetailAssignment value)? getDetailAssignment,
+    TResult Function(_DownloadFile value)? downloadFile,
     required TResult orElse(),
   }) {
     if (getDetailAssignment != null) {
@@ -339,6 +357,153 @@ abstract class _GetDetailAssignment implements DetailAssignmentEvent {
 }
 
 /// @nodoc
+abstract class _$$DownloadFileImplCopyWith<$Res> {
+  factory _$$DownloadFileImplCopyWith(
+          _$DownloadFileImpl value, $Res Function(_$DownloadFileImpl) then) =
+      __$$DownloadFileImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String url});
+}
+
+/// @nodoc
+class __$$DownloadFileImplCopyWithImpl<$Res>
+    extends _$DetailAssignmentEventCopyWithImpl<$Res, _$DownloadFileImpl>
+    implements _$$DownloadFileImplCopyWith<$Res> {
+  __$$DownloadFileImplCopyWithImpl(
+      _$DownloadFileImpl _value, $Res Function(_$DownloadFileImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of DetailAssignmentEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? url = null,
+  }) {
+    return _then(_$DownloadFileImpl(
+      null == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$DownloadFileImpl implements _DownloadFile {
+  const _$DownloadFileImpl(this.url);
+
+  @override
+  final String url;
+
+  @override
+  String toString() {
+    return 'DetailAssignmentEvent.downloadFile(url: $url)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DownloadFileImpl &&
+            (identical(other.url, url) || other.url == url));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, url);
+
+  /// Create a copy of DetailAssignmentEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DownloadFileImplCopyWith<_$DownloadFileImpl> get copyWith =>
+      __$$DownloadFileImplCopyWithImpl<_$DownloadFileImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function(int idClass, int idAssignment)
+        getDetailAssignment,
+    required TResult Function(String url) downloadFile,
+  }) {
+    return downloadFile(url);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function(int idClass, int idAssignment)? getDetailAssignment,
+    TResult? Function(String url)? downloadFile,
+  }) {
+    return downloadFile?.call(url);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function(int idClass, int idAssignment)? getDetailAssignment,
+    TResult Function(String url)? downloadFile,
+    required TResult orElse(),
+  }) {
+    if (downloadFile != null) {
+      return downloadFile(url);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_GetDetailAssignment value) getDetailAssignment,
+    required TResult Function(_DownloadFile value) downloadFile,
+  }) {
+    return downloadFile(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_GetDetailAssignment value)? getDetailAssignment,
+    TResult? Function(_DownloadFile value)? downloadFile,
+  }) {
+    return downloadFile?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_GetDetailAssignment value)? getDetailAssignment,
+    TResult Function(_DownloadFile value)? downloadFile,
+    required TResult orElse(),
+  }) {
+    if (downloadFile != null) {
+      return downloadFile(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _DownloadFile implements DetailAssignmentEvent {
+  const factory _DownloadFile(final String url) = _$DownloadFileImpl;
+
+  String get url;
+
+  /// Create a copy of DetailAssignmentEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$DownloadFileImplCopyWith<_$DownloadFileImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 mixin _$DetailAssignmentState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
@@ -347,6 +512,7 @@ mixin _$DetailAssignmentState {
     required TResult Function(
             DetailAssignmentResponseModel detailAssignmentResponseModel)
         getDetailAssignmentSuccess,
+    required TResult Function(String message) downloadFileSuccess,
     required TResult Function(String message) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -357,6 +523,7 @@ mixin _$DetailAssignmentState {
     TResult? Function(
             DetailAssignmentResponseModel detailAssignmentResponseModel)?
         getDetailAssignmentSuccess,
+    TResult? Function(String message)? downloadFileSuccess,
     TResult? Function(String message)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -367,6 +534,7 @@ mixin _$DetailAssignmentState {
     TResult Function(
             DetailAssignmentResponseModel detailAssignmentResponseModel)?
         getDetailAssignmentSuccess,
+    TResult Function(String message)? downloadFileSuccess,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) =>
@@ -377,6 +545,7 @@ mixin _$DetailAssignmentState {
     required TResult Function(_Loading value) loading,
     required TResult Function(_getDetailAssignmentSuccess value)
         getDetailAssignmentSuccess,
+    required TResult Function(_DownloadFileSuccess value) downloadFileSuccess,
     required TResult Function(_Error value) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -386,6 +555,7 @@ mixin _$DetailAssignmentState {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_getDetailAssignmentSuccess value)?
         getDetailAssignmentSuccess,
+    TResult? Function(_DownloadFileSuccess value)? downloadFileSuccess,
     TResult? Function(_Error value)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -395,6 +565,7 @@ mixin _$DetailAssignmentState {
     TResult Function(_Loading value)? loading,
     TResult Function(_getDetailAssignmentSuccess value)?
         getDetailAssignmentSuccess,
+    TResult Function(_DownloadFileSuccess value)? downloadFileSuccess,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) =>
@@ -469,6 +640,7 @@ class _$InitialImpl implements _Initial {
     required TResult Function(
             DetailAssignmentResponseModel detailAssignmentResponseModel)
         getDetailAssignmentSuccess,
+    required TResult Function(String message) downloadFileSuccess,
     required TResult Function(String message) error,
   }) {
     return initial();
@@ -482,6 +654,7 @@ class _$InitialImpl implements _Initial {
     TResult? Function(
             DetailAssignmentResponseModel detailAssignmentResponseModel)?
         getDetailAssignmentSuccess,
+    TResult? Function(String message)? downloadFileSuccess,
     TResult? Function(String message)? error,
   }) {
     return initial?.call();
@@ -495,6 +668,7 @@ class _$InitialImpl implements _Initial {
     TResult Function(
             DetailAssignmentResponseModel detailAssignmentResponseModel)?
         getDetailAssignmentSuccess,
+    TResult Function(String message)? downloadFileSuccess,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -511,6 +685,7 @@ class _$InitialImpl implements _Initial {
     required TResult Function(_Loading value) loading,
     required TResult Function(_getDetailAssignmentSuccess value)
         getDetailAssignmentSuccess,
+    required TResult Function(_DownloadFileSuccess value) downloadFileSuccess,
     required TResult Function(_Error value) error,
   }) {
     return initial(this);
@@ -523,6 +698,7 @@ class _$InitialImpl implements _Initial {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_getDetailAssignmentSuccess value)?
         getDetailAssignmentSuccess,
+    TResult? Function(_DownloadFileSuccess value)? downloadFileSuccess,
     TResult? Function(_Error value)? error,
   }) {
     return initial?.call(this);
@@ -535,6 +711,7 @@ class _$InitialImpl implements _Initial {
     TResult Function(_Loading value)? loading,
     TResult Function(_getDetailAssignmentSuccess value)?
         getDetailAssignmentSuccess,
+    TResult Function(_DownloadFileSuccess value)? downloadFileSuccess,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
@@ -595,6 +772,7 @@ class _$LoadingImpl implements _Loading {
     required TResult Function(
             DetailAssignmentResponseModel detailAssignmentResponseModel)
         getDetailAssignmentSuccess,
+    required TResult Function(String message) downloadFileSuccess,
     required TResult Function(String message) error,
   }) {
     return loading();
@@ -608,6 +786,7 @@ class _$LoadingImpl implements _Loading {
     TResult? Function(
             DetailAssignmentResponseModel detailAssignmentResponseModel)?
         getDetailAssignmentSuccess,
+    TResult? Function(String message)? downloadFileSuccess,
     TResult? Function(String message)? error,
   }) {
     return loading?.call();
@@ -621,6 +800,7 @@ class _$LoadingImpl implements _Loading {
     TResult Function(
             DetailAssignmentResponseModel detailAssignmentResponseModel)?
         getDetailAssignmentSuccess,
+    TResult Function(String message)? downloadFileSuccess,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -637,6 +817,7 @@ class _$LoadingImpl implements _Loading {
     required TResult Function(_Loading value) loading,
     required TResult Function(_getDetailAssignmentSuccess value)
         getDetailAssignmentSuccess,
+    required TResult Function(_DownloadFileSuccess value) downloadFileSuccess,
     required TResult Function(_Error value) error,
   }) {
     return loading(this);
@@ -649,6 +830,7 @@ class _$LoadingImpl implements _Loading {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_getDetailAssignmentSuccess value)?
         getDetailAssignmentSuccess,
+    TResult? Function(_DownloadFileSuccess value)? downloadFileSuccess,
     TResult? Function(_Error value)? error,
   }) {
     return loading?.call(this);
@@ -661,6 +843,7 @@ class _$LoadingImpl implements _Loading {
     TResult Function(_Loading value)? loading,
     TResult Function(_getDetailAssignmentSuccess value)?
         getDetailAssignmentSuccess,
+    TResult Function(_DownloadFileSuccess value)? downloadFileSuccess,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
@@ -755,6 +938,7 @@ class _$getDetailAssignmentSuccessImpl implements _getDetailAssignmentSuccess {
     required TResult Function(
             DetailAssignmentResponseModel detailAssignmentResponseModel)
         getDetailAssignmentSuccess,
+    required TResult Function(String message) downloadFileSuccess,
     required TResult Function(String message) error,
   }) {
     return getDetailAssignmentSuccess(detailAssignmentResponseModel);
@@ -768,6 +952,7 @@ class _$getDetailAssignmentSuccessImpl implements _getDetailAssignmentSuccess {
     TResult? Function(
             DetailAssignmentResponseModel detailAssignmentResponseModel)?
         getDetailAssignmentSuccess,
+    TResult? Function(String message)? downloadFileSuccess,
     TResult? Function(String message)? error,
   }) {
     return getDetailAssignmentSuccess?.call(detailAssignmentResponseModel);
@@ -781,6 +966,7 @@ class _$getDetailAssignmentSuccessImpl implements _getDetailAssignmentSuccess {
     TResult Function(
             DetailAssignmentResponseModel detailAssignmentResponseModel)?
         getDetailAssignmentSuccess,
+    TResult Function(String message)? downloadFileSuccess,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -797,6 +983,7 @@ class _$getDetailAssignmentSuccessImpl implements _getDetailAssignmentSuccess {
     required TResult Function(_Loading value) loading,
     required TResult Function(_getDetailAssignmentSuccess value)
         getDetailAssignmentSuccess,
+    required TResult Function(_DownloadFileSuccess value) downloadFileSuccess,
     required TResult Function(_Error value) error,
   }) {
     return getDetailAssignmentSuccess(this);
@@ -809,6 +996,7 @@ class _$getDetailAssignmentSuccessImpl implements _getDetailAssignmentSuccess {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_getDetailAssignmentSuccess value)?
         getDetailAssignmentSuccess,
+    TResult? Function(_DownloadFileSuccess value)? downloadFileSuccess,
     TResult? Function(_Error value)? error,
   }) {
     return getDetailAssignmentSuccess?.call(this);
@@ -821,6 +1009,7 @@ class _$getDetailAssignmentSuccessImpl implements _getDetailAssignmentSuccess {
     TResult Function(_Loading value)? loading,
     TResult Function(_getDetailAssignmentSuccess value)?
         getDetailAssignmentSuccess,
+    TResult Function(_DownloadFileSuccess value)? downloadFileSuccess,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
@@ -843,6 +1032,175 @@ abstract class _getDetailAssignmentSuccess implements DetailAssignmentState {
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$getDetailAssignmentSuccessImplCopyWith<_$getDetailAssignmentSuccessImpl>
       get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$DownloadFileSuccessImplCopyWith<$Res> {
+  factory _$$DownloadFileSuccessImplCopyWith(_$DownloadFileSuccessImpl value,
+          $Res Function(_$DownloadFileSuccessImpl) then) =
+      __$$DownloadFileSuccessImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String message});
+}
+
+/// @nodoc
+class __$$DownloadFileSuccessImplCopyWithImpl<$Res>
+    extends _$DetailAssignmentStateCopyWithImpl<$Res, _$DownloadFileSuccessImpl>
+    implements _$$DownloadFileSuccessImplCopyWith<$Res> {
+  __$$DownloadFileSuccessImplCopyWithImpl(_$DownloadFileSuccessImpl _value,
+      $Res Function(_$DownloadFileSuccessImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of DetailAssignmentState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? message = null,
+  }) {
+    return _then(_$DownloadFileSuccessImpl(
+      null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$DownloadFileSuccessImpl implements _DownloadFileSuccess {
+  const _$DownloadFileSuccessImpl(this.message);
+
+  @override
+  final String message;
+
+  @override
+  String toString() {
+    return 'DetailAssignmentState.downloadFileSuccess(message: $message)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DownloadFileSuccessImpl &&
+            (identical(other.message, message) || other.message == message));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, message);
+
+  /// Create a copy of DetailAssignmentState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DownloadFileSuccessImplCopyWith<_$DownloadFileSuccessImpl> get copyWith =>
+      __$$DownloadFileSuccessImplCopyWithImpl<_$DownloadFileSuccessImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(
+            DetailAssignmentResponseModel detailAssignmentResponseModel)
+        getDetailAssignmentSuccess,
+    required TResult Function(String message) downloadFileSuccess,
+    required TResult Function(String message) error,
+  }) {
+    return downloadFileSuccess(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(
+            DetailAssignmentResponseModel detailAssignmentResponseModel)?
+        getDetailAssignmentSuccess,
+    TResult? Function(String message)? downloadFileSuccess,
+    TResult? Function(String message)? error,
+  }) {
+    return downloadFileSuccess?.call(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(
+            DetailAssignmentResponseModel detailAssignmentResponseModel)?
+        getDetailAssignmentSuccess,
+    TResult Function(String message)? downloadFileSuccess,
+    TResult Function(String message)? error,
+    required TResult orElse(),
+  }) {
+    if (downloadFileSuccess != null) {
+      return downloadFileSuccess(message);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_getDetailAssignmentSuccess value)
+        getDetailAssignmentSuccess,
+    required TResult Function(_DownloadFileSuccess value) downloadFileSuccess,
+    required TResult Function(_Error value) error,
+  }) {
+    return downloadFileSuccess(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_getDetailAssignmentSuccess value)?
+        getDetailAssignmentSuccess,
+    TResult? Function(_DownloadFileSuccess value)? downloadFileSuccess,
+    TResult? Function(_Error value)? error,
+  }) {
+    return downloadFileSuccess?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_getDetailAssignmentSuccess value)?
+        getDetailAssignmentSuccess,
+    TResult Function(_DownloadFileSuccess value)? downloadFileSuccess,
+    TResult Function(_Error value)? error,
+    required TResult orElse(),
+  }) {
+    if (downloadFileSuccess != null) {
+      return downloadFileSuccess(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _DownloadFileSuccess implements DetailAssignmentState {
+  const factory _DownloadFileSuccess(final String message) =
+      _$DownloadFileSuccessImpl;
+
+  String get message;
+
+  /// Create a copy of DetailAssignmentState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$DownloadFileSuccessImplCopyWith<_$DownloadFileSuccessImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -918,6 +1276,7 @@ class _$ErrorImpl implements _Error {
     required TResult Function(
             DetailAssignmentResponseModel detailAssignmentResponseModel)
         getDetailAssignmentSuccess,
+    required TResult Function(String message) downloadFileSuccess,
     required TResult Function(String message) error,
   }) {
     return error(message);
@@ -931,6 +1290,7 @@ class _$ErrorImpl implements _Error {
     TResult? Function(
             DetailAssignmentResponseModel detailAssignmentResponseModel)?
         getDetailAssignmentSuccess,
+    TResult? Function(String message)? downloadFileSuccess,
     TResult? Function(String message)? error,
   }) {
     return error?.call(message);
@@ -944,6 +1304,7 @@ class _$ErrorImpl implements _Error {
     TResult Function(
             DetailAssignmentResponseModel detailAssignmentResponseModel)?
         getDetailAssignmentSuccess,
+    TResult Function(String message)? downloadFileSuccess,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -960,6 +1321,7 @@ class _$ErrorImpl implements _Error {
     required TResult Function(_Loading value) loading,
     required TResult Function(_getDetailAssignmentSuccess value)
         getDetailAssignmentSuccess,
+    required TResult Function(_DownloadFileSuccess value) downloadFileSuccess,
     required TResult Function(_Error value) error,
   }) {
     return error(this);
@@ -972,6 +1334,7 @@ class _$ErrorImpl implements _Error {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_getDetailAssignmentSuccess value)?
         getDetailAssignmentSuccess,
+    TResult? Function(_DownloadFileSuccess value)? downloadFileSuccess,
     TResult? Function(_Error value)? error,
   }) {
     return error?.call(this);
@@ -984,6 +1347,7 @@ class _$ErrorImpl implements _Error {
     TResult Function(_Loading value)? loading,
     TResult Function(_getDetailAssignmentSuccess value)?
         getDetailAssignmentSuccess,
+    TResult Function(_DownloadFileSuccess value)? downloadFileSuccess,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {

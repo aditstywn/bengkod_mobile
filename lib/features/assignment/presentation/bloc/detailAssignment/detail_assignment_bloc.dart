@@ -26,5 +26,19 @@ class DetailAssignmentBloc
         );
       },
     );
+
+    on<_DownloadFile>(
+      (event, emit) async {
+        emit(const _Loading());
+
+        final response =
+            await assignmentRemoteDatasource.launchInBrowser(event.url);
+
+        response.fold(
+          (l) => emit(_Error(l)),
+          (r) => emit(_DownloadFileSuccess(r)),
+        );
+      },
+    );
   }
 }

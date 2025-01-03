@@ -7,6 +7,7 @@ import 'package:bengkod_mobile_app/features/assignment/data/models/response/subm
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as p;
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/config/url.dart';
 import '../../../auth/data/datasource/auth_local_datasource.dart';
@@ -149,6 +150,23 @@ class AssignmentRemoteDatasource {
       }
     } catch (e) {
       return const Left('Gagal Submit');
+    }
+  }
+
+  Future<Either<String, String>> launchInBrowser(String url) async {
+    try {
+      final launched = await launchUrl(
+        Uri.parse(url),
+        mode: LaunchMode.externalApplication,
+      );
+
+      if (launched) {
+        return const Right('Berhasil membuka URL di browser.');
+      } else {
+        return const Left('Gagal mengunduh file');
+      }
+    } catch (e) {
+      return Left('Terjadi kesalahan: ${e.toString()}');
     }
   }
 
