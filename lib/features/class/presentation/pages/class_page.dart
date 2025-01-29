@@ -2,6 +2,7 @@ import 'package:bengkod_mobile_app/core/extensions/build_context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/components/error_card.dart';
 import '../../../../core/components/spaces.dart';
 import '../../../../core/config/app_color.dart';
 import '../bloc/class/class_bloc.dart';
@@ -18,8 +19,8 @@ class ClassPage extends StatefulWidget {
 class _ClassPageState extends State<ClassPage> {
   @override
   void initState() {
-    context.read<ClassBloc>().add(const ClassEvent.getClass());
     super.initState();
+    context.read<ClassBloc>().add(const ClassEvent.getClass());
   }
 
   @override
@@ -42,24 +43,47 @@ class _ClassPageState extends State<ClassPage> {
             orElse: () {
               return const SizedBox();
             },
-            getClassSuccess: (classResponseModel) {
-              return ListView.separated(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 16,
-                  horizontal: 16,
+            loading: () {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            },
+            error: (message) {
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: RefreshIndicator(
+                  onRefresh: () async {
+                    context.read<ClassBloc>().add(const ClassEvent.getClass());
+                  },
+                  child: ErrorCard(
+                    message: message,
+                  ),
                 ),
-                itemCount: classResponseModel.data.length,
-                itemBuilder: (context, index) {
-                  return ClassCard(
-                    onTap: () {
-                      context.push(InformationPage(
-                        id: classResponseModel.data[index].id,
-                      ));
-                    },
-                    data: classResponseModel.data[index],
-                  );
+              );
+            },
+            getClassSuccess: (classResponseModel) {
+              return RefreshIndicator(
+                onRefresh: () async {
+                  context.read<ClassBloc>().add(const ClassEvent.getClass());
                 },
-                separatorBuilder: (context, index) => const SpaceHeight(16),
+                child: ListView.separated(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 16,
+                    horizontal: 16,
+                  ),
+                  itemCount: classResponseModel.data.length,
+                  itemBuilder: (context, index) {
+                    return ClassCard(
+                      onTap: () {
+                        context.push(InformationPage(
+                          id: classResponseModel.data[index].id,
+                        ));
+                      },
+                      data: classResponseModel.data[index],
+                    );
+                  },
+                  separatorBuilder: (context, index) => const SpaceHeight(16),
+                ),
               );
             },
           );

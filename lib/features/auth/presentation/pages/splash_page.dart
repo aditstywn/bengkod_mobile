@@ -1,3 +1,9 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../class/presentation/bloc/class/class_bloc.dart';
+import '../../../home/presentation/bloc/active_course/active_course_bloc.dart';
+import '../../../home/presentation/bloc/latest_assignment/latest_assignment_bloc.dart';
+import '../../../profile/presentation/bloc/profile_bloc.dart';
 import '../../data/datasource/auth_remote_datasource.dart';
 
 import '../../../../core/extensions/build_context_ext.dart';
@@ -35,7 +41,18 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    loadingScreen();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ProfileBloc>().add(const ProfileEvent.getProfile());
+      context
+          .read<LatestAssignmentBloc>()
+          .add(const LatestAssignmentEvent.getLatestAssignment());
+      context
+          .read<ActiveCourseBloc>()
+          .add(const ActiveCourseEvent.getActiveCourse());
+      context.read<ClassBloc>().add(const ClassEvent.getClass());
+      context.read<ProfileBloc>().add(const ProfileEvent.getProfile());
+      loadingScreen();
+    });
   }
 
   @override

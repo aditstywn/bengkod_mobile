@@ -1,3 +1,4 @@
+import '../../../../core/components/error_card.dart';
 import '../../../../core/extensions/build_context_ext.dart';
 import 'package:bengkod_mobile_app/core/extensions/string_truncut_ext.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -24,10 +25,10 @@ class DetailCoursesPage extends StatefulWidget {
 class _DetailCoursesPageState extends State<DetailCoursesPage> {
   @override
   void initState() {
+    super.initState();
     context
         .read<ArticleBloc>()
         .add(ArticleEvent.getArticle(widget.idCourses, widget.idArticle));
-    super.initState();
   }
 
   @override
@@ -51,6 +52,20 @@ class _DetailCoursesPageState extends State<DetailCoursesPage> {
             loading: () => const Center(
               child: CircularProgressIndicator(),
             ),
+            error: (message) {
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: RefreshIndicator(
+                  onRefresh: () async {
+                    context.read<ArticleBloc>().add(ArticleEvent.getArticle(
+                        widget.idCourses, widget.idArticle));
+                  },
+                  child: ErrorCard(
+                    message: message,
+                  ),
+                ),
+              );
+            },
             getArticleSuccess: (articleResponseModel) {
               final htmlContent = md.markdownToHtml(
                 articleResponseModel.data.content.replaceAll('\\n', '\n'),
@@ -67,7 +82,11 @@ class _DetailCoursesPageState extends State<DetailCoursesPage> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(
-                        top: 10, bottom: 55, left: 16, right: 16),
+                      top: 10,
+                      bottom: 55,
+                      left: 16,
+                      right: 16,
+                    ),
                     child: SingleChildScrollView(
                       scrollDirection: Axis.vertical,
                       child: Container(

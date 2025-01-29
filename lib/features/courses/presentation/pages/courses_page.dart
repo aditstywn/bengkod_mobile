@@ -1,3 +1,4 @@
+import '../../../../core/components/error_card.dart';
 import '../../../../core/extensions/build_context_ext.dart';
 import '../bloc/lesson/lesson_bloc.dart';
 import '../../data/models/response/lesson_response_model.dart';
@@ -23,8 +24,8 @@ class CoursesPage extends StatefulWidget {
 class _CoursesPageState extends State<CoursesPage> {
   @override
   void initState() {
-    context.read<CoursesBloc>().add(CoursesEvent.getCourses(widget.idClass));
     super.initState();
+    context.read<CoursesBloc>().add(CoursesEvent.getCourses(widget.idClass));
   }
 
   @override
@@ -41,104 +42,141 @@ class _CoursesPageState extends State<CoursesPage> {
         ),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-        child: Column(
-          children: [
-            BlocBuilder<CoursesBloc, CoursesState>(
-              builder: (context, state) {
-                return state.maybeWhen(
-                  orElse: () => const SizedBox(),
-                  loading: () => Container(
-                    height: 100,
-                    decoration: BoxDecoration(
-                      color: AppColors.greyMuda,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  getCoursesSuccess: (coursesResponseModel) {
-                    final courses = coursesResponseModel.data;
-                    if (widget.idCourses != null) {
-                      context.read<LessonBloc>().add(
-                            LessonEvent.getLesson(widget.idCourses!),
-                          );
-                    } else {
-                      context
-                          .read<LessonBloc>()
-                          .add(LessonEvent.getLesson(courses[0].id));
-                    }
-
-                    return SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: courses.map((course) {
-                          return Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  context.read<LessonBloc>().add(
-                                        LessonEvent.getLesson(course.id),
-                                      );
-                                },
-                                child: CoursesCard(
-                                  length: courses.length,
-                                  color: AppColors.pink,
-                                  icon: course.image,
-                                  title: course.title,
-                                ),
-                              ),
-                              const SpaceWidth(10),
-                            ],
-                          );
-                        }).toList(),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          context
+              .read<CoursesBloc>()
+              .add(CoursesEvent.getCourses(widget.idClass));
+        },
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          child: Column(
+            children: [
+              BlocBuilder<CoursesBloc, CoursesState>(
+                builder: (context, state) {
+                  return state.maybeWhen(
+                    orElse: () => const SizedBox(),
+                    loading: () => Container(
+                      height: 100,
+                      decoration: BoxDecoration(
+                        color: AppColors.greyMuda,
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                    );
-                  },
-                );
-              },
-            ),
-            const SpaceHeight(20),
-            BlocBuilder<LessonBloc, LessonState>(
-              builder: (context, state) {
-                return state.maybeWhen(
-                  orElse: () => const SizedBox(),
-                  loading: () => Container(
-                    height: 200,
-                    decoration: BoxDecoration(
-                      color: AppColors.white,
-                      borderRadius: BorderRadius.circular(10),
                     ),
-                    child: const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  ),
-                  getLessonSuccess: (lessonResponseModel) {
-                    final sections = lessonResponseModel.data[0].sections;
-
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildTitleCourses(lessonResponseModel),
-                        const SizedBox(height: 10),
-                        ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: sections.length,
-                          itemBuilder: (context, index) {
-                            final section = sections[index];
-                            final articles = section.articles;
-                            return _buildArticle(section, articles, context,
-                                lessonResponseModel);
+                    error: (message) {
+                      return Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: RefreshIndicator(
+                          onRefresh: () async {
+                            context
+                                .read<CoursesBloc>()
+                                .add(CoursesEvent.getCourses(widget.idClass));
                           },
+                          child: ErrorCard(
+                            message: message,
+                          ),
                         ),
-                      ],
-                    );
-                  },
-                );
-              },
-            ),
-          ],
+                      );
+                    },
+                    getCoursesSuccess: (coursesResponseModel) {
+                      final courses = coursesResponseModel.data;
+                      if (widget.idCourses != null) {
+                        context.read<LessonBloc>().add(
+                              LessonEvent.getLesson(widget.idCourses!),
+                            );
+                      } else {
+                        context
+                            .read<LessonBloc>()
+                            .add(LessonEvent.getLesson(courses[0].id));
+                      }
+
+                      return SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: courses.map((course) {
+                            return Row(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    context.read<LessonBloc>().add(
+                                          LessonEvent.getLesson(course.id),
+                                        );
+                                  },
+                                  child: CoursesCard(
+                                    length: courses.length,
+                                    color: AppColors.pink,
+                                    icon: course.image,
+                                    title: course.title,
+                                  ),
+                                ),
+                                const SpaceWidth(10),
+                              ],
+                            );
+                          }).toList(),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+              const SpaceHeight(20),
+              BlocBuilder<LessonBloc, LessonState>(
+                builder: (context, state) {
+                  return state.maybeWhen(
+                    orElse: () => const SizedBox(),
+                    loading: () => Container(
+                      height: 200,
+                      decoration: BoxDecoration(
+                        color: AppColors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    ),
+                    error: (message) {
+                      return Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: RefreshIndicator(
+                          onRefresh: () async {
+                            context
+                                .read<LessonBloc>()
+                                .add(LessonEvent.getLesson(widget.idCourses!));
+                          },
+                          child: ErrorCard(
+                            message: message,
+                          ),
+                        ),
+                      );
+                    },
+                    getLessonSuccess: (lessonResponseModel) {
+                      final sections = lessonResponseModel.data[0].sections;
+
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildTitleCourses(lessonResponseModel),
+                          const SizedBox(height: 10),
+                          ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: sections.length,
+                            itemBuilder: (context, index) {
+                              final section = sections[index];
+                              final articles = section.articles;
+                              return _buildArticle(section, articles, context,
+                                  lessonResponseModel);
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
