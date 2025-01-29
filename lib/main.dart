@@ -1,12 +1,10 @@
-import 'features/assignment/presentation/bloc/classAndAssigment/class_and_assignment_bloc.dart';
-import 'features/presence/presentation/bloc/absence/absence_bloc.dart';
-import 'features/presence/presentation/bloc/scanQr/scan_qr_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/config/app_color.dart';
 import 'features/assignment/data/datasource/assignment_remote_datasource.dart';
 import 'features/assignment/presentation/bloc/assignment/assignment_bloc.dart';
+import 'features/assignment/presentation/bloc/classAndAssigment/class_and_assignment_bloc.dart';
 import 'features/assignment/presentation/bloc/classAssignment/class_assignment_bloc.dart';
 import 'features/assignment/presentation/bloc/detailAssignment/detail_assignment_bloc.dart';
 import 'features/assignment/presentation/bloc/submit/submit_bloc.dart';
@@ -27,7 +25,9 @@ import 'features/home/data/datasorce/home_remote_datasource.dart';
 import 'features/home/presentation/bloc/active_course/active_course_bloc.dart';
 import 'features/home/presentation/bloc/latest_assignment/latest_assignment_bloc.dart';
 import 'features/presence/data/datasource/presence_remote_datasource.dart';
+import 'features/presence/presentation/bloc/absence/absence_bloc.dart';
 import 'features/presence/presentation/bloc/presences/presences_bloc.dart';
+import 'features/presence/presentation/bloc/scanQr/scan_qr_bloc.dart';
 import 'features/profile/data/datasource/profile_remote_datasorce.dart';
 import 'features/profile/presentation/bloc/profile_bloc.dart';
 import 'features/settings/data/datasource/settings_remote_datasource.dart';
@@ -42,82 +42,111 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
+    return MultiRepositoryProvider(
       providers: [
-        BlocProvider(
-          create: (context) => AuthBloc(AuthRemoteDatasource()),
-        ),
-        BlocProvider(
-          create: (context) => ProfileBloc(ProfileRemoteDatasorce()),
-        ),
-        BlocProvider(
-          create: (context) => ClassBloc(ClassRemoteDatasource()),
-        ),
-        BlocProvider(
-          create: (context) => InformationBloc(ClassRemoteDatasource()),
-        ),
-        BlocProvider(
-          create: (context) => InstructorBloc(ClassRemoteDatasource()),
-        ),
-        BlocProvider(
-          create: (context) => StudentBloc(ClassRemoteDatasource()),
-        ),
-        BlocProvider(
-          create: (context) => AssignmentBloc(AssignmentRemoteDatasource()),
-        ),
-        BlocProvider(
-          create: (context) =>
-              ClassAssignmentBloc(AssignmentRemoteDatasource()),
-        ),
-        BlocProvider(
-          create: (context) =>
-              DetailAssignmentBloc(AssignmentRemoteDatasource()),
-        ),
-        BlocProvider(
-          create: (context) => TaskBloc(AssignmentRemoteDatasource()),
-        ),
-        BlocProvider(
-          create: (context) => SubmitBloc(AssignmentRemoteDatasource()),
-        ),
-        BlocProvider(
-          create: (context) =>
-              ClassAndAssignmentBloc(AssignmentRemoteDatasource()),
-        ),
-        BlocProvider(
-          create: (context) => CoursesBloc(CoursesRemoteDatasource()),
-        ),
-        BlocProvider(
-          create: (context) => LessonBloc(CoursesRemoteDatasource()),
-        ),
-        BlocProvider(
-          create: (context) => ArticleBloc(CoursesRemoteDatasource()),
-        ),
-        BlocProvider(
-          create: (context) => SettingsBloc(SettingsRemoteDatasource()),
-        ),
-        BlocProvider(
-          create: (context) => LatestAssignmentBloc(HomeRemoteDatasource()),
-        ),
-        BlocProvider(
-          create: (context) => ActiveCourseBloc(HomeRemoteDatasource()),
-        ),
-        BlocProvider(
-          create: (context) => PresencesBloc(PresenceRemoteDatasource()),
-        ),
-        BlocProvider(
-          create: (context) => ScanQrBloc(PresenceRemoteDatasource()),
-        ),
-        BlocProvider(
-          create: (context) => AbsenceBloc(PresenceRemoteDatasource()),
-        ),
+        RepositoryProvider(create: (context) => AuthRemoteDatasource()),
+        RepositoryProvider(create: (context) => ProfileRemoteDatasorce()),
+        RepositoryProvider(create: (context) => SettingsRemoteDatasource()),
+        RepositoryProvider(create: (context) => HomeRemoteDatasource()),
+        RepositoryProvider(create: (context) => ClassRemoteDatasource()),
+        RepositoryProvider(create: (context) => AssignmentRemoteDatasource()),
+        RepositoryProvider(create: (context) => CoursesRemoteDatasource()),
+        RepositoryProvider(create: (context) => PresenceRemoteDatasource()),
       ],
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          scaffoldBackgroundColor: AppColors.background,
-          useMaterial3: true,
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => AuthBloc(context.read<AuthRemoteDatasource>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                ProfileBloc(context.read<ProfileRemoteDatasorce>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                ClassBloc(context.read<ClassRemoteDatasource>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                InformationBloc(context.read<ClassRemoteDatasource>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                InstructorBloc(context.read<ClassRemoteDatasource>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                StudentBloc(context.read<ClassRemoteDatasource>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                AssignmentBloc(context.read<AssignmentRemoteDatasource>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                ClassAssignmentBloc(context.read<AssignmentRemoteDatasource>()),
+          ),
+          BlocProvider(
+            create: (context) => DetailAssignmentBloc(
+                context.read<AssignmentRemoteDatasource>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                TaskBloc(context.read<AssignmentRemoteDatasource>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                SubmitBloc(context.read<AssignmentRemoteDatasource>()),
+          ),
+          BlocProvider(
+            create: (context) => ClassAndAssignmentBloc(
+                context.read<AssignmentRemoteDatasource>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                CoursesBloc(context.read<CoursesRemoteDatasource>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                LessonBloc(context.read<CoursesRemoteDatasource>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                ArticleBloc(context.read<CoursesRemoteDatasource>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                SettingsBloc(context.read<SettingsRemoteDatasource>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                LatestAssignmentBloc(context.read<HomeRemoteDatasource>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                ActiveCourseBloc(context.read<HomeRemoteDatasource>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                PresencesBloc(context.read<PresenceRemoteDatasource>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                ScanQrBloc(context.read<PresenceRemoteDatasource>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                AbsenceBloc(context.read<PresenceRemoteDatasource>()),
+          ),
+        ],
+        child: MaterialApp(
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            scaffoldBackgroundColor: AppColors.background,
+            useMaterial3: true,
+          ),
+          home: const SplashPage(),
         ),
-        home: const SplashPage(),
       ),
     );
   }
