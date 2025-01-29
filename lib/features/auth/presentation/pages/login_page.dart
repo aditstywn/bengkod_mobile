@@ -87,6 +87,8 @@ class _LoginPageState extends State<LoginPage> {
                   AuthLocalDatasource().saveToken(loginResponseModel.token);
 
                   context.pushReplacement(const MainNav());
+                  emailController.clear();
+                  passwordController.clear();
                 },
                 error: (message) {
                   showDialog(
@@ -137,6 +139,8 @@ class _LoginPageState extends State<LoginPage> {
                       );
                     },
                   );
+
+                  passwordController.clear();
                 },
               );
             },
@@ -160,9 +164,6 @@ class _LoginPageState extends State<LoginPage> {
                         password: passwordController.text,
                       );
                       context.read<AuthBloc>().add(AuthEvent.login(login));
-
-                      emailController.clear();
-                      passwordController.clear();
                     },
                     label: 'Masuk',
                   );
