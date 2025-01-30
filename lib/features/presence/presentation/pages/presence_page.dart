@@ -2,6 +2,7 @@ import 'package:bengkod_mobile_app/features/presence/presentation/pages/scaner_p
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 import '../../../../core/components/error_card.dart';
 import '../../../../core/components/spaces.dart';
@@ -24,6 +25,8 @@ class _PresencePageState extends State<PresencePage> {
   //   context.read<ClassBloc>().add(const ClassEvent.getClass());
   //   super.initState();
   // }
+
+  int? length;
 
   @override
   Widget build(BuildContext context) {
@@ -64,15 +67,23 @@ class _PresencePageState extends State<PresencePage> {
                           return const SizedBox();
                         },
                         loading: () {
-                          return Container(
-                            height: 172,
-                            decoration: BoxDecoration(
-                              color: AppColors.white,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: const Center(
-                              child: CircularProgressIndicator(),
-                            ),
+                          return ListView.separated(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: length ?? 3,
+                            itemBuilder: (context, index) {
+                              return Shimmer(
+                                child: Container(
+                                  height: 172,
+                                  decoration: BoxDecoration(
+                                    color: AppColors.shimer,
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                ),
+                              );
+                            },
+                            separatorBuilder: (context, index) =>
+                                const SpaceHeight(16),
                           );
                         },
                         error: (message) {
@@ -91,6 +102,7 @@ class _PresencePageState extends State<PresencePage> {
                           );
                         },
                         getClassSuccess: (classResponseModel) {
+                          length = classResponseModel.data.length;
                           return ListView.separated(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),

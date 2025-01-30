@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 import '../../../../core/components/error_card.dart';
 import '../../../../core/config/app_color.dart';
@@ -20,6 +21,8 @@ class ClassAndAssignmentPage extends StatefulWidget {
 }
 
 class _ClassAndAssignmentPageState extends State<ClassAndAssignmentPage> {
+  int? length;
+
   @override
   void initState() {
     super.initState();
@@ -38,9 +41,30 @@ class _ClassAndAssignmentPageState extends State<ClassAndAssignmentPage> {
         builder: (context, state) {
           return state.maybeWhen(
             orElse: () => const SizedBox(),
-            loading: () => const Center(
-              child: CircularProgressIndicator(),
-            ),
+            loading: () {
+              return ListView.separated(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 16,
+                ),
+                itemCount: length ?? 3,
+                itemBuilder: (context, index) {
+                  return Shimmer(
+                    child: SizedBox(
+                      height: 205,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.shimer,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 10),
+              );
+            },
             error: (message) {
               return Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -57,6 +81,9 @@ class _ClassAndAssignmentPageState extends State<ClassAndAssignmentPage> {
             },
             getClassAndAssignmentSuccess: (assignment) {
               final assignmentResponseModel = assignment;
+
+              length = assignmentResponseModel.length;
+
               return RefreshIndicator(
                 onRefresh: () async {
                   context.read<ClassAndAssignmentBloc>().add(

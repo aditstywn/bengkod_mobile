@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 import '../../../../core/components/buttons.dart';
 import '../../../../core/components/error_card.dart';
@@ -81,17 +82,13 @@ class _ProfilePageState extends State<ProfilePage> {
                       );
                     },
                     loading: () {
-                      return Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: AppColors.white,
-                            width: 5,
+                      return Shimmer(
+                        child: Container(
+                          height: 135,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: AppColors.shimer,
                           ),
-                        ),
-                        child: CircleAvatar(
-                          radius: 62.5,
-                          backgroundColor: Colors.grey[200],
                         ),
                       );
                     },
@@ -177,20 +174,16 @@ class _ProfilePageState extends State<ProfilePage> {
                       );
                     },
                     loading: () {
-                      return SizedBox(
-                        height: 256,
-                        child: Card(
-                          color: AppColors.white,
-                          elevation: 2,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                      return Shimmer(
+                        child: SizedBox(
+                          height: 256,
+                          child: Card(
+                            color: AppColors.shimer,
+                            elevation: 2,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                           ),
-                          // child: const Padding(
-                          //   padding: EdgeInsets.all(16.0),
-                          //   child: Center(
-                          //     child: CircularProgressIndicator(),
-                          //   ),
-                          // ),
                         ),
                       );
                     },

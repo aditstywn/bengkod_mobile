@@ -1,3 +1,5 @@
+import 'package:shimmer_animation/shimmer_animation.dart';
+
 import '../../../../core/components/error_card.dart';
 import '../../../../core/extensions/build_context_ext.dart';
 import '../bloc/lesson/lesson_bloc.dart';
@@ -49,11 +51,14 @@ class _CoursesPageState extends State<CoursesPage> {
                 builder: (context, state) {
                   return state.maybeWhen(
                     orElse: () => const SizedBox(),
-                    loading: () => Container(
-                      height: 100,
-                      decoration: BoxDecoration(
-                        color: AppColors.greyMuda,
-                        borderRadius: BorderRadius.circular(10),
+                    loading: () => Shimmer(
+                      child: Container(
+                        height: 110,
+                        width: 353.5,
+                        decoration: BoxDecoration(
+                          color: AppColors.shimer,
+                          borderRadius: BorderRadius.circular(14),
+                        ),
                       ),
                     ),
                     error: (message) {
@@ -117,16 +122,31 @@ class _CoursesPageState extends State<CoursesPage> {
                 builder: (context, state) {
                   return state.maybeWhen(
                     orElse: () => const SizedBox(),
-                    loading: () => Container(
-                      height: 200,
-                      decoration: BoxDecoration(
-                        color: AppColors.white,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    ),
+                    loading: () {
+                      return Column(
+                        children: [
+                          Shimmer(
+                            child: Container(
+                              height: 65,
+                              decoration: BoxDecoration(
+                                color: AppColors.shimer,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
+                          const SpaceHeight(10),
+                          Shimmer(
+                            child: Container(
+                              height: 460,
+                              decoration: BoxDecoration(
+                                color: AppColors.shimer,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
                     error: (message) {
                       return Padding(
                         padding: const EdgeInsets.all(16.0),

@@ -1,9 +1,10 @@
-import 'package:bengkod_mobile_app/core/components/spaces.dart';
-import 'package:bengkod_mobile_app/core/extensions/build_context_ext.dart';
-import 'package:bengkod_mobile_app/features/courses/presentation/pages/courses_page.dart';
+import '../../../../core/components/spaces.dart';
+import '../../../../core/extensions/build_context_ext.dart';
+import 'courses_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 import '../../../../core/components/error_card.dart';
 import '../../../../core/config/app_color.dart';
@@ -17,6 +18,8 @@ class ClassCoursesPage extends StatefulWidget {
 }
 
 class _ClassCoursesPageState extends State<ClassCoursesPage> {
+  int? length;
+
   @override
   void initState() {
     super.initState();
@@ -35,9 +38,29 @@ class _ClassCoursesPageState extends State<ClassCoursesPage> {
         builder: (context, state) {
           return state.maybeWhen(
             orElse: () => const SizedBox(),
-            loading: () => const Center(
-              child: CircularProgressIndicator(),
-            ),
+            loading: () {
+              return ListView.separated(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 16,
+                ),
+                itemCount: length ?? 2,
+                itemBuilder: (context, index) {
+                  return Shimmer(
+                    child: Container(
+                      height: 110,
+                      decoration: BoxDecoration(
+                        color: AppColors.shimer,
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                    ),
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return const SpaceHeight(16);
+                },
+              );
+            },
             error: (message) {
               return Padding(
                 padding: const EdgeInsets.all(16.0),

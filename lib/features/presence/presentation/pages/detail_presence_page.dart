@@ -1,5 +1,7 @@
+import 'package:bengkod_mobile_app/core/components/spaces.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 import '../../../../core/components/error_card.dart';
 import '../../../../core/config/app_color.dart';
@@ -19,6 +21,8 @@ class DetailPresencePage extends StatefulWidget {
 }
 
 class _DetailPresencePageState extends State<DetailPresencePage> {
+  int? length;
+
   @override
   void initState() {
     super.initState();
@@ -37,9 +41,64 @@ class _DetailPresencePageState extends State<DetailPresencePage> {
         builder: (context, state) {
           return state.maybeWhen(
             orElse: () => const SizedBox(),
-            loading: () => const Center(
-              child: CircularProgressIndicator(),
-            ),
+            loading: () {
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: ListView(
+                  children: [
+                    Shimmer(
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Container(
+                          height: 40,
+                          width: 224,
+                          decoration: const BoxDecoration(
+                            color: AppColors.shimer,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Shimmer(
+                      child: Container(
+                        height: 284,
+                        decoration: const BoxDecoration(
+                          color: AppColors.shimer,
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(20),
+                            bottomLeft: Radius.circular(20),
+                            bottomRight: Radius.circular(20),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SpaceHeight(16),
+                    ListView.separated(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: length ?? 3,
+                      itemBuilder: (context, index) {
+                        return Shimmer(
+                          child: Container(
+                            height: 116,
+                            decoration: BoxDecoration(
+                              color: AppColors.shimer,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return const SpaceHeight(6);
+                      },
+                    ),
+                  ],
+                ),
+              );
+            },
             error: (message) {
               return Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -61,6 +120,8 @@ class _DetailPresencePageState extends State<DetailPresencePage> {
               final attendances = attendancesResponse.data;
               final absences = absencesResponse.data;
               final statistic = presencesResponse.statistic;
+
+              length = presences.length;
 
               return RefreshIndicator(
                 onRefresh: () async {

@@ -50,7 +50,7 @@ class ListPresensi extends StatelessWidget {
       }
     }
 
-    return ListView.builder(
+    return ListView.separated(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: presences.length,
@@ -103,10 +103,10 @@ class ListPresensi extends StatelessWidget {
             status = 'Ditolak';
           }
         }
-        return Card(
-          elevation: 1,
-          color: AppColors.white,
-          shape: RoundedRectangleBorder(
+        return Container(
+          height: 116,
+          decoration: BoxDecoration(
+            color: AppColors.white,
             borderRadius: BorderRadius.circular(10),
           ),
           child: Stack(
@@ -423,6 +423,9 @@ class ListPresensi extends StatelessWidget {
             ],
           ),
         );
+      },
+      separatorBuilder: (context, index) {
+        return const SpaceHeight(6);
       },
     );
   }

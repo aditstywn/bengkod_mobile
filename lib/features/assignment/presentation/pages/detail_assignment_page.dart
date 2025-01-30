@@ -4,6 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 import '../../../../core/components/buttons.dart';
 import '../../../../core/components/error_card.dart';
@@ -76,9 +77,35 @@ class _DetailAssignmentPageState extends State<DetailAssignmentPage> {
                 ),
               );
             },
-            loading: () => const Center(
-              child: CircularProgressIndicator(),
-            ),
+            loading: () {
+              return ListView(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 16,
+                ),
+                children: [
+                  Shimmer(
+                    child: Container(
+                      height: 65,
+                      decoration: BoxDecoration(
+                        color: AppColors.shimer,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                  const SpaceHeight(16),
+                  Shimmer(
+                    child: Container(
+                      height: 538,
+                      decoration: BoxDecoration(
+                        color: AppColors.shimer,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  )
+                ],
+              );
+            },
             getDetailAssignmentSuccess: (detailAssignmentResponseModel) {
               return RefreshIndicator(
                 onRefresh: () async {
