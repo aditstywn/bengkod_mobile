@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/components/error_card.dart';
 import '../../../../core/components/spaces.dart';
-import '../../../../core/config/app_color.dart';
 import '../bloc/class/class_bloc.dart';
 import '../widgets/class_card.dart';
 import 'information_page.dart';
@@ -27,15 +26,9 @@ class _ClassPageState extends State<ClassPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.white,
         title: const Text(
           'Class',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
         ),
-        centerTitle: true,
       ),
       body: BlocBuilder<ClassBloc, ClassState>(
         builder: (context, state) {

@@ -29,15 +29,7 @@ class _ClassCoursesPageState extends State<ClassCoursesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.white,
-        title: const Text(
-          'Class Courses',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
+        title: const Text('Class Courses'),
       ),
       body: BlocBuilder<ClassAssignmentBloc, ClassAssignmentState>(
         builder: (context, state) {

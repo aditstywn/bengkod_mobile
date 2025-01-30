@@ -44,15 +44,7 @@ class _IzinPageState extends State<IzinPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.white,
-        title: const Text(
-          'Form Izin',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
+        title: const Text('Form Izin'),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),

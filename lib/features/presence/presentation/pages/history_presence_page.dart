@@ -18,15 +18,7 @@ class _HistoryPresencePageState extends State<HistoryPresencePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.white,
-        title: const Text(
-          'History Presence',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
+        title: const Text('History Presence'),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),

@@ -31,15 +31,7 @@ class _DetailPresencePageState extends State<DetailPresencePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.white,
-        title: const Text(
-          'Detail Presence',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
+        title: const Text('Detail Presence'),
       ),
       body: BlocBuilder<PresencesBloc, PresencesState>(
         builder: (context, state) {

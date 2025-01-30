@@ -46,15 +46,7 @@ class _DetailAssignmentPageState extends State<DetailAssignmentPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.white,
-        title: const Text(
-          'Detail Assignment',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
+        title: const Text('Detail Assignment'),
       ),
       body: BlocBuilder<DetailAssignmentBloc, DetailAssignmentState>(
         builder: (context, state) {

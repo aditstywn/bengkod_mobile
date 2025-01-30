@@ -1,7 +1,7 @@
+import 'package:bengkod_mobile_app/core/style/theme/bengkod_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'core/config/app_color.dart';
 import 'features/assignment/data/datasource/assignment_remote_datasource.dart';
 import 'features/assignment/presentation/bloc/assignment/assignment_bloc.dart';
 import 'features/assignment/presentation/bloc/classAndAssigment/class_and_assignment_bloc.dart';
@@ -141,10 +141,9 @@ class MyApp extends StatelessWidget {
         ],
         child: MaterialApp(
           title: 'Flutter Demo',
-          theme: ThemeData(
-            scaffoldBackgroundColor: AppColors.background,
-            useMaterial3: true,
-          ),
+          theme: BengkodTheme.lightTheme,
+          darkTheme: BengkodTheme.darkTheme,
+          themeMode: ThemeMode.system,
           home: const SplashPage(),
         ),
       ),
