@@ -42,7 +42,6 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<ProfileBloc>().add(const ProfileEvent.getProfile());
       context
           .read<LatestAssignmentBloc>()
           .add(const LatestAssignmentEvent.getLatestAssignment());

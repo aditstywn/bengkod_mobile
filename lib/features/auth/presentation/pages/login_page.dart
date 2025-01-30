@@ -9,6 +9,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../core/components/custom_text_field.dart';
+import '../../../class/presentation/bloc/class/class_bloc.dart';
+import '../../../home/presentation/bloc/active_course/active_course_bloc.dart';
+import '../../../home/presentation/bloc/latest_assignment/latest_assignment_bloc.dart';
+import '../../../profile/presentation/bloc/profile_bloc.dart';
 import '../../data/models/request/login_request_model.dart';
 import '../bloc/auth_bloc.dart';
 
@@ -89,6 +93,17 @@ class _LoginPageState extends State<LoginPage> {
                   context.pushReplacement(const MainNav());
                   emailController.clear();
                   passwordController.clear();
+
+                  context
+                      .read<LatestAssignmentBloc>()
+                      .add(const LatestAssignmentEvent.getLatestAssignment());
+                  context
+                      .read<ActiveCourseBloc>()
+                      .add(const ActiveCourseEvent.getActiveCourse());
+                  context.read<ClassBloc>().add(const ClassEvent.getClass());
+                  context
+                      .read<ProfileBloc>()
+                      .add(const ProfileEvent.getProfile());
                 },
                 error: (message) {
                   showDialog(

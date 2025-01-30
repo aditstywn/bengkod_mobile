@@ -71,8 +71,8 @@ class _DetailAssignmentPageState extends State<DetailAssignmentPage> {
                         DetailAssignmentEvent.getDetailAssignment(
                             widget.idClass, widget.idAssignment));
                   },
-                  child: const ErrorCard(
-                    message: 'Gagal mendapatkan data detailAssignment',
+                  child: ErrorCard(
+                    message: message,
                   ),
                 ),
               );
@@ -366,67 +366,83 @@ class _DetailAssignmentPageState extends State<DetailAssignmentPage> {
                                         },
                                       ),
                                       const SpaceHeight(10),
-                                      BlocConsumer<SubmitBloc, SubmitState>(
-                                        listener: (context, state) {
-                                          state.maybeWhen(
-                                            orElse: () {},
-                                            submitTaskSuccess:
-                                                (submitAssignmentResponseModel) {
-                                              context.pushReplacement(
-                                                  DetailAssignmentPage(
-                                                idAssignment:
-                                                    widget.idAssignment,
-                                                idClass: widget.idClass,
-                                              ));
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                const SnackBar(
-                                                  backgroundColor: Colors.green,
-                                                  content: Text(
-                                                    'Submit Success',
-                                                    style: TextStyle(
-                                                      color: Colors.black,
-                                                    ),
+                                      detailAssignmentResponseModel
+                                                  .data.isUploaded ==
+                                              false
+                                          ? SizedBox(
+                                              height: 50,
+                                            )
+                                          : BlocConsumer<SubmitBloc,
+                                              SubmitState>(
+                                              listener: (context, state) {
+                                                state.maybeWhen(
+                                                  orElse: () {},
+                                                  submitTaskSuccess:
+                                                      (submitAssignmentResponseModel) {
+                                                    context.pushReplacement(
+                                                        DetailAssignmentPage(
+                                                      idAssignment:
+                                                          widget.idAssignment,
+                                                      idClass: widget.idClass,
+                                                    ));
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                      const SnackBar(
+                                                        backgroundColor:
+                                                            Colors.green,
+                                                        content: Text(
+                                                          'Submit Success',
+                                                          style: TextStyle(
+                                                            color: Colors.black,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                  error: (message) {
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                      SnackBar(
+                                                        backgroundColor:
+                                                            Colors.red,
+                                                        content: Text(
+                                                          message,
+                                                          style:
+                                                              const TextStyle(
+                                                            color: Colors.black,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                              builder: (context, state) {
+                                                return state.maybeWhen(
+                                                  loading: () => const Center(
+                                                    child:
+                                                        CircularProgressIndicator(),
                                                   ),
-                                                ),
-                                              );
-                                            },
-                                            error: (message) {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  backgroundColor: Colors.red,
-                                                  content: Text(
-                                                    message,
-                                                    style: const TextStyle(
-                                                      color: Colors.black,
-                                                    ),
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                          );
-                                        },
-                                        builder: (context, state) {
-                                          return state.maybeWhen(
-                                            loading: () => const Center(
-                                              child:
-                                                  CircularProgressIndicator(),
+                                                  orElse: () {
+                                                    return Button.filled(
+                                                      onPressed: () {
+                                                        context
+                                                            .read<SubmitBloc>()
+                                                            .add(SubmitEvent
+                                                                .submitTask(
+                                                                    widget
+                                                                        .idClass,
+                                                                    widget
+                                                                        .idAssignment));
+                                                      },
+                                                      label: 'Submit',
+                                                    );
+                                                  },
+                                                );
+                                              },
                                             ),
-                                            orElse: () {
-                                              return Button.filled(
-                                                onPressed: () {
-                                                  context.read<SubmitBloc>().add(
-                                                      SubmitEvent.submitTask(
-                                                          widget.idClass,
-                                                          widget.idAssignment));
-                                                },
-                                                label: 'Submit',
-                                              );
-                                            },
-                                          );
-                                        },
-                                      ),
                                     ],
                                   )
                           ],

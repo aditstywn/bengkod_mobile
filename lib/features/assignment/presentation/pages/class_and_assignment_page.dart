@@ -52,9 +52,10 @@ class _ClassAndAssignmentPageState extends State<ClassAndAssignmentPage> {
                   return Shimmer(
                     child: SizedBox(
                       height: 205,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: AppColors.shimer,
+                      child: Card(
+                        elevation: 1,
+                        color: AppColors.shimer,
+                        shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
