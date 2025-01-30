@@ -15,7 +15,7 @@ class ClassCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: onTap,
       child: Stack(
         children: [
