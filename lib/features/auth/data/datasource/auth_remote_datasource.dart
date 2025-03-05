@@ -26,10 +26,10 @@ class AuthRemoteDatasource {
       if (response.statusCode == 200) {
         return Right(LoginResponseModel.fromJson(response.body));
       } else {
-        return const Left('Login Gagal');
+        return const Left('Email atau Password Salah');
       }
     } catch (e) {
-      return const Left('Login Gagal');
+      return const Left('Email atau Password Salah');
     }
   }
 

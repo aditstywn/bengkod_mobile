@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import 'package:lottie/lottie.dart';
 
 import '../components/buttons.dart';
 import '../components/url_launcer.dart';
@@ -53,6 +54,65 @@ extension NavigatorExt on BuildContext {
       content: Text(message),
       backgroundColor: color,
     ));
+  }
+
+  void showAlert(bool type, String content, [double? minHeigth]) {
+    showDialog(
+      context: this,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        backgroundColor: AppColors.white,
+        title: Center(
+          child: Lottie.asset(
+            type
+                ? "assets/icon_json/icon_success.json"
+                : "assets/icon_json/icon_warning.json",
+            width: 80,
+            height: 80,
+          ),
+        ),
+        content: ConstrainedBox(
+          constraints: BoxConstraints(
+            minHeight: minHeigth ?? 100,
+            maxHeight: 400,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                type ? 'Berhasil' : 'Ooops!',
+                style: TextStyle(
+                  color: type ? AppColors.green : AppColors.error,
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              Text(
+                content,
+                style: TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          Button.outlined(
+            height: 40,
+            width: 70,
+            label: 'OK',
+            fontSize: 16,
+            color: AppColors.white,
+            borderColor: type ? AppColors.green : AppColors.error,
+            textColor: type ? AppColors.green : AppColors.error,
+            onPressed: () => Navigator.pop(context),
+          ),
+        ],
+      ),
+    );
   }
 
   void showAlertFile(String title, String url, bool type) {

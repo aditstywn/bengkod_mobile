@@ -106,53 +106,10 @@ class _LoginPageState extends State<LoginPage> {
                       .add(const ProfileEvent.getProfile());
                 },
                 error: (message) {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        backgroundColor: AppColors.white,
-                        title: const Row(
-                          children: [
-                            Icon(
-                              Icons.error,
-                              color: Colors.red,
-                            ),
-                            SpaceWidth(8),
-                            Text(
-                              'Info Error',
-                              style: TextStyle(
-                                color: Colors.red,
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                        content: Text(
-                          message,
-                          style: const TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        actions: [
-                          TextButton(
-                            style: TextButton.styleFrom(
-                              backgroundColor: AppColors.primary,
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: const Text(
-                              'OK',
-                              style: TextStyle(
-                                color: AppColors.white,
-                              ),
-                            ),
-                          ),
-                        ],
-                      );
-                    },
+                  context.showAlert(
+                    false,
+                    message,
+                    50,
                   );
 
                   passwordController.clear();

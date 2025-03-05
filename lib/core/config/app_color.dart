@@ -29,7 +29,9 @@ class AppColors {
 
   static const Color blue = Colors.blue;
 
-  static const Color green = Colors.green;
+  static const Color green = Color(0xFF389517);
+
+  static Color error = const Color(0xFFE45E5E);
 
   // menu
   static const Color assignment = Color(0xffF47B73);
