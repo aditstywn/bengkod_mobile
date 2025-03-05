@@ -20,6 +20,7 @@ class Button extends StatelessWidget {
     this.disabled = false,
     this.fontSize = 16.0,
     this.borderColor,
+    this.isLoading,
   });
 
   const Button.outlined({
@@ -37,6 +38,7 @@ class Button extends StatelessWidget {
     this.disabled = false,
     this.fontSize = 16.0,
     this.borderColor,
+    this.isLoading,
   });
 
   final Function() onPressed;
@@ -52,6 +54,7 @@ class Button extends StatelessWidget {
   final bool disabled;
   final double fontSize;
   final Color? borderColor;
+  final bool? isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -77,14 +80,22 @@ class Button extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Center(
-                  child: Text(
-                    label,
-                    style: TextStyle(
-                      color: textColor,
-                      fontSize: fontSize,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
+                  child: isLoading == true
+                      ? SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(
+                            color: AppColors.white,
+                          ),
+                        )
+                      : Text(
+                          label,
+                          style: TextStyle(
+                            color: textColor,
+                            fontSize: fontSize,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
                 ),
               ))
           : OutlinedButton(

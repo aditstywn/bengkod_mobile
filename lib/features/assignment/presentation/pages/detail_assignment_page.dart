@@ -12,7 +12,6 @@ import '../../../../core/components/spaces.dart';
 import '../../../../core/config/app_color.dart';
 import '../../../../core/extensions/build_context_ext.dart';
 import '../../../../core/extensions/date_time_ext.dart';
-import '../../data/datasource/assignment_remote_datasource.dart';
 import '../../data/models/request/upload_task_request_model.dart';
 import '../bloc/detailAssignment/detail_assignment_bloc.dart';
 import '../bloc/submit/submit_bloc.dart';
@@ -96,7 +95,7 @@ class _DetailAssignmentPageState extends State<DetailAssignmentPage> {
                   const SpaceHeight(16),
                   Shimmer(
                     child: Container(
-                      height: 538,
+                      height: context.deviceHeight - 200,
                       decoration: BoxDecoration(
                         color: AppColors.shimer,
                         borderRadius: BorderRadius.circular(10),
@@ -207,11 +206,21 @@ class _DetailAssignmentPageState extends State<DetailAssignmentPage> {
                             const SpaceHeight(10),
                             Button.filled(
                               onPressed: () async {
-                                await AssignmentRemoteDatasource().downloadTask(
-                                    detailAssignmentResponseModel
-                                        .data.questionFile!);
-                                print(detailAssignmentResponseModel
-                                    .data.questionFile);
+                                final url = detailAssignmentResponseModel
+                                    .data.questionFile;
+                                final fileExtention = url
+                                    .toString()
+                                    .split('.')
+                                    .last
+                                    .toLowerCase();
+
+                                if (url != null) {
+                                  if (['pdf'].contains(fileExtention)) {
+                                    context.showAlertFile('PDF', url, true);
+                                  } else {
+                                    context.showAlertFile('Image', url, false);
+                                  }
+                                }
                               },
                               label: detailAssignmentResponseModel
                                           .data.questionFile !=
@@ -225,23 +234,44 @@ class _DetailAssignmentPageState extends State<DetailAssignmentPage> {
                                   : AppColors.grey,
                             ),
                             const SpaceHeight(20),
-                            const Text(
-                              'Upload File',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                              ),
+                            Row(
+                              children: [
+                                const Text(
+                                  'Upload File',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                SpaceWidth(10),
+                                const Text(
+                                  '( PDF, DOC, DOCX, TXT )',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: AppColors.grey,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
                             ),
                             const SpaceHeight(10),
                             task == true
                                 ? Button.filled(
                                     onPressed: () async {
-                                      await AssignmentRemoteDatasource()
-                                          .downloadTask(
-                                              detailAssignmentResponseModel
-                                                  .data.tasks[0].answerFile);
-                                      print(detailAssignmentResponseModel
-                                          .data.tasks[0].answerFile);
+                                      final url = detailAssignmentResponseModel
+                                          .data.tasks[0].answerFile;
+                                      final fileExtention = url
+                                          .toString()
+                                          .split('.')
+                                          .last
+                                          .toLowerCase();
+
+                                      if (['pdf'].contains(fileExtention)) {
+                                        context.showAlertFile('PDF', url, true);
+                                      } else {
+                                        context.showAlertFile(
+                                            'Image', url, false);
+                                      }
                                     },
                                     label: 'Click to Download your File',
                                     color: AppColors.assignGreen,
@@ -324,28 +354,80 @@ class _DetailAssignmentPageState extends State<DetailAssignmentPage> {
                                         },
                                         builder: (context, state) {
                                           return state.maybeWhen(
-                                            loading: () => const Center(
-                                              child:
-                                                  CircularProgressIndicator(),
+                                            loading: () => Button.filled(
+                                              onPressed: () {},
+                                              label: 'Loading...',
+                                              isLoading: true,
+                                              color:
+                                                  detailAssignmentResponseModel
+                                                              .data
+                                                              .isUploaded ==
+                                                          true
+                                                      ? AppColors.course
+                                                      : AppColors.assignment,
                                             ),
                                             orElse: () {
                                               return Button.filled(
-                                                onPressed: () {
-                                                  final fileTask = File(
-                                                      file!.files.single.path!);
-                                                  final task =
-                                                      UploadTaskRequestModel(
-                                                          comment:
-                                                              'Not Comment',
-                                                          file: fileTask);
-                                                  context.read<TaskBloc>().add(
-                                                        TaskEvent.uploadTask(
-                                                            task,
-                                                            widget.idClass,
-                                                            widget
-                                                                .idAssignment),
-                                                      );
-                                                },
+                                                onPressed: file
+                                                            ?.files.isEmpty !=
+                                                        true
+                                                    ? () {
+                                                        final fileTask = File(
+                                                            file?.files.single
+                                                                    .path ??
+                                                                '');
+                                                        final fileExtension =
+                                                            fileTask.path
+                                                                .split('.')
+                                                                .last
+                                                                .toLowerCase();
+
+                                                        final task =
+                                                            UploadTaskRequestModel(
+                                                                comment:
+                                                                    'Not Comment',
+                                                                file: fileTask);
+
+                                                        if (fileTask
+                                                            .path.isNotEmpty) {
+                                                          if (![
+                                                            'pdf',
+                                                            'doc',
+                                                            'docx',
+                                                            'txt'
+                                                          ].contains(
+                                                              fileExtension)) {
+                                                            ScaffoldMessenger
+                                                                    .of(context)
+                                                                .showSnackBar(
+                                                              SnackBar(
+                                                                backgroundColor:
+                                                                    Colors.red,
+                                                                content: Text(
+                                                                  'File type not allowed',
+                                                                  style:
+                                                                      const TextStyle(
+                                                                    color: Colors
+                                                                        .black,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            );
+                                                            return;
+                                                          }
+                                                          context
+                                                              .read<TaskBloc>()
+                                                              .add(
+                                                                TaskEvent.uploadTask(
+                                                                    task,
+                                                                    widget
+                                                                        .idClass,
+                                                                    widget
+                                                                        .idAssignment),
+                                                              );
+                                                        }
+                                                      }
+                                                    : () {},
                                                 label:
                                                     detailAssignmentResponseModel
                                                                 .data
@@ -369,9 +451,7 @@ class _DetailAssignmentPageState extends State<DetailAssignmentPage> {
                                       detailAssignmentResponseModel
                                                   .data.isUploaded ==
                                               false
-                                          ? SizedBox(
-                                              height: 50,
-                                            )
+                                          ? SizedBox()
                                           : BlocConsumer<SubmitBloc,
                                               SubmitState>(
                                               listener: (context, state) {
@@ -421,9 +501,10 @@ class _DetailAssignmentPageState extends State<DetailAssignmentPage> {
                                               },
                                               builder: (context, state) {
                                                 return state.maybeWhen(
-                                                  loading: () => const Center(
-                                                    child:
-                                                        CircularProgressIndicator(),
+                                                  loading: () => Button.filled(
+                                                    onPressed: () {},
+                                                    label: 'Loading...',
+                                                    isLoading: true,
                                                   ),
                                                   orElse: () {
                                                     return Button.filled(

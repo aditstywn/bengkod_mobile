@@ -342,8 +342,10 @@ class _ProfilePageState extends State<ProfilePage> {
                       label: 'Logout',
                     );
                   }, loading: () {
-                    return const Center(
-                      child: CircularProgressIndicator(),
+                    return Button.filled(
+                      onPressed: () {},
+                      label: 'Loading...',
+                      isLoading: true,
                     );
                   });
                 },

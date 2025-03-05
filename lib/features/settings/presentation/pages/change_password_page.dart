@@ -178,8 +178,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     label: 'Change Password',
                   );
                 },
-                loading: () => const Center(
-                  child: CircularProgressIndicator(),
+                loading: () => Button.filled(
+                  onPressed: () {},
+                  label: 'Loading...',
+                  isLoading: true,
                 ),
               );
             },

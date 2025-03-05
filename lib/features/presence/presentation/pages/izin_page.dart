@@ -183,8 +183,10 @@ class _IzinPageState extends State<IzinPage> {
             builder: (context, state) {
               return state.maybeWhen(
                 loading: () {
-                  return const Center(
-                    child: CircularProgressIndicator(),
+                  return Button.filled(
+                    onPressed: () {},
+                    label: 'Loading...',
+                    isLoading: true,
                   );
                 },
                 orElse: () {

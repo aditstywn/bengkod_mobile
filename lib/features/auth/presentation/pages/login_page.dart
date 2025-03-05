@@ -161,8 +161,10 @@ class _LoginPageState extends State<LoginPage> {
             },
             builder: (context, state) {
               return state.maybeWhen(
-                loading: () => const Center(
-                  child: CircularProgressIndicator(),
+                loading: () => Button.filled(
+                  onPressed: () {},
+                  label: 'Loading...',
+                  isLoading: true,
                 ),
                 orElse: () {
                   return Button.filled(

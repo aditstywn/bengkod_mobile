@@ -1,6 +1,4 @@
-import 'package:bengkod_mobile_app/core/components/show_top_notification.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/components/spaces.dart';
 import '../../../../core/config/app_color.dart';
@@ -26,30 +24,6 @@ class ListPresensi extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future<void> launchInBrowser(Uri url, BuildContext context) async {
-      try {
-        if (!await launchUrl(
-          url,
-          mode: LaunchMode.externalApplication,
-        )) {
-          if (context.mounted) {
-            ShowTopNotification(success: false).show(
-              context,
-              'Gagal membuka link...',
-            );
-          }
-          throw Exception('Could not launch $url');
-        }
-      } catch (e) {
-        if (context.mounted) {
-          ShowTopNotification(success: false).show(
-            context,
-            'Terjadi kesalahan: ${e.toString()}',
-          );
-        }
-      }
-    }
-
     return ListView.separated(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -264,36 +238,26 @@ class ListPresensi extends StatelessWidget {
                                                     ),
                                                     GestureDetector(
                                                       onTap: () async {
-                                                        launchInBrowser(
-                                                            Uri.parse(absence!
-                                                                .attachment!),
-                                                            context);
-                                                        // final success =
-                                                        //     await AssignmentRemoteDatasource()
-                                                        //         .downloadTask(
-                                                        //             absence!
-                                                        //                 .attachment!);
+                                                        final url = absence
+                                                                ?.attachment ??
+                                                            '';
+                                                        final fileExtention =
+                                                            url
+                                                                .toString()
+                                                                .split('.')
+                                                                .last
+                                                                .toLowerCase();
 
-                                                        // if (success) {
-                                                        //   if (context.mounted) {
-                                                        //     ShowTopNotification(
-                                                        //             success:
-                                                        //                 true)
-                                                        //         .show(
-                                                        //       context,
-                                                        //       'File berhasil diunduh...',
-                                                        //     );
-                                                        //   }
-                                                        // } else {
-                                                        //   if (context.mounted) {
-                                                        //     ShowTopNotification(
-                                                        //       success: false,
-                                                        //     ).show(
-                                                        //       context,
-                                                        //       'Gagal mengunduh file...',
-                                                        //     );
-                                                        //   }
-                                                        // }
+                                                        if (['pdf'].contains(
+                                                            fileExtention)) {
+                                                          context.showAlertFile(
+                                                              'PDF', url, true);
+                                                        } else {
+                                                          context.showAlertFile(
+                                                              'Image',
+                                                              url,
+                                                              false);
+                                                        }
                                                       },
                                                       child: const Text(
                                                         'Unduh File',
