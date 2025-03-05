@@ -1,15 +1,16 @@
-import 'package:bengkod_mobile_app/features/class/presentation/bloc/student/student_bloc.dart';
-import 'package:shimmer_animation/shimmer_animation.dart';
-
-import '../bloc/instructor/instructor_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
+
+import 'build_text_links.dart';
 
 import '../../../../core/components/spaces.dart';
 import '../../../../core/config/app_color.dart';
 import '../../../../core/extensions/build_context_ext.dart';
 import '../bloc/information/information_bloc.dart';
+import '../bloc/instructor/instructor_bloc.dart';
+import '../bloc/student/student_bloc.dart';
 
 class InformationPage extends StatefulWidget {
   final int id;
@@ -189,62 +190,78 @@ class _InformationPageState extends State<InformationPage> {
                     child: Text(message),
                   ),
                   loading: () {
-                    return Shimmer(
-                      child: Container(
-                        height: 120,
-                        decoration: BoxDecoration(
-                          color: AppColors.shimer,
-                          borderRadius: BorderRadius.circular(10),
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Information',
+                          style: TextStyle(
+                            color: AppColors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
+                        const SpaceHeight(10),
+                        Shimmer(
+                          child: Container(
+                            height: 120,
+                            decoration: BoxDecoration(
+                              color: AppColors.shimer,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                        ),
+                      ],
                     );
                   },
                   getInformationSuccess: (informationClassResponseModel) {
-                    return ListView.separated(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: informationClassResponseModel.data.length,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          decoration: BoxDecoration(
-                            color: AppColors.white,
-                            borderRadius: BorderRadius.circular(10),
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Information',
+                          style: TextStyle(
+                            color: AppColors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
                           ),
-                          padding: const EdgeInsets.all(16),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                'Information',
-                                style: TextStyle(
-                                  color: AppColors.black,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                        ),
+                        const SpaceHeight(10),
+                        ListView.separated(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: informationClassResponseModel.data.length,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                color: AppColors.white,
+                                borderRadius: BorderRadius.circular(10),
                               ),
+                              padding: const EdgeInsets.all(16),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    informationClassResponseModel
+                                        .data[index].title,
+                                    style: const TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  const SpaceHeight(5),
+                                  buildTextWithLinks(
+                                      context,
+                                      informationClassResponseModel
+                                          .data[index].description),
+                                ],
+                              ),
+                            );
+                          },
+                          separatorBuilder: (context, index) =>
                               const SpaceHeight(10),
-                              Text(
-                                informationClassResponseModel.data[index].title,
-                                style: const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              const SpaceHeight(5),
-                              Text(
-                                informationClassResponseModel
-                                    .data[index].description,
-                                style: const TextStyle(
-                                  color: AppColors.grey,
-                                  fontSize: 13,
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                      separatorBuilder: (context, index) =>
-                          const SpaceHeight(10),
+                        ),
+                      ],
                     );
                   },
                 );
@@ -260,6 +277,7 @@ class _InformationPageState extends State<InformationPage> {
                   ),
                   loading: () {
                     return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
                           'Structure Class',
@@ -269,7 +287,7 @@ class _InformationPageState extends State<InformationPage> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SpaceHeight(6),
+                        const SpaceHeight(10),
                         Shimmer(
                           child: Container(
                             height: 216,
@@ -284,6 +302,7 @@ class _InformationPageState extends State<InformationPage> {
                   },
                   getInstructorSuccess: (instructorClassResponseModel) {
                     return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
                           'Structure Class',
@@ -293,7 +312,7 @@ class _InformationPageState extends State<InformationPage> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SpaceHeight(6),
+                        const SpaceHeight(10),
                         Container(
                           decoration: BoxDecoration(
                             color: AppColors.white,
