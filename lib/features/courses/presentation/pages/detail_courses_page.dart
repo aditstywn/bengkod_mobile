@@ -1,16 +1,17 @@
-import '../../../../core/components/error_card.dart';
-import '../../../../core/extensions/build_context_ext.dart';
-import 'package:bengkod_mobile_app/core/extensions/string_truncut_ext.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
-
-import '../bloc/article/article_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:markdown/markdown.dart' as md;
-import 'package:html2md/html2md.dart' as html;
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_markdown_latex/flutter_markdown_latex.dart';
+import 'package:html2md/html2md.dart' as html;
+import 'package:markdown/markdown.dart' as md;
+import 'package:shimmer_animation/shimmer_animation.dart';
 
+import '../../../../core/extensions/string_truncut_ext.dart';
+
+import '../../../../core/components/error_card.dart';
 import '../../../../core/config/app_color.dart';
+import '../../../../core/extensions/build_context_ext.dart';
+import '../bloc/article/article_bloc.dart';
 
 class DetailCoursesPage extends StatefulWidget {
   final int idCourses;
@@ -42,8 +43,50 @@ class _DetailCoursesPageState extends State<DetailCoursesPage> {
         builder: (context, state) {
           return state.maybeWhen(
             orElse: () => const SizedBox(),
-            loading: () => const Center(
-              child: CircularProgressIndicator(),
+            loading: () => Shimmer(
+              child: Column(
+                children: [
+                  Flexible(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        top: 10,
+                        left: 16,
+                        right: 16,
+                      ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.shimer,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 34,
+                          width: 125.6,
+                          decoration: BoxDecoration(
+                            color: AppColors.shimer,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        Spacer(),
+                        Container(
+                          height: 34,
+                          width: 125.6,
+                          decoration: BoxDecoration(
+                            color: AppColors.shimer,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
             error: (message) {
               return Padding(
@@ -80,110 +123,113 @@ class _DetailCoursesPageState extends State<DetailCoursesPage> {
                       left: 16,
                       right: 16,
                     ),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: AppColors.white,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 16,
-                        ),
-                        child: MarkdownBody(
-                          data: dataContent.replaceAll('<br>', '\n'),
-                          // data: articleResponseModel.data.content,
-                          selectable: true,
-                          styleSheet: MarkdownStyleSheet(
-                            p: const TextStyle(
-                              fontSize: 14,
-                              color: AppColors.black,
-                            ),
-                            h1: const TextStyle(
-                              fontSize: 24,
-                              color: AppColors.black,
-                              // fontWeight: FontWeight.bold,
-                            ),
-                            h2: const TextStyle(
-                              fontSize: 22,
-                              color: AppColors.black,
-                            ),
-                            h3: const TextStyle(
-                              fontSize: 20,
-                              color: AppColors.black,
-                            ),
-                            h4: const TextStyle(
-                              fontSize: 18,
-                              color: AppColors.black,
-                            ),
-                            h5: const TextStyle(
-                              fontSize: 16,
-                              color: AppColors.black,
-                            ),
-                            h6: const TextStyle(
-                              fontSize: 14,
-                              color: AppColors.black,
-                            ),
-                            blockquote: const TextStyle(
-                              fontSize: 16,
-                              color: AppColors.black,
-                            ),
-                            code: const TextStyle(
-                              fontSize: 12,
-                              color: AppColors.black,
-                            ),
-                            em: const TextStyle(
-                              fontSize: 16,
-                              color: AppColors.black,
-                            ),
-                            strong: const TextStyle(
-                              fontSize: 16,
-                              color: AppColors.black,
-                            ),
-                            del: const TextStyle(
-                              fontSize: 16,
-                              color: AppColors.black,
-                            ),
-                            tableHead: const TextStyle(
-                              fontSize: 12,
-                              color: AppColors.black,
-                            ),
-                            tableBody: const TextStyle(
-                              fontSize: 10,
-                              color: AppColors.black,
-                            ),
-                            tableHeadAlign: TextAlign.center,
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: AppColors.white,
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                          builders: {
-                            'latex': LatexElementBuilder(
-                              textStyle: const TextStyle(
-                                color: Colors.blue,
-                                fontWeight: FontWeight.w100,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 16,
+                          ),
+                          child: MarkdownBody(
+                            data: dataContent.replaceAll('<br>', '\n'),
+                            // data: articleResponseModel.data.content,
+                            selectable: true,
+                            styleSheet: MarkdownStyleSheet(
+                              p: const TextStyle(
+                                fontSize: 14,
+                                color: AppColors.black,
                               ),
-                              textScaleFactor: 1.2,
+                              h1: const TextStyle(
+                                fontSize: 24,
+                                color: AppColors.black,
+                                // fontWeight: FontWeight.bold,
+                              ),
+                              h2: const TextStyle(
+                                fontSize: 22,
+                                color: AppColors.black,
+                              ),
+                              h3: const TextStyle(
+                                fontSize: 20,
+                                color: AppColors.black,
+                              ),
+                              h4: const TextStyle(
+                                fontSize: 18,
+                                color: AppColors.black,
+                              ),
+                              h5: const TextStyle(
+                                fontSize: 16,
+                                color: AppColors.black,
+                              ),
+                              h6: const TextStyle(
+                                fontSize: 14,
+                                color: AppColors.black,
+                              ),
+                              blockquote: const TextStyle(
+                                fontSize: 16,
+                                color: AppColors.black,
+                              ),
+                              code: const TextStyle(
+                                fontSize: 12,
+                                color: AppColors.black,
+                              ),
+                              em: const TextStyle(
+                                fontSize: 16,
+                                color: AppColors.black,
+                              ),
+                              strong: const TextStyle(
+                                fontSize: 16,
+                                color: AppColors.black,
+                              ),
+                              del: const TextStyle(
+                                fontSize: 16,
+                                color: AppColors.black,
+                              ),
+                              tableHead: const TextStyle(
+                                fontSize: 12,
+                                color: AppColors.black,
+                              ),
+                              tableBody: const TextStyle(
+                                fontSize: 10,
+                                color: AppColors.black,
+                              ),
+                              tableHeadAlign: TextAlign.center,
                             ),
-                          },
-                          imageBuilder: (uri, title, alt) {
-                            return Center(
-                              child: Image.network(
-                                uri.toString(),
-                                errorBuilder: (context, error, stackTrace) {
-                                  return const Text('Gagal memuat gambar',
-                                      style: TextStyle(color: Colors.red));
-                                },
+                            builders: {
+                              'latex': LatexElementBuilder(
+                                textStyle: const TextStyle(
+                                  color: Colors.blue,
+                                  fontWeight: FontWeight.w100,
+                                ),
+                                textScaleFactor: 1.2,
                               ),
-                            );
-                          },
-                          extensionSet: md.ExtensionSet(
-                            [
-                              const md.TableSyntax(),
-                              const md.FencedCodeBlockSyntax(),
-                              LatexBlockSyntax(),
-                            ],
-                            [
-                              LatexInlineSyntax(),
-                            ],
+                            },
+                            imageBuilder: (uri, title, alt) {
+                              return Center(
+                                child: Image.network(
+                                  uri.toString(),
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return const Text('Gagal memuat gambar',
+                                        style: TextStyle(color: Colors.red));
+                                  },
+                                ),
+                              );
+                            },
+                            extensionSet: md.ExtensionSet(
+                              [
+                                const md.TableSyntax(),
+                                const md.FencedCodeBlockSyntax(),
+                                LatexBlockSyntax(),
+                              ],
+                              [
+                                LatexInlineSyntax(),
+                              ],
+                            ),
                           ),
                         ),
                       ),
