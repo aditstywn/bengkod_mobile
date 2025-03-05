@@ -105,6 +105,9 @@ class _ClassAndAssignmentPageState extends State<ClassAndAssignmentPage> {
                           showDialog(
                             context: context,
                             builder: (context) => AlertDialog(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
                               backgroundColor: AppColors.white,
                               title: const Text(
                                 'Tugas Ditutup !!!',
@@ -121,6 +124,9 @@ class _ClassAndAssignmentPageState extends State<ClassAndAssignmentPage> {
                               actions: [
                                 TextButton(
                                   style: TextButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
                                     backgroundColor: AppColors.primary,
                                   ),
                                   onPressed: () => Navigator.pop(context),

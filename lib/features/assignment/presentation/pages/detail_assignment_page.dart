@@ -9,6 +9,7 @@ import 'package:shimmer_animation/shimmer_animation.dart';
 import '../../../../core/components/buttons.dart';
 import '../../../../core/components/error_card.dart';
 import '../../../../core/components/spaces.dart';
+import '../../../../core/components/url_launcer.dart';
 import '../../../../core/config/app_color.dart';
 import '../../../../core/extensions/build_context_ext.dart';
 import '../../../../core/extensions/date_time_ext.dart';
@@ -268,9 +269,13 @@ class _DetailAssignmentPageState extends State<DetailAssignmentPage> {
 
                                       if (['pdf'].contains(fileExtention)) {
                                         context.showAlertFile('PDF', url, true);
-                                      } else {
+                                      } else if (['jpg', 'jpeg', 'png']
+                                          .contains(fileExtention)) {
                                         context.showAlertFile(
                                             'Image', url, false);
+                                      } else {
+                                        UrlLauncer().launchInBrowser(
+                                            Uri.parse(url), context);
                                       }
                                     },
                                     label: 'Click to Download your File',
@@ -323,32 +328,15 @@ class _DetailAssignmentPageState extends State<DetailAssignmentPage> {
                                                 idAssignment:
                                                     widget.idAssignment,
                                               ));
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                const SnackBar(
-                                                  backgroundColor: Colors.green,
-                                                  content: Text(
-                                                    'Upload Success',
-                                                    style: TextStyle(
-                                                      color: Colors.black,
-                                                    ),
-                                                  ),
-                                                ),
-                                              );
+                                              context.showAlert(
+                                                  true,
+                                                  detailAssignmentResponseModel
+                                                          .data.isUploaded
+                                                      ? 'Update Tugas Berhasil'
+                                                      : 'Upload Tugas Berhasil');
                                             },
                                             error: (message) {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  backgroundColor: Colors.red,
-                                                  content: Text(
-                                                    message,
-                                                    style: const TextStyle(
-                                                      color: Colors.black,
-                                                    ),
-                                                  ),
-                                                ),
-                                              );
+                                              context.showAlert(false, message);
                                             },
                                           );
                                         },
@@ -397,22 +385,9 @@ class _DetailAssignmentPageState extends State<DetailAssignmentPage> {
                                                             'txt'
                                                           ].contains(
                                                               fileExtension)) {
-                                                            ScaffoldMessenger
-                                                                    .of(context)
-                                                                .showSnackBar(
-                                                              SnackBar(
-                                                                backgroundColor:
-                                                                    Colors.red,
-                                                                content: Text(
-                                                                  'File type not allowed',
-                                                                  style:
-                                                                      const TextStyle(
-                                                                    color: Colors
-                                                                        .black,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            );
+                                                            context.showAlert(
+                                                                false,
+                                                                'Jenis File Ini Tidak Diizinkan ');
                                                             return;
                                                           }
                                                           context
@@ -465,37 +440,13 @@ class _DetailAssignmentPageState extends State<DetailAssignmentPage> {
                                                           widget.idAssignment,
                                                       idClass: widget.idClass,
                                                     ));
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(
-                                                      const SnackBar(
-                                                        backgroundColor:
-                                                            Colors.green,
-                                                        content: Text(
-                                                          'Submit Success',
-                                                          style: TextStyle(
-                                                            color: Colors.black,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    );
+
+                                                    context.showAlert(true,
+                                                        'Submit Tugas Berhasil');
                                                   },
                                                   error: (message) {
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(
-                                                      SnackBar(
-                                                        backgroundColor:
-                                                            Colors.red,
-                                                        content: Text(
-                                                          message,
-                                                          style:
-                                                              const TextStyle(
-                                                            color: Colors.black,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    );
+                                                    context.showAlert(
+                                                        false, message);
                                                   },
                                                 );
                                               },
