@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bengkod_mobile_app/core/components/custom_text_field.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,6 +33,7 @@ class DetailAssignmentPage extends StatefulWidget {
 }
 
 class _DetailAssignmentPageState extends State<DetailAssignmentPage> {
+  final TextEditingController _commentController = TextEditingController();
   FilePickerResult? file;
   String _result = 'Upload File';
 
@@ -41,6 +43,12 @@ class _DetailAssignmentPageState extends State<DetailAssignmentPage> {
     context.read<DetailAssignmentBloc>().add(
         DetailAssignmentEvent.getDetailAssignment(
             widget.idClass, widget.idAssignment));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _commentController.dispose();
   }
 
   @override
@@ -315,6 +323,14 @@ class _DetailAssignmentPageState extends State<DetailAssignmentPage> {
                                         label: _result,
                                         height: 75,
                                       ),
+                                      const SpaceHeight(16),
+                                      CustomTextField(
+                                        showLabel: false,
+                                        controller: _commentController,
+                                        label: 'Comment',
+                                        hintext: 'Masukan Komentar',
+                                        maxLines: 2,
+                                      ),
                                       const SpaceHeight(10),
                                       BlocConsumer<TaskBloc, TaskState>(
                                         listener: (context, state) {
@@ -370,11 +386,14 @@ class _DetailAssignmentPageState extends State<DetailAssignmentPage> {
                                                                 .last
                                                                 .toLowerCase();
 
-                                                        final task =
-                                                            UploadTaskRequestModel(
-                                                                comment:
-                                                                    'Not Comment',
-                                                                file: fileTask);
+                                                        final task = UploadTaskRequestModel(
+                                                            comment: _commentController
+                                                                    .text
+                                                                    .isEmpty
+                                                                ? 'Not Comment'
+                                                                : _commentController
+                                                                    .text,
+                                                            file: fileTask);
 
                                                         if (fileTask
                                                             .path.isNotEmpty) {
