@@ -127,30 +127,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 orElse: () {},
                 updatePasswordSuccess: (updatePasswordResponseModel) {
                   context.pushReplacement(const ChangePasswordPage());
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      backgroundColor: Colors.green,
-                      content: Text(
-                        'Update Success',
-                        style: TextStyle(
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  );
+                  context.showAlert(true, 'Update Password Berhasil');
                 },
                 error: (message) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      backgroundColor: Colors.red,
-                      content: Text(
-                        message,
-                        style: const TextStyle(
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  );
+                  context.showAlert(false, message);
                 },
               );
             },
@@ -165,15 +145,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                         retypePassword: _confirmPasswordController.text,
                       );
 
-                      print(updatePassword.toJson());
-
                       context
                           .read<SettingsBloc>()
                           .add(SettingsEvent.updatePassword(updatePassword));
-
-                      // _oldPasswordController.clear();
-                      // _newPasswordController.clear();
-                      // _confirmPasswordController.clear();
                     },
                     label: 'Change Password',
                   );

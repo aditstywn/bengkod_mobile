@@ -75,7 +75,7 @@ extension NavigatorExt on BuildContext {
         ),
         content: ConstrainedBox(
           constraints: BoxConstraints(
-            minHeight: minHeigth ?? 100,
+            minHeight: minHeigth ?? 50,
             maxHeight: 400,
           ),
           child: Column(
