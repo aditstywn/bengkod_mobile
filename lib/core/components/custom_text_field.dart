@@ -58,7 +58,7 @@ class CustomTextField extends StatelessWidget {
           onChanged: onChanged,
           obscureText: obscureText,
           keyboardType: keyboardType,
-          maxLines: maxLines,
+          maxLines: maxLines ?? 1,
           decoration: InputDecoration(
             hintText: hintext,
             contentPadding:
