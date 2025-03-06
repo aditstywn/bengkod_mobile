@@ -77,6 +77,30 @@ class _ClassCoursesPageState extends State<ClassCoursesPage> {
               );
             },
             getClassAssignmentSuccess: (classAssignmentResponseModel) {
+              if (classAssignmentResponseModel.data.isEmpty) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.error,
+                        size: 80,
+                        color: AppColors.grey,
+                      ),
+                      const SpaceHeight(16),
+                      Text(
+                        'Anda belum memiliki Kursus',
+                        style: TextStyle(
+                          color: AppColors.grey,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }
+
               return RefreshIndicator(
                 onRefresh: () async {
                   context

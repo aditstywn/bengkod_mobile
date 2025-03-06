@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
 import '../../../../core/components/error_card.dart';
+import '../../../../core/components/spaces.dart';
 import '../../../../core/config/app_color.dart';
 import '../../../../core/extensions/build_context_ext.dart';
 import '../../../../core/extensions/date_time_ext.dart';
@@ -82,6 +83,30 @@ class _ClassAndAssignmentPageState extends State<ClassAndAssignmentPage> {
             },
             getClassAndAssignmentSuccess: (assignment) {
               final assignmentResponseModel = assignment;
+
+              if (assignmentResponseModel.isEmpty) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.error,
+                        size: 80,
+                        color: AppColors.grey,
+                      ),
+                      const SpaceHeight(16),
+                      Text(
+                        'Anda belum memiliki Tugas',
+                        style: TextStyle(
+                          color: AppColors.grey,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }
 
               length = assignmentResponseModel.length;
 

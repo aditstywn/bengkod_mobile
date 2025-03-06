@@ -102,6 +102,32 @@ class _PresencePageState extends State<PresencePage> {
                           );
                         },
                         getClassSuccess: (classResponseModel) {
+                          if (classResponseModel.data.isEmpty) {
+                            final heigth = context.deviceHeight - 200;
+                            return Container(
+                              margin: EdgeInsets.only(top: heigth / 2 - 100),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    Icons.error,
+                                    size: 80,
+                                    color: AppColors.grey,
+                                  ),
+                                  const SpaceHeight(16),
+                                  Text(
+                                    'Anda belum memiliki kelas',
+                                    style: TextStyle(
+                                      color: AppColors.grey,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
+
                           length = classResponseModel.data.length;
                           return ListView.separated(
                             shrinkWrap: true,

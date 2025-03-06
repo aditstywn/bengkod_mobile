@@ -63,7 +63,7 @@ class _CoursesPageState extends State<CoursesPage> {
                     ),
                     error: (message) {
                       return Padding(
-                        padding: const EdgeInsets.all(16.0),
+                        padding: const EdgeInsets.all(0.0),
                         child: RefreshIndicator(
                           onRefresh: () async {
                             context

@@ -75,6 +75,30 @@ class _ClassPageState extends State<ClassPage> {
               );
             },
             getClassSuccess: (classResponseModel) {
+              if (classResponseModel.data.isEmpty) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.error,
+                        size: 80,
+                        color: AppColors.grey,
+                      ),
+                      const SpaceHeight(16),
+                      Text(
+                        'Anda belum memiliki kelas',
+                        style: TextStyle(
+                          color: AppColors.grey,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }
+
               length = classResponseModel.data.length;
               return RefreshIndicator(
                 onRefresh: () async {
