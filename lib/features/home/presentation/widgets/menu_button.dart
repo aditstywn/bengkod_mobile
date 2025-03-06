@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../../../core/config/app_color.dart';
 
 class MenuButton extends StatelessWidget {
   final String title;
-  final IconData icon;
+  final String icon;
   final Color color;
+  final Color colorScondary;
   final VoidCallback onTap;
   const MenuButton({
     super.key,
@@ -13,6 +15,7 @@ class MenuButton extends StatelessWidget {
     required this.icon,
     required this.color,
     required this.onTap,
+    required this.colorScondary,
   });
 
   @override
@@ -24,6 +27,14 @@ class MenuButton extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(18.0),
           color: color,
+          gradient: LinearGradient(
+            colors: [
+              color,
+              colorScondary,
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
           boxShadow: [
             BoxShadow(
               color: AppColors.grey.withOpacity(0.5),
@@ -48,10 +59,11 @@ class MenuButton extends StatelessWidget {
             ),
             Positioned(
               top: 5,
-              right: 10,
-              child: Icon(
+              right: 5,
+              child: SvgPicture.asset(
                 icon,
-                color: AppColors.white,
+                height: 45,
+                width: 45,
               ),
             ),
           ],

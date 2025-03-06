@@ -14,7 +14,6 @@ import '../../../class/presentation/pages/class_page.dart';
 import '../../../courses/presentation/pages/class_courses_page.dart';
 import '../../../courses/presentation/pages/courses_page.dart';
 import '../../../profile/presentation/bloc/profile_bloc.dart';
-import '../../../settings/presentation/pages/settings_page.dart';
 import '../bloc/active_course/active_course_bloc.dart';
 import '../bloc/latest_assignment/latest_assignment_bloc.dart';
 import '../widgets/menu_button.dart';
@@ -110,6 +109,14 @@ class _HomePageState extends State<HomePage> {
                         width: double.infinity,
                         decoration: BoxDecoration(
                           color: AppColors.primary,
+                          gradient: LinearGradient(
+                            colors: [
+                              AppColors.primary,
+                              Color(0xFF212087),
+                            ],
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                          ),
                           borderRadius: BorderRadius.circular(14),
                         ),
                         child: Row(
@@ -197,33 +204,35 @@ class _HomePageState extends State<HomePage> {
                     onTap: () {
                       context.push(const ClassPage());
                     },
-                    color: AppColors.primary,
-                    title: 'Class',
-                    icon: Icons.class_,
+                    color: Color(0xFFEF5488),
+                    colorScondary: Color(0xFFEF5454),
+                    title: 'Kelas',
+                    icon: 'assets/icons/kelas.svg',
                   ),
                   MenuButton(
                     onTap: () {
                       context.push(const ClassAndAssignmentPage());
                     },
-                    color: AppColors.assignment,
-                    title: 'Assignment',
-                    icon: Icons.assignment_outlined,
+                    color: Color(0xFFFF7C50),
+                    colorScondary: Color(0xFFFF5050),
+                    title: 'Tugas',
+                    icon: 'assets/icons/assignment.svg',
                   ),
                   MenuButton(
                     onTap: () {
                       context.push(const ClassCoursesPage());
                     },
-                    color: AppColors.course,
-                    title: 'Courses',
-                    icon: Icons.menu_book_rounded,
+                    color: Color(0xFF69D4FF),
+                    colorScondary: Color(0xFF2E63EA),
+                    title: 'Learning Path',
+                    icon: 'assets/icons/learning_path.svg',
                   ),
                   MenuButton(
-                    onTap: () {
-                      context.push(const SettingsPage());
-                    },
-                    color: AppColors.setting,
-                    title: 'Setting',
-                    icon: Icons.settings,
+                    onTap: () {},
+                    color: Color(0xFFAF6AA8),
+                    colorScondary: Color(0xFF6B6AAF),
+                    title: 'Sertifikat',
+                    icon: 'assets/icons/sertifikat.svg',
                   ),
                 ],
               ),
@@ -240,26 +249,28 @@ class _HomePageState extends State<HomePage> {
               BlocBuilder<ActiveCourseBloc, ActiveCourseState>(
                 builder: (context, state) {
                   return state.maybeWhen(
-                    orElse: () => Container(
-                      height: 70,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
+                    orElse: () => SizedBox(
+                      height: 80,
+                      child: Card(
+                        elevation: 1,
                         color: AppColors.white,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          'No Data Active Course',
-                          style: TextStyle(
-                            color: AppColors.grey,
-                            fontSize: 14,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Center(
+                          child: Text(
+                            'No Data Active Course',
+                            style: TextStyle(
+                              color: AppColors.grey,
+                              fontSize: 14,
+                            ),
                           ),
                         ),
                       ),
                     ),
                     loading: () {
                       return ListView.builder(
-                        itemCount: 2,
+                        itemCount: 1,
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
@@ -278,31 +289,23 @@ class _HomePageState extends State<HomePage> {
                         },
                       );
                     },
-                    // Shimmer(
-                    //   child: Container(
-                    //     height: 70,
-                    //     width: double.infinity,
-                    //     decoration: BoxDecoration(
-                    //       color: AppColors.white,
-                    //       borderRadius: BorderRadius.circular(10),
-                    //     ),
-                    //   ),
-                    // ),
                     getActiveCourseSuccess: (activeCourseResponseModel) {
                       if (activeCourseResponseModel.data!.isEmpty) {
-                        return Container(
-                          height: 70,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
+                        return SizedBox(
+                          height: 80,
+                          child: Card(
+                            elevation: 1,
                             color: AppColors.white,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: const Center(
-                            child: Text(
-                              'No Active Course',
-                              style: TextStyle(
-                                color: AppColors.grey,
-                                fontSize: 14,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const Center(
+                              child: Text(
+                                'No Active Course',
+                                style: TextStyle(
+                                  color: AppColors.grey,
+                                  fontSize: 14,
+                                ),
                               ),
                             ),
                           ),

@@ -12,6 +12,7 @@ import '../../../../core/extensions/build_context_ext.dart';
 import '../../../auth/data/datasource/auth_local_datasource.dart';
 import '../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../auth/presentation/pages/login_page.dart';
+import '../../../settings/presentation/pages/settings_page.dart';
 import '../bloc/profile_bloc.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -272,7 +273,15 @@ class _ProfilePageState extends State<ProfilePage> {
                   );
                 },
               ),
-              const SpaceHeight(20),
+              SpaceHeight(20),
+              Button.filled(
+                color: AppColors.setting,
+                onPressed: () {
+                  context.push(const SettingsPage());
+                },
+                label: 'Setting',
+              ),
+              const SpaceHeight(10),
               BlocConsumer<AuthBloc, AuthState>(
                 listener: (context, state) {
                   state.maybeWhen(
