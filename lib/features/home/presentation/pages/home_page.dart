@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 import '../../../../core/components/spaces.dart';
 import '../../../../core/config/app_color.dart';
@@ -88,12 +89,14 @@ class _HomePageState extends State<HomePage> {
                       );
                     },
                     loading: () {
-                      return Container(
-                        height: 97,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: AppColors.primary,
-                          borderRadius: BorderRadius.circular(14),
+                      return Shimmer(
+                        child: Container(
+                          height: 97,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: AppColors.primary,
+                            borderRadius: BorderRadius.circular(14),
+                          ),
                         ),
                       );
                     },
@@ -254,14 +257,37 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
-                    loading: () => Container(
-                      height: 70,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: AppColors.white,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
+                    loading: () {
+                      return ListView.builder(
+                        itemCount: 2,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return Shimmer(
+                            child: SizedBox(
+                              height: 80,
+                              child: Card(
+                                elevation: 1,
+                                color: AppColors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    // Shimmer(
+                    //   child: Container(
+                    //     height: 70,
+                    //     width: double.infinity,
+                    //     decoration: BoxDecoration(
+                    //       color: AppColors.white,
+                    //       borderRadius: BorderRadius.circular(10),
+                    //     ),
+                    //   ),
+                    // ),
                     getActiveCourseSuccess: (activeCourseResponseModel) {
                       if (activeCourseResponseModel.data!.isEmpty) {
                         return Container(
@@ -403,12 +429,16 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
-                    loading: () => Container(
-                      height: 150,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: AppColors.white,
-                        borderRadius: BorderRadius.circular(10),
+                    loading: () => Shimmer(
+                      child: SizedBox(
+                        height: 205,
+                        child: Card(
+                          elevation: 1,
+                          color: AppColors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
                       ),
                     ),
                     getLatestAssignmentSuccess:
