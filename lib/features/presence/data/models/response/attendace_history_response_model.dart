@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 class AttendanceHistoryResponseModel {
-  final List<AttendanceDatum> data;
-  final Meta meta;
+  final List<AttendanceDatum>? data;
+  final Meta? meta;
 
   AttendanceHistoryResponseModel({
-    required this.data,
-    required this.meta,
+    this.data,
+    this.meta,
   });
 
   factory AttendanceHistoryResponseModel.fromJson(String str) =>
@@ -16,30 +16,33 @@ class AttendanceHistoryResponseModel {
 
   factory AttendanceHistoryResponseModel.fromMap(Map<String, dynamic> json) =>
       AttendanceHistoryResponseModel(
-        data: List<AttendanceDatum>.from(
-            json["data"].map((x) => AttendanceDatum.fromMap(x))),
-        meta: Meta.fromMap(json["meta"]),
+        data: json["data"] == null
+            ? []
+            : List<AttendanceDatum>.from(
+                json["data"]!.map((x) => AttendanceDatum.fromMap(x))),
+        meta: json["meta"] == null ? null : Meta.fromMap(json["meta"]),
       );
 
   Map<String, dynamic> toMap() => {
-        "data": List<dynamic>.from(data.map((x) => x.toMap())),
-        "meta": meta.toMap(),
+        "data":
+            data == null ? [] : List<dynamic>.from(data!.map((x) => x.toMap())),
+        "meta": meta?.toMap(),
       };
 }
 
 class AttendanceDatum {
-  final int id;
-  final DateTime clockInDate;
-  final String clockInDateFormatted;
-  final String clockInTime;
-  final Presence presence;
+  final int? id;
+  final DateTime? clockInDate;
+  final String? clockInDateFormatted;
+  final String? clockInTime;
+  final Presence? presence;
 
   AttendanceDatum({
-    required this.id,
-    required this.clockInDate,
-    required this.clockInDateFormatted,
-    required this.clockInTime,
-    required this.presence,
+    this.id,
+    this.clockInDate,
+    this.clockInDateFormatted,
+    this.clockInTime,
+    this.presence,
   });
 
   factory AttendanceDatum.fromJson(String str) =>
@@ -49,43 +52,47 @@ class AttendanceDatum {
 
   factory AttendanceDatum.fromMap(Map<String, dynamic> json) => AttendanceDatum(
         id: json["id"],
-        clockInDate: DateTime.parse(json["clock_in_date"]),
+        clockInDate: json["clock_in_date"] == null
+            ? null
+            : DateTime.parse(json["clock_in_date"]),
         clockInDateFormatted: json["clock_in_date_formatted"],
         clockInTime: json["clock_in_time"],
-        presence: Presence.fromMap(json["presence"]),
+        presence: json["presence"] == null
+            ? null
+            : Presence.fromMap(json["presence"]),
       );
 
   Map<String, dynamic> toMap() => {
         "id": id,
         "clock_in_date":
-            "${clockInDate.year.toString().padLeft(4, '0')}-${clockInDate.month.toString().padLeft(2, '0')}-${clockInDate.day.toString().padLeft(2, '0')}",
+            "${clockInDate!.year.toString().padLeft(4, '0')}-${clockInDate!.month.toString().padLeft(2, '0')}-${clockInDate!.day.toString().padLeft(2, '0')}",
         "clock_in_date_formatted": clockInDateFormatted,
         "clock_in_time": clockInTime,
-        "presence": presence.toMap(),
+        "presence": presence?.toMap(),
       };
 }
 
 class Presence {
-  final int id;
-  final String classroomName;
-  final String timeStart;
-  final String timeEnd;
-  final String day;
-  final String room;
-  final int week;
-  final DateTime presenceDate;
-  final String presenceDateFormatted;
+  final int? id;
+  final String? classroomName;
+  final String? timeStart;
+  final String? timeEnd;
+  final String? day;
+  final String? room;
+  final int? week;
+  final DateTime? presenceDate;
+  final String? presenceDateFormatted;
 
   Presence({
-    required this.id,
-    required this.classroomName,
-    required this.timeStart,
-    required this.timeEnd,
-    required this.day,
-    required this.room,
-    required this.week,
-    required this.presenceDate,
-    required this.presenceDateFormatted,
+    this.id,
+    this.classroomName,
+    this.timeStart,
+    this.timeEnd,
+    this.day,
+    this.room,
+    this.week,
+    this.presenceDate,
+    this.presenceDateFormatted,
   });
 
   factory Presence.fromJson(String str) => Presence.fromMap(json.decode(str));
@@ -100,7 +107,9 @@ class Presence {
         day: json["day"],
         room: json["room"],
         week: json["week"],
-        presenceDate: DateTime.parse(json["presence_date"]),
+        presenceDate: json["presence_date"] == null
+            ? null
+            : DateTime.parse(json["presence_date"]),
         presenceDateFormatted: json["presence_date_formatted"],
       );
 
@@ -113,20 +122,20 @@ class Presence {
         "room": room,
         "week": week,
         "presence_date":
-            "${presenceDate.year.toString().padLeft(4, '0')}-${presenceDate.month.toString().padLeft(2, '0')}-${presenceDate.day.toString().padLeft(2, '0')}",
+            "${presenceDate!.year.toString().padLeft(4, '0')}-${presenceDate!.month.toString().padLeft(2, '0')}-${presenceDate!.day.toString().padLeft(2, '0')}",
         "presence_date_formatted": presenceDateFormatted,
       };
 }
 
 class Meta {
-  final int statusCode;
-  final bool success;
-  final String message;
+  final int? statusCode;
+  final bool? success;
+  final String? message;
 
   Meta({
-    required this.statusCode,
-    required this.success,
-    required this.message,
+    this.statusCode,
+    this.success,
+    this.message,
   });
 
   factory Meta.fromJson(String str) => Meta.fromMap(json.decode(str));

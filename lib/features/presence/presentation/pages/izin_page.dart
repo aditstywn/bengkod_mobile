@@ -192,20 +192,22 @@ class _IzinPageState extends State<IzinPage> {
                 orElse: () {
                   return Button.filled(
                     onPressed: file != null
-                        ? () {
-                            final fileIzin = File(file!.files.single.path!);
+                        ? widget.presence.id != null
+                            ? () {
+                                final fileIzin = File(file!.files.single.path!);
 
-                            final izin = IzinRequestModel(
-                              presenceId: widget.presence.id,
-                              absenceType: selectedKeteranganIzin!,
-                              notes: catatanController.text,
-                              file: fileIzin,
-                            );
-
-                            context.read<AbsenceBloc>().add(
-                                  AbsenceEvent.absence(izin),
+                                final izin = IzinRequestModel(
+                                  presenceId: widget.presence.id!,
+                                  absenceType: selectedKeteranganIzin!,
+                                  notes: catatanController.text,
+                                  file: fileIzin,
                                 );
-                          }
+
+                                context.read<AbsenceBloc>().add(
+                                      AbsenceEvent.absence(izin),
+                                    );
+                              }
+                            : () {}
                         : () {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(

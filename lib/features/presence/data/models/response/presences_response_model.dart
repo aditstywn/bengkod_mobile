@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 class PresencesResponseModel {
-  final Statistic statistic;
-  final Presences presences;
+  final Statistic? statistic;
+  final Presences? presences;
 
   PresencesResponseModel({
-    required this.statistic,
-    required this.presences,
+    this.statistic,
+    this.presences,
   });
 
   factory PresencesResponseModel.fromJson(String str) =>
@@ -16,23 +16,27 @@ class PresencesResponseModel {
 
   factory PresencesResponseModel.fromMap(Map<String, dynamic> json) =>
       PresencesResponseModel(
-        statistic: Statistic.fromMap(json["statistic"]),
-        presences: Presences.fromMap(json["presences"]),
+        statistic: json["statistic"] == null
+            ? null
+            : Statistic.fromMap(json["statistic"]),
+        presences: json["presences"] == null
+            ? null
+            : Presences.fromMap(json["presences"]),
       );
 
   Map<String, dynamic> toMap() => {
-        "statistic": statistic.toMap(),
-        "presences": presences.toMap(),
+        "statistic": statistic?.toMap(),
+        "presences": presences?.toMap(),
       };
 }
 
 class Presences {
-  final List<PresencesDatum> data;
-  final Meta meta;
+  final List<PresencesDatum>? data;
+  final Meta? meta;
 
   Presences({
-    required this.data,
-    required this.meta,
+    this.data,
+    this.meta,
   });
 
   factory Presences.fromJson(String str) => Presences.fromMap(json.decode(str));
@@ -40,34 +44,37 @@ class Presences {
   String toJson() => json.encode(toMap());
 
   factory Presences.fromMap(Map<String, dynamic> json) => Presences(
-        data: List<PresencesDatum>.from(
-            json["data"].map((x) => PresencesDatum.fromMap(x))),
-        meta: Meta.fromMap(json["meta"]),
+        data: json["data"] == null
+            ? []
+            : List<PresencesDatum>.from(
+                json["data"]!.map((x) => PresencesDatum.fromMap(x))),
+        meta: json["meta"] == null ? null : Meta.fromMap(json["meta"]),
       );
 
   Map<String, dynamic> toMap() => {
-        "data": List<dynamic>.from(data.map((x) => x.toMap())),
-        "meta": meta.toMap(),
+        "data":
+            data == null ? [] : List<dynamic>.from(data!.map((x) => x.toMap())),
+        "meta": meta?.toMap(),
       };
 }
 
 class PresencesDatum {
-  final int id;
-  final int week;
-  final DateTime presenceDate;
-  final String presenceDateFormatted;
-  final int isEnabled;
-  final String isEnabledLabel;
-  final int qrIsGenerated;
+  final int? id;
+  final int? week;
+  final DateTime? presenceDate;
+  final String? presenceDateFormatted;
+  final int? isEnabled;
+  final String? isEnabledLabel;
+  final int? qrIsGenerated;
 
   PresencesDatum({
-    required this.id,
-    required this.week,
-    required this.presenceDate,
-    required this.presenceDateFormatted,
-    required this.isEnabled,
-    required this.isEnabledLabel,
-    required this.qrIsGenerated,
+    this.id,
+    this.week,
+    this.presenceDate,
+    this.presenceDateFormatted,
+    this.isEnabled,
+    this.isEnabledLabel,
+    this.qrIsGenerated,
   });
 
   factory PresencesDatum.fromJson(String str) =>
@@ -78,7 +85,9 @@ class PresencesDatum {
   factory PresencesDatum.fromMap(Map<String, dynamic> json) => PresencesDatum(
         id: json["id"],
         week: json["week"],
-        presenceDate: DateTime.parse(json["presence_date"]),
+        presenceDate: json["presence_date"] == null
+            ? null
+            : DateTime.parse(json["presence_date"]),
         presenceDateFormatted: json["presence_date_formatted"],
         isEnabled: json["is_enabled"],
         isEnabledLabel: json["is_enabled_label"],
@@ -89,7 +98,7 @@ class PresencesDatum {
         "id": id,
         "week": week,
         "presence_date":
-            "${presenceDate.year.toString().padLeft(4, '0')}-${presenceDate.month.toString().padLeft(2, '0')}-${presenceDate.day.toString().padLeft(2, '0')}",
+            "${presenceDate!.year.toString().padLeft(4, '0')}-${presenceDate!.month.toString().padLeft(2, '0')}-${presenceDate!.day.toString().padLeft(2, '0')}",
         "presence_date_formatted": presenceDateFormatted,
         "is_enabled": isEnabled,
         "is_enabled_label": isEnabledLabel,
@@ -98,14 +107,14 @@ class PresencesDatum {
 }
 
 class Meta {
-  final int statusCode;
-  final bool success;
-  final String message;
+  final int? statusCode;
+  final bool? success;
+  final String? message;
 
   Meta({
-    required this.statusCode,
-    required this.success,
-    required this.message,
+    this.statusCode,
+    this.success,
+    this.message,
   });
 
   factory Meta.fromJson(String str) => Meta.fromMap(json.decode(str));
@@ -126,22 +135,22 @@ class Meta {
 }
 
 class Statistic {
-  final int totalPresence;
-  final int attended;
-  final int attendedPercentage;
-  final int absent;
-  final int absentPercentage;
-  final int unattended;
-  final int unattendedPercentage;
+  final int? totalPresence;
+  final int? attended;
+  final int? attendedPercentage;
+  final int? absent;
+  final int? absentPercentage;
+  final int? unattended;
+  final int? unattendedPercentage;
 
   Statistic({
-    required this.totalPresence,
-    required this.attended,
-    required this.attendedPercentage,
-    required this.absent,
-    required this.absentPercentage,
-    required this.unattended,
-    required this.unattendedPercentage,
+    this.totalPresence,
+    this.attended,
+    this.attendedPercentage,
+    this.absent,
+    this.absentPercentage,
+    this.unattended,
+    this.unattendedPercentage,
   });
 
   factory Statistic.fromJson(String str) => Statistic.fromMap(json.decode(str));

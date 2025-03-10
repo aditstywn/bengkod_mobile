@@ -36,23 +36,25 @@ class ListPresensi extends StatelessWidget {
         String status = '';
 
         presensi = attendances
-            .any((element) => element.presence.id == presences[index].id);
+            .any((element) => element.presence?.id == presences[index].id);
         izin = absences
             .any((element) => element.presence!.id == presences[index].id);
 
-        upComming = DateTime.now().isBefore(presences[index].presenceDate) ||
-            (DateTime.now().year == presences[index].presenceDate.year &&
-                DateTime.now().month == presences[index].presenceDate.month &&
-                DateTime.now().day == presences[index].presenceDate.day);
+        upComming = DateTime.now()
+                .isBefore(presences[index].presenceDate ?? DateTime.now()) ||
+            (DateTime.now().year == presences[index].presenceDate?.year &&
+                DateTime.now().month == presences[index].presenceDate?.month &&
+                DateTime.now().day == presences[index].presenceDate?.day);
 
-        missed = DateTime.now().isAfter(presences[index].presenceDate);
+        missed = DateTime.now()
+            .isAfter(presences[index].presenceDate ?? DateTime.now());
 
         if (presensi) {
-          status = 'Present';
+          status = 'Hadir';
         } else if (izin) {
           status = 'Izin';
         } else if (upComming) {
-          status = 'Upcoming';
+          status = 'Mendatang';
         } else if (missed) {
           status = 'Absent';
         } else {
@@ -63,7 +65,7 @@ class ListPresensi extends StatelessWidget {
         AbsenceDatum? absence;
         if (presensi) {
           attendance = attendances.firstWhere(
-              (element) => element.presence.id == presences[index].id);
+              (element) => element.presence?.id == presences[index].id);
         }
         if (izin) {
           absence = absences.firstWhere(
@@ -101,7 +103,7 @@ class ListPresensi extends StatelessWidget {
                     ),
                     const SpaceHeight(8),
                     Text(
-                      presences[index].presenceDateFormatted,
+                      presences[index].presenceDateFormatted ?? '-',
                       style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
@@ -119,6 +121,10 @@ class ListPresensi extends StatelessWidget {
                                     context: context,
                                     builder: (context) {
                                       return AlertDialog(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
                                         backgroundColor: AppColors.white,
                                         title: const Text(
                                           'Detail Presensi',
@@ -132,7 +138,7 @@ class ListPresensi extends StatelessWidget {
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             Text(
-                                              'Room : ${attendance!.presence.room}',
+                                              'Room : ${attendance!.presence?.room ?? '-'}',
                                               style: const TextStyle(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w400,
@@ -162,6 +168,10 @@ class ListPresensi extends StatelessWidget {
                                         actions: [
                                           TextButton(
                                             style: TextButton.styleFrom(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
                                               backgroundColor:
                                                   AppColors.primary,
                                             ),
@@ -185,6 +195,10 @@ class ListPresensi extends StatelessWidget {
                                         context: context,
                                         builder: (context) {
                                           return AlertDialog(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
                                             backgroundColor: AppColors.white,
                                             title: const Text(
                                               'Detail Izin',
@@ -292,6 +306,11 @@ class ListPresensi extends StatelessWidget {
                                             actions: [
                                               TextButton(
                                                 style: TextButton.styleFrom(
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                  ),
                                                   backgroundColor:
                                                       AppColors.primary,
                                                 ),

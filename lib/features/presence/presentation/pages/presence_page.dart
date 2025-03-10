@@ -50,7 +50,7 @@ class _PresencePageState extends State<PresencePage> {
                       ),
                       const SpaceWidth(10),
                       const Text(
-                        'Presence',
+                        'Kehadiran',
                         style: TextStyle(
                           color: AppColors.primary,
                           fontSize: 24,
