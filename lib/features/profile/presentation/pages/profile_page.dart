@@ -49,7 +49,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   const SpaceWidth(10),
                   const Text(
-                    'Profile',
+                    'Profil',
                     style: TextStyle(
                       color: AppColors.primary,
                       fontSize: 24,
@@ -279,7 +279,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 onPressed: () {
                   context.push(const SettingsPage());
                 },
-                label: 'Setting',
+                label: 'Pengaturan',
               ),
               const SpaceHeight(10),
               BlocConsumer<AuthBloc, AuthState>(
@@ -348,7 +348,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       onPressed: () {
                         context.read<AuthBloc>().add(const AuthEvent.logout());
                       },
-                      label: 'Logout',
+                      label: 'Keluar',
                     );
                   }, loading: () {
                     return Button.filled(
