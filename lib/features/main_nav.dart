@@ -117,7 +117,7 @@ class _MainNavState extends State<MainNav> {
                     ),
                   ],
                 ),
-                label: 'Presence',
+                label: 'Kehadiran',
               ),
               BottomNavigationBarItem(
                 icon: Column(
@@ -140,7 +140,7 @@ class _MainNavState extends State<MainNav> {
                     ),
                   ],
                 ),
-                label: 'Profile',
+                label: 'Profil',
               ),
             ],
           ),
