@@ -1,9 +1,10 @@
-import 'package:bengkod_mobile_app/core/extensions/build_context_ext.dart';
-import 'package:bengkod_mobile_app/features/settings/presentation/pages/change_password_page.dart';
+import '../../../../core/extensions/build_context_ext.dart';
+import 'change_password_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/components/spaces.dart';
 import '../../../../core/config/app_color.dart';
+import 'web_view_page.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -17,7 +18,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings'),
+        title: const Text('Pengaturan'),
       ),
       body: ListView(
         padding: const EdgeInsets.symmetric(
@@ -31,19 +32,21 @@ class _SettingsPageState extends State<SettingsPage> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-            child: ListTile(
-              onTap: () {
-                context.push(const ChangePasswordPage());
-              },
-              title: const Text(
-                'Change Password',
-                style: TextStyle(
-                  color: AppColors.primary,
+            child: GestureDetector(
+              onTap: () => context.push(const ChangePasswordPage()),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    'Ubah Kata Sandi',
+                    style: TextStyle(
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                    ),
+                  ),
                 ),
-              ),
-              trailing: const Icon(
-                Icons.arrow_forward_ios,
-                size: 18,
               ),
             ),
           ),
@@ -54,33 +57,71 @@ class _SettingsPageState extends State<SettingsPage> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-            child: const Column(
-              children: [
-                ListTile(
-                  title: Text(
-                    'About Us',
-                    style: TextStyle(
-                      color: AppColors.primary,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      context.push(WebViewPage(
+                        title: 'Tentang Aplikasi',
+                        url: 'https://bengkelkoding.dinus.ac.id/about',
+                      ));
+                    },
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: Text(
+                        'Tentang Aplikasi',
+                        style: TextStyle(
+                          color: AppColors.primary,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                        ),
+                      ),
                     ),
                   ),
-                  trailing: Icon(
-                    Icons.arrow_forward_ios,
-                    size: 18,
-                  ),
-                ),
-                ListTile(
-                  title: Text(
-                    'Privacy Policy',
-                    style: TextStyle(
-                      color: AppColors.primary,
+                  const SpaceHeight(16),
+                  GestureDetector(
+                    onTap: () {
+                      context.push(WebViewPage(
+                        title: 'Syarat dan Ketentuan',
+                        url: 'https://bengkelkoding.dinus.ac.id/terms',
+                      ));
+                    },
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: Text(
+                        'Syarat dan Ketentuan',
+                        style: TextStyle(
+                          color: AppColors.primary,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                        ),
+                      ),
                     ),
                   ),
-                  trailing: Icon(
-                    Icons.arrow_forward_ios,
-                    size: 18,
+                  const SpaceHeight(16),
+                  GestureDetector(
+                    onTap: () {
+                      context.push(WebViewPage(
+                        title: 'Kebijakan Privasi',
+                        url: 'https://bengkelkoding.dinus.ac.id/privacy',
+                      ));
+                    },
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: Text(
+                        'Kebijakan Privasi',
+                        style: TextStyle(
+                          color: AppColors.primary,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],
