@@ -38,7 +38,7 @@ class ListPresensi extends StatelessWidget {
         presensi = attendances
             .any((element) => element.presence.id == presences[index].id);
         izin = absences
-            .any((element) => element.presence.id == presences[index].id);
+            .any((element) => element.presence!.id == presences[index].id);
 
         upComming = DateTime.now().isBefore(presences[index].presenceDate) ||
             (DateTime.now().year == presences[index].presenceDate.year &&
@@ -67,7 +67,7 @@ class ListPresensi extends StatelessWidget {
         }
         if (izin) {
           absence = absences.firstWhere(
-              (element) => element.presence.id == presences[index].id);
+              (element) => element.presence?.id == presences[index].id);
 
           if (absence.approveStatus == 1) {
             status = 'Menunggu';

@@ -319,7 +319,7 @@ class _DetailPresencePageState extends State<DetailPresencePage> {
                       className: widget.dataClass.name,
                       presences: presences,
                       attendances: attendances,
-                      absences: absences,
+                      absences: absences != null ? absences : [],
                     ),
                   ],
                 ),

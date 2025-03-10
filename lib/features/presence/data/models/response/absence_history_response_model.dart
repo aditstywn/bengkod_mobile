@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 class AbsenceHistoryResponseModel {
-  final List<AbsenceDatum> data;
-  final Meta meta;
+  final List<AbsenceDatum>? data;
+  final Meta? meta;
 
   AbsenceHistoryResponseModel({
-    required this.data,
-    required this.meta,
+    this.data,
+    this.meta,
   });
 
   factory AbsenceHistoryResponseModel.fromJson(String str) =>
@@ -16,40 +16,43 @@ class AbsenceHistoryResponseModel {
 
   factory AbsenceHistoryResponseModel.fromMap(Map<String, dynamic> json) =>
       AbsenceHistoryResponseModel(
-        data: List<AbsenceDatum>.from(
-            json["data"].map((x) => AbsenceDatum.fromMap(x))),
-        meta: Meta.fromMap(json["meta"]),
+        data: json["data"] == null
+            ? []
+            : List<AbsenceDatum>.from(
+                json["data"]!.map((x) => AbsenceDatum.fromMap(x))),
+        meta: json["meta"] == null ? null : Meta.fromMap(json["meta"]),
       );
 
   Map<String, dynamic> toMap() => {
-        "data": List<dynamic>.from(data.map((x) => x.toMap())),
-        "meta": meta.toMap(),
+        "data":
+            data == null ? [] : List<dynamic>.from(data!.map((x) => x.toMap())),
+        "meta": meta?.toMap(),
       };
 }
 
 class AbsenceDatum {
-  final int id;
-  final String absenceType;
-  final String notes;
+  final int? id;
+  final String? absenceType;
+  final String? notes;
   final String? attachment;
-  final int approveStatus;
-  final String approveStatusLabel;
-  final DateTime approveChangedAt;
-  final String approveChangedAtFormatted;
+  final int? approveStatus;
+  final String? approveStatusLabel;
+  final DateTime? approveChangedAt;
+  final String? approveChangedAtFormatted;
   final dynamic approveNote;
-  final Presence presence;
+  final Presence? presence;
 
   AbsenceDatum({
-    required this.id,
-    required this.absenceType,
-    required this.notes,
+    this.id,
+    this.absenceType,
+    this.notes,
     this.attachment,
-    required this.approveStatus,
-    required this.approveStatusLabel,
-    required this.approveChangedAt,
-    required this.approveChangedAtFormatted,
-    required this.approveNote,
-    required this.presence,
+    this.approveStatus,
+    this.approveStatusLabel,
+    this.approveChangedAt,
+    this.approveChangedAtFormatted,
+    this.approveNote,
+    this.presence,
   });
 
   factory AbsenceDatum.fromJson(String str) =>
@@ -64,10 +67,14 @@ class AbsenceDatum {
         attachment: json["attachment"],
         approveStatus: json["approve_status"],
         approveStatusLabel: json["approve_status_label"],
-        approveChangedAt: DateTime.parse(json["approve_changed_at"]),
+        approveChangedAt: json["approve_changed_at"] == null
+            ? null
+            : DateTime.parse(json["approve_changed_at"]),
         approveChangedAtFormatted: json["approve_changed_at_formatted"],
         approveNote: json["approve_note"],
-        presence: Presence.fromMap(json["presence"]),
+        presence: json["presence"] == null
+            ? null
+            : Presence.fromMap(json["presence"]),
       );
 
   Map<String, dynamic> toMap() => {
@@ -77,34 +84,34 @@ class AbsenceDatum {
         "attachment": attachment,
         "approve_status": approveStatus,
         "approve_status_label": approveStatusLabel,
-        "approve_changed_at": approveChangedAt.toIso8601String(),
+        "approve_changed_at": approveChangedAt?.toIso8601String(),
         "approve_changed_at_formatted": approveChangedAtFormatted,
         "approve_note": approveNote,
-        "presence": presence.toMap(),
+        "presence": presence?.toMap(),
       };
 }
 
 class Presence {
-  final int id;
-  final String classroomName;
-  final String timeStart;
-  final String timeEnd;
-  final String day;
-  final String room;
-  final int week;
-  final DateTime presenceDate;
-  final String presenceDateFormatted;
+  final int? id;
+  final String? classroomName;
+  final String? timeStart;
+  final String? timeEnd;
+  final String? day;
+  final String? room;
+  final int? week;
+  final DateTime? presenceDate;
+  final String? presenceDateFormatted;
 
   Presence({
-    required this.id,
-    required this.classroomName,
-    required this.timeStart,
-    required this.timeEnd,
-    required this.day,
-    required this.room,
-    required this.week,
-    required this.presenceDate,
-    required this.presenceDateFormatted,
+    this.id,
+    this.classroomName,
+    this.timeStart,
+    this.timeEnd,
+    this.day,
+    this.room,
+    this.week,
+    this.presenceDate,
+    this.presenceDateFormatted,
   });
 
   factory Presence.fromJson(String str) => Presence.fromMap(json.decode(str));
@@ -119,7 +126,9 @@ class Presence {
         day: json["day"],
         room: json["room"],
         week: json["week"],
-        presenceDate: DateTime.parse(json["presence_date"]),
+        presenceDate: json["presence_date"] == null
+            ? null
+            : DateTime.parse(json["presence_date"]),
         presenceDateFormatted: json["presence_date_formatted"],
       );
 
@@ -132,20 +141,20 @@ class Presence {
         "room": room,
         "week": week,
         "presence_date":
-            "${presenceDate.year.toString().padLeft(4, '0')}-${presenceDate.month.toString().padLeft(2, '0')}-${presenceDate.day.toString().padLeft(2, '0')}",
+            "${presenceDate!.year.toString().padLeft(4, '0')}-${presenceDate!.month.toString().padLeft(2, '0')}-${presenceDate!.day.toString().padLeft(2, '0')}",
         "presence_date_formatted": presenceDateFormatted,
       };
 }
 
 class Meta {
-  final int statusCode;
-  final bool success;
-  final String message;
+  final int? statusCode;
+  final bool? success;
+  final String? message;
 
   Meta({
-    required this.statusCode,
-    required this.success,
-    required this.message,
+    this.statusCode,
+    this.success,
+    this.message,
   });
 
   factory Meta.fromJson(String str) => Meta.fromMap(json.decode(str));
