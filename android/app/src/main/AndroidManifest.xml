@@ -6,8 +6,6 @@
         android:label="bengkod_mobile_app"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
-        android:name="com.pichillilorenzo.flutter_inappwebview.inappwebview.InAppWebViewActivity"
-        android:theme="@style/Theme.AppCompat.NoActionBar"
         >
         <activity
             android:name=".MainActivity"

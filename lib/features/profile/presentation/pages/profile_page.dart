@@ -129,7 +129,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             //   alignment: Alignment.topCenter,
                             // ),
                             child: CachedNetworkImage(
-                              imageUrl: profileResponseModel.data.image,
+                              imageUrl: profileResponseModel.data?.image ?? '',
                               fit: BoxFit.cover,
                               width: 125,
                               height: 125,
@@ -209,7 +209,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ),
                               ),
                               Text(
-                                profileResponseModel.data.identityCode,
+                                profileResponseModel.data?.identityCode ?? '-',
                                 style: const TextStyle(
                                   color: AppColors.grey,
                                   fontSize: 16,
@@ -225,7 +225,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ),
                               ),
                               Text(
-                                profileResponseModel.data.name,
+                                profileResponseModel.data?.name ?? '-',
                                 style: const TextStyle(
                                   color: AppColors.grey,
                                   fontSize: 16,
@@ -242,7 +242,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ),
                               ),
                               Text(
-                                profileResponseModel.data.email,
+                                profileResponseModel.data?.email ?? '-',
                                 style: const TextStyle(
                                   color: AppColors.grey,
                                   fontSize: 16,
@@ -258,7 +258,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ),
                               ),
                               Text(
-                                profileResponseModel.data.role,
+                                profileResponseModel.data?.role ?? '-',
                                 style: const TextStyle(
                                   color: AppColors.grey,
                                   fontSize: 16,

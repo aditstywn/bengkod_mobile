@@ -134,7 +134,8 @@ class _HomePageState extends State<HomePage> {
                                 backgroundColor: AppColors.white,
                                 child: ClipOval(
                                   child: CachedNetworkImage(
-                                    imageUrl: profileResponseModel.data.image,
+                                    imageUrl:
+                                        profileResponseModel.data?.image ?? '',
                                     fit: BoxFit.cover,
                                     width: 60,
                                     height: 60,
@@ -154,7 +155,7 @@ class _HomePageState extends State<HomePage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    profileResponseModel.data.name,
+                                    profileResponseModel.data?.name ?? '-',
                                     style: const TextStyle(
                                       color: AppColors.white,
                                       fontSize: 20,
@@ -164,7 +165,8 @@ class _HomePageState extends State<HomePage> {
                                     maxLines: 1,
                                   ),
                                   Text(
-                                    profileResponseModel.data.identityCode,
+                                    profileResponseModel.data?.identityCode ??
+                                        '-',
                                     style: const TextStyle(
                                       color: AppColors.white,
                                       fontSize: 14,
