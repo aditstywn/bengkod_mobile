@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 class LatestAssignmentResponseModel {
-  final Data data;
-  final Meta meta;
+  final Data? data;
+  final Meta? meta;
 
   LatestAssignmentResponseModel({
-    required this.data,
-    required this.meta,
+    this.data,
+    this.meta,
   });
 
   factory LatestAssignmentResponseModel.fromJson(String str) =>
@@ -16,33 +16,33 @@ class LatestAssignmentResponseModel {
 
   factory LatestAssignmentResponseModel.fromMap(Map<String, dynamic> json) =>
       LatestAssignmentResponseModel(
-        data: Data.fromMap(json["data"]),
-        meta: Meta.fromMap(json["meta"]),
+        data: json["data"] == null ? null : Data.fromMap(json["data"]),
+        meta: json["meta"] == null ? null : Meta.fromMap(json["meta"]),
       );
 
   Map<String, dynamic> toMap() => {
-        "data": data.toMap(),
-        "meta": meta.toMap(),
+        "data": data?.toMap(),
+        "meta": meta?.toMap(),
       };
 }
 
 class Data {
-  final int id;
-  final int classroomId;
-  final String title;
-  final String description;
-  final String deadline;
-  final bool isUploaded;
-  final List<Task> tasks;
+  final int? id;
+  final int? classroomId;
+  final String? title;
+  final String? description;
+  final String? deadline;
+  final bool? isUploaded;
+  final List<dynamic>? tasks;
 
   Data({
-    required this.id,
-    required this.classroomId,
-    required this.title,
-    required this.description,
-    required this.deadline,
-    required this.isUploaded,
-    required this.tasks,
+    this.id,
+    this.classroomId,
+    this.title,
+    this.description,
+    this.deadline,
+    this.isUploaded,
+    this.tasks,
   });
 
   factory Data.fromJson(String str) => Data.fromMap(json.decode(str));
@@ -56,7 +56,9 @@ class Data {
         description: json["description"],
         deadline: json["deadline"],
         isUploaded: json["is_uploaded"],
-        tasks: List<Task>.from(json["tasks"].map((x) => Task.fromMap(x))),
+        tasks: json["tasks"] == null
+            ? []
+            : List<dynamic>.from(json["tasks"]!.map((x) => x)),
       );
 
   Map<String, dynamic> toMap() => {
@@ -66,49 +68,21 @@ class Data {
         "description": description,
         "deadline": deadline,
         "is_uploaded": isUploaded,
-        "tasks": List<dynamic>.from(tasks.map((x) => x.toMap())),
-      };
-}
-
-class Task {
-  final int id;
-  final dynamic score;
-  final bool isSubmitted;
-
-  Task({
-    required this.id,
-    required this.score,
-    required this.isSubmitted,
-  });
-
-  factory Task.fromJson(String str) => Task.fromMap(json.decode(str));
-
-  String toJson() => json.encode(toMap());
-
-  factory Task.fromMap(Map<String, dynamic> json) => Task(
-        id: json["id"],
-        score: json["score"],
-        isSubmitted: json["is_submitted"],
-      );
-
-  Map<String, dynamic> toMap() => {
-        "id": id,
-        "score": score,
-        "is_submitted": isSubmitted,
+        "tasks": tasks == null ? [] : List<dynamic>.from(tasks!.map((x) => x)),
       };
 }
 
 class Meta {
-  final int statusCode;
-  final bool success;
-  final String message;
-  final Pagination pagination;
+  final int? statusCode;
+  final bool? success;
+  final String? message;
+  final Pagination? pagination;
 
   Meta({
-    required this.statusCode,
-    required this.success,
-    required this.message,
-    required this.pagination,
+    this.statusCode,
+    this.success,
+    this.message,
+    this.pagination,
   });
 
   factory Meta.fromJson(String str) => Meta.fromMap(json.decode(str));
@@ -119,14 +93,16 @@ class Meta {
         statusCode: json["status_code"],
         success: json["success"],
         message: json["message"],
-        pagination: Pagination.fromMap(json["pagination"]),
+        pagination: json["pagination"] == null
+            ? null
+            : Pagination.fromMap(json["pagination"]),
       );
 
   Map<String, dynamic> toMap() => {
         "status_code": statusCode,
         "success": success,
         "message": message,
-        "pagination": pagination.toMap(),
+        "pagination": pagination?.toMap(),
       };
 }
 

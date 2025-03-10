@@ -139,7 +139,7 @@ class AssignmentCard extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    classTitle ?? 'Assignment',
+                    classTitle ?? 'Tugas',
                     style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,

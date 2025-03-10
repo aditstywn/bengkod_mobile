@@ -184,7 +184,7 @@ class _HomePageState extends State<HomePage> {
               ),
               const SpaceHeight(20),
               const Text(
-                'Menu Information',
+                'Menu Informasi',
                 style: TextStyle(
                   color: AppColors.primary,
                   fontSize: 16,
@@ -240,7 +240,7 @@ class _HomePageState extends State<HomePage> {
               ),
               const SpaceHeight(20),
               const Text(
-                'Your Progress',
+                'Progres Kursus Anda',
                 style: TextStyle(
                   color: AppColors.primary,
                   fontSize: 16,
@@ -406,7 +406,7 @@ class _HomePageState extends State<HomePage> {
               ),
               const SpaceHeight(20),
               const Text(
-                'Latest Assignment',
+                'Tugas Terbaru',
                 style: TextStyle(
                   color: AppColors.primary,
                   fontSize: 16,
@@ -449,31 +449,38 @@ class _HomePageState extends State<HomePage> {
                     getLatestAssignmentSuccess:
                         (latestAssignmentResponseModel) {
                       return AssignmentCard(
-                        onTap: () {
-                          context.push(
-                            DetailAssignmentPage(
-                              idAssignment:
-                                  latestAssignmentResponseModel.data.id,
-                              idClass: latestAssignmentResponseModel
-                                  .data.classroomId,
-                            ),
-                          );
-                        },
-                        title: latestAssignmentResponseModel.data.title,
+                        onTap: latestAssignmentResponseModel.data?.id != null
+                            ? () {
+                                context.push(
+                                  DetailAssignmentPage(
+                                    idAssignment: latestAssignmentResponseModel
+                                            .data?.id ??
+                                        0,
+                                    idClass: latestAssignmentResponseModel
+                                            .data?.classroomId ??
+                                        0,
+                                  ),
+                                );
+                              }
+                            : () {},
+                        title: latestAssignmentResponseModel.data?.title ?? '-',
                         description:
-                            latestAssignmentResponseModel.data.description,
+                            latestAssignmentResponseModel.data?.description ??
+                                '-',
                         start: '-',
-                        deadline: latestAssignmentResponseModel.data.deadline,
-                        status: latestAssignmentResponseModel.data.isUploaded ==
-                                true
-                            ? 'Sudah Dikumpulkan'
-                            : 'Belum Dikumpulkan',
-                        color: latestAssignmentResponseModel.data.isUploaded ==
+                        deadline:
+                            latestAssignmentResponseModel.data?.deadline ?? '-',
+                        status:
+                            latestAssignmentResponseModel.data?.isUploaded ==
+                                    true
+                                ? 'Sudah Dikumpulkan'
+                                : 'Belum Dikumpulkan',
+                        color: latestAssignmentResponseModel.data?.isUploaded ==
                                 true
                             ? AppColors.assignGreen
                             : AppColors.pink,
                         colorBg:
-                            latestAssignmentResponseModel.data.isUploaded ==
+                            latestAssignmentResponseModel.data?.isUploaded ==
                                     true
                                 ? AppColors.assignBgGreen
                                 : AppColors.assignBgPink,
