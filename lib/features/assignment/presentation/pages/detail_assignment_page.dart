@@ -55,7 +55,7 @@ class _DetailAssignmentPageState extends State<DetailAssignmentPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Detail Assignment'),
+        title: const Text('Detail Tugas'),
       ),
       body: BlocBuilder<DetailAssignmentBloc, DetailAssignmentState>(
         builder: (context, state) {
@@ -161,7 +161,7 @@ class _DetailAssignmentPageState extends State<DetailAssignmentPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text(
-                              'Description',
+                              'Keterangan',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
@@ -176,7 +176,7 @@ class _DetailAssignmentPageState extends State<DetailAssignmentPage> {
                             ),
                             const SpaceHeight(10),
                             const Text(
-                              'Start : ',
+                              'Mulai : ',
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
@@ -191,7 +191,7 @@ class _DetailAssignmentPageState extends State<DetailAssignmentPage> {
                             ),
                             const SpaceHeight(10),
                             const Text(
-                              'Deadline : ',
+                              'Selesai : ',
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
@@ -206,7 +206,7 @@ class _DetailAssignmentPageState extends State<DetailAssignmentPage> {
                             ),
                             const SpaceHeight(20),
                             const Text(
-                              'Question File',
+                              'File',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
@@ -234,8 +234,8 @@ class _DetailAssignmentPageState extends State<DetailAssignmentPage> {
                               label: detailAssignmentResponseModel
                                           .data.questionFile !=
                                       null
-                                  ? 'Click to Download Question File'
-                                  : 'File Not Available',
+                                  ? 'Klik Untuk Unduh File'
+                                  : 'Tidak Ada File',
                               color: detailAssignmentResponseModel
                                           .data.questionFile !=
                                       null
@@ -286,7 +286,7 @@ class _DetailAssignmentPageState extends State<DetailAssignmentPage> {
                                             Uri.parse(url), context);
                                       }
                                     },
-                                    label: 'Click to Download your File',
+                                    label: 'Klik Untuk Download File',
                                     color: AppColors.assignGreen,
                                   )
                                 : Column(
@@ -427,8 +427,8 @@ class _DetailAssignmentPageState extends State<DetailAssignmentPage> {
                                                                 .data
                                                                 .isUploaded ==
                                                             true
-                                                        ? 'Update Assignment'
-                                                        : 'Upload Assignment',
+                                                        ? 'Update Tugas'
+                                                        : 'Upload Tugas',
                                                 color:
                                                     detailAssignmentResponseModel
                                                                 .data

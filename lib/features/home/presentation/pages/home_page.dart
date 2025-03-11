@@ -64,7 +64,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   const SpaceWidth(10),
                   const Text(
-                    'Home',
+                    'Beranda',
                     style: TextStyle(
                       color: AppColors.primary,
                       fontSize: 24,

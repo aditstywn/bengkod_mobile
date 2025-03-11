@@ -69,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
           const SpaceHeight(16),
           CustomTextField(
             controller: passwordController,
-            label: 'Password',
+            label: 'Kata Sandi',
             obscureText: isObscure,
             textInputAction: TextInputAction.done,
             suffixIcon: InkWell(

@@ -37,7 +37,7 @@ class _DetailCoursesPageState extends State<DetailCoursesPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.white,
-        title: const Text('Detail Courses'),
+        title: const Text('Detail Kursus'),
       ),
       body: BlocBuilder<ArticleBloc, ArticleState>(
         builder: (context, state) {

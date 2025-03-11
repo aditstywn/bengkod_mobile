@@ -94,7 +94,7 @@ class _MainNavState extends State<MainNav> {
                     ),
                   ],
                 ),
-                label: 'Home',
+                label: 'Beranda',
               ),
               BottomNavigationBarItem(
                 icon: Column(

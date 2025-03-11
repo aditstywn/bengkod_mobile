@@ -36,7 +36,7 @@ class _ClassAndAssignmentPageState extends State<ClassAndAssignmentPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Assignment'),
+        title: const Text('Tugas'),
       ),
       body: BlocBuilder<ClassAndAssignmentBloc, ClassAndAssignmentState>(
         builder: (context, state) {

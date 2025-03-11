@@ -31,7 +31,7 @@ class _ClassPageState extends State<ClassPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Class',
+          'Kelas',
         ),
       ),
       body: BlocBuilder<ClassBloc, ClassState>(

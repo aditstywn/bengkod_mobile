@@ -100,13 +100,13 @@ class AssignmentCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Start $start',
+                            'Mulai $start',
                             style: const TextStyle(
                               fontSize: 9,
                             ),
                           ),
                           Text(
-                            'Deadline $deadline',
+                            'Selesai $deadline',
                             style: const TextStyle(
                               color: AppColors.red,
                               fontSize: 9,

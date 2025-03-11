@@ -274,8 +274,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 },
               ),
               SpaceHeight(20),
-              Button.filled(
-                color: AppColors.setting,
+              Button.outlined(
+                color: Colors.transparent,
                 onPressed: () {
                   context.push(const SettingsPage());
                 },

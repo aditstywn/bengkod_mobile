@@ -38,7 +38,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Change Password'),
+        title: const Text('Ubah Kata Sandi'),
       ),
       body: ListView(
         padding: const EdgeInsets.symmetric(
@@ -59,8 +59,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   CustomTextField(
                     obscureText: _isObscureOldPassword,
                     controller: _oldPasswordController,
-                    label: 'Password',
-                    hintext: 'Enter your old password',
+                    label: 'Kata Sandi Lama',
+                    hintext: 'Masukkan Kata Sandi Lama',
                     textInputAction: TextInputAction.next,
                     suffixIcon: InkWell(
                       onTap: () {
@@ -79,8 +79,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   CustomTextField(
                     obscureText: _isObscureNewPassword,
                     controller: _newPasswordController,
-                    label: 'New Password',
-                    hintext: 'Add new password',
+                    label: 'Kata Sandi Baru',
+                    hintext: 'Masukkan Kata Sandi Baru',
                     textInputAction: TextInputAction.next,
                     suffixIcon: InkWell(
                       onTap: () {
@@ -99,8 +99,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   CustomTextField(
                     obscureText: _isObscureConfirmPassword,
                     controller: _confirmPasswordController,
-                    label: 'Confirm Password',
-                    hintext: 'Confirm new password',
+                    label: 'Konfirmasi Password Baru',
+                    hintext: 'Konfirmasi Kata SandiBaru',
                     textInputAction: TextInputAction.done,
                     suffixIcon: InkWell(
                       onTap: () {
@@ -149,7 +149,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                           .read<SettingsBloc>()
                           .add(SettingsEvent.updatePassword(updatePassword));
                     },
-                    label: 'Change Password',
+                    label: 'Ubah Kata Sandi',
                   );
                 },
                 loading: () => Button.filled(

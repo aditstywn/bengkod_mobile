@@ -38,7 +38,7 @@ class _InformationPageState extends State<InformationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Information Class'),
+        title: const Text('Informasi Kelas'),
       ),
       body: RefreshIndicator(
         onRefresh: () async {
@@ -89,7 +89,7 @@ class _InformationPageState extends State<InformationPage> {
                             ),
                           ),
                           Text(
-                            '90',
+                            '-',
                             style: TextStyle(
                               color: AppColors.white,
                               fontSize: 28,
@@ -111,7 +111,7 @@ class _InformationPageState extends State<InformationPage> {
                             ),
                           ),
                           Text(
-                            '90',
+                            '-',
                             style: TextStyle(
                               color: AppColors.white,
                               fontSize: 28,
@@ -133,7 +133,7 @@ class _InformationPageState extends State<InformationPage> {
                             ),
                           ),
                           Text(
-                            '90',
+                            '-',
                             style: TextStyle(
                               color: AppColors.white,
                               fontSize: 28,
@@ -168,7 +168,7 @@ class _InformationPageState extends State<InformationPage> {
                           ),
                         ),
                         Text(
-                          'A',
+                          '-',
                           style: TextStyle(
                             color: AppColors.white,
                             fontSize: 28,
@@ -194,7 +194,7 @@ class _InformationPageState extends State<InformationPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'Information',
+                          'Informasi',
                           style: TextStyle(
                             color: AppColors.black,
                             fontSize: 18,
@@ -219,7 +219,7 @@ class _InformationPageState extends State<InformationPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'Information',
+                          'Informasi',
                           style: TextStyle(
                             color: AppColors.black,
                             fontSize: 18,
@@ -280,7 +280,7 @@ class _InformationPageState extends State<InformationPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'Structure Class',
+                          'Struktur Kelas',
                           style: TextStyle(
                             color: AppColors.black,
                             fontSize: 18,
@@ -305,7 +305,7 @@ class _InformationPageState extends State<InformationPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'Structure Class',
+                          'Struktur Kelas',
                           style: TextStyle(
                             color: AppColors.black,
                             fontSize: 18,

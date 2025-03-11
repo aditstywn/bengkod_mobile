@@ -34,7 +34,7 @@ class _CoursesPageState extends State<CoursesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Courses'),
+        title: const Text('Kursus'),
       ),
       body: RefreshIndicator(
         onRefresh: () async {
