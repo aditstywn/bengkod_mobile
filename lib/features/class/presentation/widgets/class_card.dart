@@ -48,7 +48,7 @@ class ClassCard extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     color: AppColors.white,
                   ),
-                  maxLines: 2,
+                  maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SpaceHeight(6),

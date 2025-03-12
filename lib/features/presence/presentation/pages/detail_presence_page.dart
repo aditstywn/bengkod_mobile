@@ -135,6 +135,9 @@ class _DetailPresencePageState extends State<DetailPresencePage> {
                     Align(
                       alignment: Alignment.topLeft,
                       child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                        ),
                         height: 40,
                         width: 224,
                         decoration: const BoxDecoration(
