@@ -31,6 +31,8 @@ class AppColors {
 
   static const Color green = Color(0xFF389517);
 
+  static const Color lightGreen = Color(0xffBEF3AF);
+
   static Color error = const Color(0xFFE45E5E);
 
   // menu

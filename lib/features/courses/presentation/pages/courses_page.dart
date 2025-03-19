@@ -1,18 +1,19 @@
-import 'package:shimmer_animation/shimmer_animation.dart';
-
-import '../../../../core/components/error_card.dart';
-import '../../../../core/extensions/build_context_ext.dart';
-import '../bloc/lesson/lesson_bloc.dart';
-import '../../data/models/response/lesson_response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
+import '../../../../core/components/error_card.dart';
 import '../../../../core/components/spaces.dart';
 import '../../../../core/config/app_color.dart';
+import '../../../../core/extensions/build_context_ext.dart';
+import '../../data/models/response/lesson_response_model.dart';
 import '../bloc/courses/courses_bloc.dart';
+import '../bloc/lesson/lesson_bloc.dart';
 import '../widgets/courses_card.dart';
 import 'detail_courses_page.dart';
+import 'discussion_forum_page.dart';
+import 'quiz_dashboard.dart';
 
 class CoursesPage extends StatefulWidget {
   final int idClass;
@@ -24,6 +25,7 @@ class CoursesPage extends StatefulWidget {
 }
 
 class _CoursesPageState extends State<CoursesPage> {
+  final ScrollController _scrollController = ScrollController();
   @override
   void initState() {
     super.initState();
@@ -44,7 +46,12 @@ class _CoursesPageState extends State<CoursesPage> {
         },
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          padding: const EdgeInsets.only(
+            left: 16,
+            right: 16,
+            top: 16,
+            bottom: 80,
+          ),
           child: Column(
             children: [
               BlocBuilder<CoursesBloc, CoursesState>(
@@ -88,29 +95,47 @@ class _CoursesPageState extends State<CoursesPage> {
                             .add(LessonEvent.getLesson(courses[0].id));
                       }
 
-                      return SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: courses.map((course) {
-                            return Row(
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    context.read<LessonBloc>().add(
-                                          LessonEvent.getLesson(course.id),
-                                        );
-                                  },
-                                  child: CoursesCard(
-                                    length: courses.length,
-                                    color: AppColors.pink,
-                                    icon: course.image,
-                                    title: course.title,
-                                  ),
-                                ),
-                                const SpaceWidth(10),
-                              ],
-                            );
-                          }).toList(),
+                      return ScrollbarTheme(
+                        data: ScrollbarThemeData(
+                          thumbColor:
+                              WidgetStateProperty.all(AppColors.primary),
+                          thickness: WidgetStateProperty.all(4),
+                          radius: Radius.circular(10),
+                        ),
+                        child: Scrollbar(
+                          controller: _scrollController,
+                          thumbVisibility: true,
+                          trackVisibility: true,
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: SingleChildScrollView(
+                              controller: _scrollController,
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: courses.map((course) {
+                                  return Row(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          context.read<LessonBloc>().add(
+                                                LessonEvent.getLesson(
+                                                    course.id),
+                                              );
+                                        },
+                                        child: CoursesCard(
+                                          length: courses.length,
+                                          color: AppColors.pink,
+                                          icon: course.image,
+                                          title: course.title,
+                                        ),
+                                      ),
+                                      const SpaceWidth(10),
+                                    ],
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          ),
                         ),
                       );
                     },
@@ -181,6 +206,53 @@ class _CoursesPageState extends State<CoursesPage> {
                                   lessonResponseModel);
                             },
                           ),
+                          Card(
+                            color: AppColors.white,
+                            elevation: 2,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Container(
+                              padding: EdgeInsets.all(14),
+                              width: double.infinity,
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    'assets/icons/icon_checkist2.svg',
+                                    width: 18,
+                                  ),
+                                  SpaceWidth(22),
+                                  Text(
+                                    'Ujian Akhir',
+                                    style: const TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.primary,
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      context.push(QuizDashboard());
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: AppColors.primary,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                    child: const Text(
+                                      'Lanjut',
+                                      style: TextStyle(
+                                        color: AppColors.white,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                         ],
                       );
                     },
@@ -190,6 +262,20 @@ class _CoursesPageState extends State<CoursesPage> {
             ],
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: AppColors.primary,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50),
+        ),
+        child: const Icon(
+          Icons.chat_outlined,
+          size: 30,
+          color: AppColors.white,
+        ),
+        onPressed: () {
+          context.push(DiscussionForumPage());
+        },
       ),
     );
   }
