@@ -10,6 +10,7 @@ import '../../../../core/extensions/build_context_ext.dart';
 import '../../../assignment/presentation/pages/class_and_assignment_page.dart';
 import '../../../assignment/presentation/pages/detail_assignment_page.dart';
 import '../../../assignment/presentation/widgets/assignment_card.dart';
+import '../../../certificate/presentation/pages/certificate_page.dart';
 import '../../../class/presentation/pages/class_page.dart';
 import '../../../courses/presentation/pages/class_courses_page.dart';
 import '../../../courses/presentation/pages/courses_page.dart';
@@ -230,7 +231,9 @@ class _HomePageState extends State<HomePage> {
                     icon: 'assets/icons/learning_path.svg',
                   ),
                   MenuButton(
-                    onTap: () {},
+                    onTap: () {
+                      context.push(CertificatePage());
+                    },
                     color: Color(0xFFAF6AA8),
                     colorScondary: Color(0xFF6B6AAF),
                     title: 'Sertifikat',
