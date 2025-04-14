@@ -10,7 +10,6 @@ import '../../../../core/extensions/string_truncut_ext.dart';
 
 import '../../../../core/components/error_card.dart';
 import '../../../../core/config/app_color.dart';
-import '../../../../core/extensions/build_context_ext.dart';
 import '../bloc/article/article_bloc.dart';
 
 class DetailCoursesPage extends StatefulWidget {
@@ -103,16 +102,32 @@ class _DetailCoursesPageState extends State<DetailCoursesPage> {
               );
             },
             getArticleSuccess: (articleResponseModel) {
-              final htmlContent = md.markdownToHtml(
-                articleResponseModel.data.content.replaceAll('\\n', '\n'),
-                blockSyntaxes: [
-                  const md.TableSyntax(),
-                  LatexBlockSyntax(),
-                ],
-                extensionSet: md.ExtensionSet.gitHubFlavored,
+              // final htmlContent = md.markdownToHtml(
+              //   articleResponseModel.data.content.replaceAll('\\n', '\n'),
+              //   blockSyntaxes: [
+              //     const md.TableSyntax(),
+              //     LatexBlockSyntax(),
+              //   ],
+              //   extensionSet: md.ExtensionSet.gitHubFlavored,
+              // );
+
+              // final dataContent = html.convert(htmlContent);
+
+              final imgTagRegex = RegExp(
+                r'''<img[^>]*src=["']([^"']+)["'][^>]*alt=["']([^"']*)["'][^>]*>''',
+                caseSensitive: false,
               );
 
-              final dataContent = html.convert(htmlContent);
+              final content = articleResponseModel.data.content
+                  .replaceAll('\\n', '\n')
+                  .replaceAll('<br>', '\n');
+
+              final dataContent =
+                  content.replaceAllMapped(imgTagRegex, (match) {
+                final src = match.group(1) ?? '';
+                final alt = match.group(2) ?? 'image'; // bisa juga kasih kosong
+                return '![${alt}](${src})';
+              });
 
               return Stack(
                 children: [
@@ -137,7 +152,7 @@ class _DetailCoursesPageState extends State<DetailCoursesPage> {
                             vertical: 16,
                           ),
                           child: MarkdownBody(
-                            data: dataContent.replaceAll('<br>', '\n'),
+                            data: dataContent,
                             // data: articleResponseModel.data.content,
                             selectable: true,
                             styleSheet: MarkdownStyleSheet(
@@ -235,95 +250,6 @@ class _DetailCoursesPageState extends State<DetailCoursesPage> {
                       ),
                     ),
                   ),
-                  // if (articleResponseModel.data.prev != null) ...[
-                  // Positioned(
-                  //   left: 16,
-                  //   bottom: 10,
-                  //   child: InkWell(
-                  //     onTap: () {
-                  //       if (articleResponseModel.data.prev != null) {
-                  //         context.pushReplacement(
-                  //           DetailCoursesPage(
-                  //             idCourses: widget.idCourses,
-                  //             idArticle: articleResponseModel.data.prev!.id,
-                  //           ),
-                  //         );
-                  //       }
-                  //     },
-                  //     child: Container(
-                  //       padding: const EdgeInsets.symmetric(
-                  //           horizontal: 12, vertical: 8),
-                  //       decoration: BoxDecoration(
-                  //         color: AppColors.primary,
-                  //         borderRadius: BorderRadius.circular(8),
-                  //       ),
-                  //       child: Row(
-                  //         children: [
-                  //           const Icon(
-                  //             Icons.arrow_back,
-                  //             size: 18,
-                  //             color: Colors.white,
-                  //           ),
-                  //           const SizedBox(width: 8),
-                  //           Text(
-                  //             articleResponseModel.data.prev!.name
-                  //                 .truncateCharacters(10),
-                  //             style: const TextStyle(
-                  //               fontSize: 12,
-                  //               color: Colors.white,
-                  //             ),
-                  //           ),
-                  //         ],
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                  // ],
-                  // if (articleResponseModel.data.next != null) ...[
-                  //   Positioned(
-                  //     right: 16,
-                  //     bottom: 10,
-                  //     child: InkWell(
-                  //       onTap: () {
-                  //         if (articleResponseModel.data.next != null) {
-                  //           context.pushReplacement(
-                  //             DetailCoursesPage(
-                  //               idCourses: widget.idCourses,
-                  //               idArticle: articleResponseModel.data.next!.id,
-                  //             ),
-                  //           );
-                  //         }
-                  //       },
-                  //       child: Container(
-                  //         padding: const EdgeInsets.symmetric(
-                  //             horizontal: 12, vertical: 8),
-                  //         decoration: BoxDecoration(
-                  //           color: AppColors.primary,
-                  //           borderRadius: BorderRadius.circular(8),
-                  //         ),
-                  //         child: Row(
-                  //           children: [
-                  //             Text(
-                  //               articleResponseModel.data.next!.name
-                  //                   .truncateCharacters(10),
-                  //               style: const TextStyle(
-                  //                 fontSize: 12,
-                  //                 color: Colors.white,
-                  //               ),
-                  //               maxLines: 1,
-                  //             ),
-                  //             const SizedBox(width: 8),
-                  //             const Icon(
-                  //               Icons.arrow_forward,
-                  //               size: 18,
-                  //               color: Colors.white,
-                  //             ),
-                  //           ],
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ],
                   if (articleResponseModel.data.prev != null ||
                       articleResponseModel.data.next != null)
                     Align(
@@ -338,13 +264,18 @@ class _DetailCoursesPageState extends State<DetailCoursesPage> {
                               InkWell(
                                 onTap: () {
                                   if (articleResponseModel.data.prev != null) {
-                                    context.pushReplacement(
-                                      DetailCoursesPage(
-                                        idCourses: widget.idCourses,
-                                        idArticle:
-                                            articleResponseModel.data.prev!.id,
-                                      ),
-                                    );
+                                    // context.pushReplacement(
+                                    //   DetailCoursesPage(
+                                    //     idCourses: widget.idCourses,
+                                    //     idArticle:
+                                    //         articleResponseModel.data.prev!.id,
+                                    //   ),
+                                    // );
+                                    context.read<ArticleBloc>().add(
+                                        ArticleEvent.getArticle(
+                                            widget.idCourses,
+                                            articleResponseModel
+                                                .data.prev!.id));
                                   }
                                 },
                                 child: Container(
@@ -383,13 +314,18 @@ class _DetailCoursesPageState extends State<DetailCoursesPage> {
                               InkWell(
                                 onTap: () {
                                   if (articleResponseModel.data.next != null) {
-                                    context.pushReplacement(
-                                      DetailCoursesPage(
-                                        idCourses: widget.idCourses,
-                                        idArticle:
-                                            articleResponseModel.data.next!.id,
-                                      ),
-                                    );
+                                    // context.pushReplacement(
+                                    //   DetailCoursesPage(
+                                    //     idCourses: widget.idCourses,
+                                    //     idArticle:
+                                    //         articleResponseModel.data.next!.id,
+                                    //   ),
+                                    // );
+                                    context.read<ArticleBloc>().add(
+                                        ArticleEvent.getArticle(
+                                            widget.idCourses,
+                                            articleResponseModel
+                                                .data.next!.id));
                                   }
                                 },
                                 child: Container(

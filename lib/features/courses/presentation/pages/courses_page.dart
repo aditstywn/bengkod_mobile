@@ -107,7 +107,7 @@ class _CoursesPageState extends State<CoursesPage> {
                           thumbVisibility: true,
                           trackVisibility: true,
                           child: Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
+                            padding: const EdgeInsets.only(bottom: 35),
                             child: SingleChildScrollView(
                               controller: _scrollController,
                               scrollDirection: Axis.horizontal,

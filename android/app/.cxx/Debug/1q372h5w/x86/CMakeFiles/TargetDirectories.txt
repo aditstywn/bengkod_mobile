@@ -1,0 +1,2 @@
+D:/Development/Bengkel Koding/bengkod_mobile/android/app/.cxx/Debug/1q372h5w/x86/CMakeFiles/edit_cache.dir
+D:/Development/Bengkel Koding/bengkod_mobile/android/app/.cxx/Debug/1q372h5w/x86/CMakeFiles/rebuild_cache.dir

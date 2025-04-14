@@ -65,6 +65,10 @@ class _DiscussionForumPageState extends State<DiscussionForumPage> {
                   closedHeaderPadding: EdgeInsets.all(8),
                   decoration: CustomDropdownDecoration(
                     closedBorderRadius: BorderRadius.circular(8),
+                    closedBorder: Border.all(
+                      color: AppColors.primary,
+                      width: 1,
+                    ),
                   ),
                   items: diskusi.keys.toList(),
                   hintText: 'Urutkan',
@@ -79,6 +83,10 @@ class _DiscussionForumPageState extends State<DiscussionForumPage> {
                   closedHeaderPadding: EdgeInsets.all(8),
                   decoration: CustomDropdownDecoration(
                     closedBorderRadius: BorderRadius.circular(8),
+                    closedBorder: Border.all(
+                      color: AppColors.primary,
+                      width: 1,
+                    ),
                   ),
                   items: kursus.keys.toList(),
                   hintText: 'Kursus',
