@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:google_sign_in/google_sign_in.dart';
+
+import '../models/response/google_sign_in_response_model.dart';
 import '../models/response/logout_response_model.dart';
 import '../models/response/refresh_token_response_model.dart';
 import 'package:dartz/dartz.dart';
@@ -11,6 +14,10 @@ import '../models/response/login_response_model.dart';
 import 'auth_local_datasource.dart';
 
 class AuthRemoteDatasource {
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    serverClientId: Url.clientId,
+    scopes: ['email', 'profile', 'openid'],
+  );
   Future<Either<String, LoginResponseModel>> login(
       LoginRequestModel loginRequestModel) async {
     try {
@@ -33,6 +40,32 @@ class AuthRemoteDatasource {
     }
   }
 
+  Future<Either<String, GoogleSignInResponseModel>> googleSignIn(
+      String idToken) async {
+    try {
+      final response = await http.post(
+        Uri.parse('${Url.baseUrl}/api/v2/mobile/student/auth/google-login'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: json.encode({
+          'id_token': idToken,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        return right(GoogleSignInResponseModel.fromJson(response.body));
+      } else {
+        final error = json.decode(response.body);
+
+        return left(error['meta']['error']);
+      }
+    } catch (e) {
+      return left('Login Failed');
+    }
+  }
+
   // logout
   Future<Either<String, LogoutResponseModel>> logout() async {
     try {
@@ -46,6 +79,7 @@ class AuthRemoteDatasource {
       );
 
       if (response.statusCode == 200) {
+        _googleSignIn.signOut();
         return Right(LogoutResponseModel.fromJson(response.body));
       } else {
         return const Left('Logout Gagal');

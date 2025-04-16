@@ -115,15 +115,22 @@ class Button extends StatelessWidget {
                   icon ?? const SizedBox.shrink(),
                   if (icon != null) const SizedBox(width: 10.0),
                   Flexible(
-                    child: Text(
-                      label,
-                      style: TextStyle(
-                        color: textColor,
-                        fontSize: fontSize,
-                        fontWeight: FontWeight.w700,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
+                    child: isLoading == true
+                        ? SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(
+                              color: AppColors.primary,
+                            ),
+                          )
+                        : Text(
+                            label,
+                            style: TextStyle(
+                              color: textColor,
+                              fontSize: fontSize,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
                   ),
                   iconRight ?? const SizedBox.shrink(),
                   if (iconRight != null) const SizedBox(width: 10.0),

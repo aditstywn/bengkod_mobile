@@ -10,7 +10,7 @@ import '../../../../core/components/spaces.dart';
 import '../../../../core/config/app_color.dart';
 import '../../../../core/extensions/build_context_ext.dart';
 import '../../../auth/data/datasource/auth_local_datasource.dart';
-import '../../../auth/presentation/bloc/auth_bloc.dart';
+import '../../../auth/presentation/bloc/auth/auth_bloc.dart';
 import '../../../auth/presentation/pages/login_page.dart';
 import '../../../settings/presentation/pages/settings_page.dart';
 import '../bloc/profile_bloc.dart';
@@ -288,6 +288,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     orElse: () {},
                     logoutSuccess: (logoutResponseModel) {
                       AuthLocalDatasource().removeAuthData();
+                      AuthLocalDatasource().removeToken();
                       context.pushReplacement(const LoginPage());
                     },
                     error: (message) {

@@ -5,7 +5,7 @@ import 'package:bengkod_mobile_app/features/auth/data/models/response/refresh_to
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../data/models/response/login_response_model.dart';
+import '../../../data/models/response/login_response_model.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';

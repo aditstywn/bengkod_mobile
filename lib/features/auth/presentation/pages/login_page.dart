@@ -7,14 +7,17 @@ import 'package:bengkod_mobile_app/features/main_nav.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../../../core/components/custom_text_field.dart';
+import '../../../../core/config/url.dart';
 import '../../../class/presentation/bloc/class/class_bloc.dart';
 import '../../../home/presentation/bloc/active_course/active_course_bloc.dart';
 import '../../../home/presentation/bloc/latest_assignment/latest_assignment_bloc.dart';
 import '../../../profile/presentation/bloc/profile_bloc.dart';
 import '../../data/models/request/login_request_model.dart';
-import '../bloc/auth_bloc.dart';
+import '../bloc/auth/auth_bloc.dart';
+import '../bloc/google/google_bloc.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -28,6 +31,43 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController passwordController = TextEditingController();
 
   bool isObscure = true;
+
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    serverClientId: Url.clientId,
+    scopes: ['email', 'profile', 'openid'],
+  );
+
+  Future<void> _handleGoogleSignIn(BuildContext context) async {
+    try {
+      await _googleSignIn.signOut();
+      final account = await _googleSignIn.signIn();
+      if (account != null) {
+        final auth = await account.authentication;
+        final idToken = auth.idToken;
+
+        debugPrint('ID Token: $idToken');
+
+        if (idToken != null) {
+          final googleRequest = idToken;
+          if (context.mounted) {
+            context
+                .read<GoogleBloc>()
+                .add(GoogleEvent.googleSignIn(googleRequest));
+          }
+        }
+      }
+    } catch (error) {
+      debugPrint('Error signing in with Google: $error');
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Login Google Gagal: $error'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
 
   @override
   void dispose() {
@@ -140,6 +180,61 @@ class _LoginPageState extends State<LoginPage> {
                       context.read<AuthBloc>().add(AuthEvent.login(login));
                     },
                     label: 'Masuk',
+                  );
+                },
+              );
+            },
+          ),
+          SpaceHeight(10),
+          BlocConsumer<GoogleBloc, GoogleState>(
+            listener: (context, state) {
+              state.maybeWhen(
+                orElse: () {},
+                googleSignInSucess: (googleSignInResponseModel) {
+                  AuthLocalDatasource()
+                      .saveToken(googleSignInResponseModel.token!);
+                  context.pushReplacement(const MainNav());
+
+                  context
+                      .read<LatestAssignmentBloc>()
+                      .add(const LatestAssignmentEvent.getLatestAssignment());
+                  context
+                      .read<ActiveCourseBloc>()
+                      .add(const ActiveCourseEvent.getActiveCourse());
+                  context.read<ClassBloc>().add(const ClassEvent.getClass());
+                  context
+                      .read<ProfileBloc>()
+                      .add(const ProfileEvent.getProfile());
+                },
+                error: (message) {
+                  context.showAlert(
+                    false,
+                    message,
+                    50,
+                  );
+
+                  passwordController.clear();
+                },
+              );
+            },
+            builder: (context, state) {
+              return state.maybeWhen(
+                loading: () => Button.outlined(
+                  onPressed: () {},
+                  label: 'Loading...',
+                  isLoading: true,
+                ),
+                orElse: () {
+                  return Button.outlined(
+                    onPressed: () {
+                      _handleGoogleSignIn(context);
+                    },
+                    label: 'Masuk Dengan Google',
+                    icon: Image.asset(
+                      'assets/images/google.png',
+                      height: 24,
+                      width: 24,
+                    ),
                   );
                 },
               );

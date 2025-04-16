@@ -1,4 +1,5 @@
 import 'package:bengkod_mobile_app/core/style/theme/bengkod_theme.dart';
+import 'package:bengkod_mobile_app/features/auth/presentation/bloc/google/google_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,7 +11,7 @@ import 'features/assignment/presentation/bloc/detailAssignment/detail_assignment
 import 'features/assignment/presentation/bloc/submit/submit_bloc.dart';
 import 'features/assignment/presentation/bloc/task/task_bloc.dart';
 import 'features/auth/data/datasource/auth_remote_datasource.dart';
-import 'features/auth/presentation/bloc/auth_bloc.dart';
+import 'features/auth/presentation/bloc/auth/auth_bloc.dart';
 import 'features/auth/presentation/pages/splash_page.dart';
 import 'features/class/data/datasource/class_remote_datasource.dart';
 import 'features/class/presentation/bloc/class/class_bloc.dart';
@@ -57,6 +58,10 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider(
             create: (context) => AuthBloc(context.read<AuthRemoteDatasource>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                GoogleBloc(context.read<AuthRemoteDatasource>()),
           ),
           BlocProvider(
             create: (context) =>

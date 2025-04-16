@@ -30,8 +30,13 @@ class AuthLocalDatasource {
     return prefs.getString('token')!;
   }
 
+  Future<void> removeToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('token');
+  }
+
   Future<bool> isAuth() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.containsKey('auth_data');
+    return prefs.containsKey('token');
   }
 }

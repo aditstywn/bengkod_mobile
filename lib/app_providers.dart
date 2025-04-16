@@ -9,7 +9,7 @@ import 'features/assignment/presentation/bloc/detailAssignment/detail_assignment
 import 'features/assignment/presentation/bloc/submit/submit_bloc.dart';
 import 'features/assignment/presentation/bloc/task/task_bloc.dart';
 import 'features/auth/data/datasource/auth_remote_datasource.dart';
-import 'features/auth/presentation/bloc/auth_bloc.dart';
+import 'features/auth/presentation/bloc/auth/auth_bloc.dart';
 import 'features/class/data/datasource/class_remote_datasource.dart';
 import 'features/class/presentation/bloc/class/class_bloc.dart';
 import 'features/class/presentation/bloc/information/information_bloc.dart';
