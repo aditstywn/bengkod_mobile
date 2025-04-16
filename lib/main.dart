@@ -1,5 +1,6 @@
 import 'package:bengkod_mobile_app/core/style/theme/bengkod_theme.dart';
 import 'package:bengkod_mobile_app/features/auth/presentation/bloc/google/google_bloc.dart';
+import 'package:bengkod_mobile_app/features/class/presentation/bloc/grades/grades_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -70,6 +71,10 @@ class MyApp extends StatelessWidget {
           BlocProvider(
             create: (context) =>
                 ClassBloc(context.read<ClassRemoteDatasource>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                GradesBloc(context.read<ClassRemoteDatasource>()),
           ),
           BlocProvider(
             create: (context) =>

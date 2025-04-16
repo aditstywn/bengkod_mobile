@@ -1,3 +1,4 @@
+import 'package:bengkod_mobile_app/features/class/data/models/response/grades_response_model.dart';
 import 'package:bengkod_mobile_app/features/class/data/models/response/student_class_response_model.dart';
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
@@ -28,6 +29,28 @@ class ClassRemoteDatasource {
       }
     } catch (e) {
       return const Left('Gagal mendapatkan data class');
+    }
+  }
+
+  Future<Either<String, GradesResponseModel>> grades(int id) async {
+    try {
+      final token = await AuthLocalDatasource().getToken();
+      final response = await http.get(
+        Uri.parse('${Url.baseUrl}/classroom/$id/grades'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        return Right(GradesResponseModel.fromJson(response.body));
+      } else {
+        return const Left('Gagal mendapatkan data nilai');
+      }
+    } catch (e) {
+      return const Left('Gagal mendapatkan data nilai');
     }
   }
 

@@ -1,3 +1,4 @@
+import 'package:bengkod_mobile_app/features/class/presentation/bloc/grades/grades_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,6 +33,7 @@ class _InformationPageState extends State<InformationPage> {
         .read<InformationBloc>()
         .add(InformationEvent.getInformation(widget.id));
     context.read<StudentBloc>().add(StudentEvent.getStudent(widget.id));
+    context.read<GradesBloc>().add(GradesEvent.getGrades(widget.id));
   }
 
   @override
@@ -49,6 +51,7 @@ class _InformationPageState extends State<InformationPage> {
               .read<InformationBloc>()
               .add(InformationEvent.getInformation(widget.id));
           context.read<StudentBloc>().add(StudentEvent.getStudent(widget.id));
+          context.read<GradesBloc>().add(GradesEvent.getGrades(widget.id));
         },
         child: ListView(
           padding: const EdgeInsets.symmetric(
@@ -56,130 +59,164 @@ class _InformationPageState extends State<InformationPage> {
             vertical: 16,
           ),
           children: [
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  height: 110,
-                  width: context.deviceWidth * 0.65,
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [
-                        AppColors.secondary,
-                        AppColors.primary,
-                      ],
-                      begin: Alignment.centerRight,
-                      end: Alignment.centerLeft,
-                    ),
-                    borderRadius: BorderRadius.circular(10),
+            BlocBuilder<GradesBloc, GradesState>(
+              builder: (context, state) {
+                return state.maybeWhen(
+                  orElse: () => const SizedBox(),
+                  error: (message) => Center(
+                    child: Text(message),
                   ),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(
-                            'Tugas',
-                            style: TextStyle(
-                              color: AppColors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            '-',
-                            style: TextStyle(
-                              color: AppColors.white,
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
+                  loading: () {
+                    return Shimmer(
+                      child: Container(
+                        height: 110,
+                        decoration: BoxDecoration(
+                          color: AppColors.shimer,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(
-                            'UTS',
-                            style: TextStyle(
-                              color: AppColors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            '-',
-                            style: TextStyle(
-                              color: AppColors.white,
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(
-                            'UAS',
-                            style: TextStyle(
-                              color: AppColors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            '-',
-                            style: TextStyle(
-                              color: AppColors.white,
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                const SpaceWidth(10),
-                Flexible(
-                  child: Container(
-                    padding: const EdgeInsets.all(16),
-                    height: 110,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: AppColors.secondary,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: const Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    );
+                  },
+                  getGradesSuccess: (grades) {
+                    return Row(
                       children: [
-                        Text(
-                          'Hasil',
-                          style: TextStyle(
-                            color: AppColors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
+                        Container(
+                          padding: const EdgeInsets.all(16),
+                          height: 110,
+                          width: context.deviceWidth * 0.55,
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              colors: [
+                                AppColors.secondary,
+                                AppColors.primary,
+                              ],
+                              begin: Alignment.centerRight,
+                              end: Alignment.centerLeft,
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text(
+                                    'Tugas',
+                                    style: TextStyle(
+                                      color: AppColors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    grades.data?.taskScore.toString() ?? '-',
+                                    style: TextStyle(
+                                      color: AppColors.white,
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text(
+                                    'UTS',
+                                    style: TextStyle(
+                                      color: AppColors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    grades.data?.utsScore.toString() ?? '-',
+                                    style: TextStyle(
+                                      color: AppColors.white,
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text(
+                                    'UAS',
+                                    style: TextStyle(
+                                      color: AppColors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    grades.data?.uasScore.toString() ?? '-',
+                                    style: TextStyle(
+                                      color: AppColors.white,
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
-                        Text(
-                          '-',
-                          style: TextStyle(
-                            color: AppColors.white,
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
+                        const SpaceWidth(10),
+                        Flexible(
+                          child: Container(
+                            padding: const EdgeInsets.all(16),
+                            height: 110,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: AppColors.secondary,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text(
+                                  'Hasil',
+                                  style: TextStyle(
+                                    color: AppColors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  '${grades.data?.finalScore.toString() ?? '-'} | ${grades.data?.gradeInfo?.grade ?? '-'}',
+                                  style: TextStyle(
+                                    color: AppColors.white,
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  '${grades.data?.gradeInfo?.description ?? '-'}',
+                                  style: TextStyle(
+                                    color: AppColors.white,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],
-                    ),
-                  ),
-                ),
-              ],
+                    );
+                  },
+                );
+              },
             ),
             const SpaceHeight(20),
             BlocBuilder<InformationBloc, InformationState>(
