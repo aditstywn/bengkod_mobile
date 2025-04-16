@@ -145,7 +145,7 @@ class MyApp extends StatelessWidget {
           ),
         ],
         child: MaterialApp(
-          title: 'Flutter Demo',
+          title: 'Bengkod',
           theme: BengkodTheme.lightTheme,
           // darkTheme: BengkodTheme.darkTheme,
           themeMode: ThemeMode.system,
