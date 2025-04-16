@@ -196,6 +196,14 @@ class _IzinPageState extends State<IzinPage> {
                             ? () {
                                 final fileIzin = File(file!.files.single.path!);
 
+                                if (selectedKeteranganIzin == null) {
+                                  context.showAlert(
+                                    false,
+                                    'Pilih keterangan izin',
+                                    50,
+                                  );
+                                  return;
+                                }
                                 final izin = IzinRequestModel(
                                   presenceId: widget.presence.id!,
                                   absenceType: selectedKeteranganIzin!,
@@ -209,11 +217,10 @@ class _IzinPageState extends State<IzinPage> {
                               }
                             : () {}
                         : () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('File belum diupload'),
-                                backgroundColor: AppColors.red,
-                              ),
+                            context.showAlert(
+                              false,
+                              'File tidak boleh kosong',
+                              50,
                             );
                           },
                     label: 'Kirim',
