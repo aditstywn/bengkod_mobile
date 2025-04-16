@@ -12,8 +12,7 @@ class HomeRemoteDatasource {
     try {
       final token = await AuthLocalDatasource().getToken();
       final response = await http.get(
-        Uri.parse(
-            '${Url.baseUrl}/api/v1/mobile/student/dashboard/latest-assignment'),
+        Uri.parse('${Url.baseUrl}/dashboard/latest-assignment'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json',
@@ -35,8 +34,7 @@ class HomeRemoteDatasource {
     try {
       final token = await AuthLocalDatasource().getToken();
       final response = await http.get(
-        Uri.parse(
-            '${Url.baseUrl}/api/v1/mobile/student/dashboard/active-course'),
+        Uri.parse('${Url.baseUrl}/dashboard/active-course'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json',

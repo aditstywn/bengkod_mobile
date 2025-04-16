@@ -22,7 +22,7 @@ class AssignmentRemoteDatasource {
     try {
       final token = await AuthLocalDatasource().getToken();
       final response = await http.get(
-        Uri.parse('${Url.baseUrl}/api/v1/mobile/student/assignment/classroom'),
+        Uri.parse('${Url.baseUrl}/assignment/classroom'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json',
@@ -33,10 +33,10 @@ class AssignmentRemoteDatasource {
       if (response.statusCode == 200) {
         return Right(ClassAssignmentResponseModel.fromJson(response.body));
       } else {
-        return const Left('Gagal mendapatkan data classAssignment');
+        return const Left('Gagal mendapatkan data class');
       }
     } catch (e) {
-      return const Left('Gagal mendapatkan data classAssignment');
+      return const Left('Gagal mendapatkan data class');
     }
   }
 
@@ -45,7 +45,7 @@ class AssignmentRemoteDatasource {
       final token = await AuthLocalDatasource().getToken();
       final response = await http.get(
         Uri.parse(
-            '${Url.baseUrl}/api/v1/mobile/student/assignment/classroom/$id/assignments?paginate=10'),
+            '${Url.baseUrl}/assignment/classroom/$id/assignments?paginate=10'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json',
@@ -69,7 +69,7 @@ class AssignmentRemoteDatasource {
       final token = await AuthLocalDatasource().getToken();
       final response = await http.get(
         Uri.parse(
-            '${Url.baseUrl}/api/v1/mobile/student/assignment/classroom/$idClass/assignments/$idAssignment/detail'),
+            '${Url.baseUrl}/assignment/classroom/$idClass/assignments/$idAssignment/detail'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json',
@@ -104,7 +104,7 @@ class AssignmentRemoteDatasource {
       var request = http.MultipartRequest(
         'POST',
         Uri.parse(
-            '${Url.baseUrl}/api/v1/mobile/student/assignment/classroom/$idClass/assignments/$idAssignment/task'),
+            '${Url.baseUrl}/assignment/classroom/$idClass/assignments/$idAssignment/task'),
       );
 
       request.fields.addAll(uploadTaskRequestModel.toMap());
@@ -134,7 +134,7 @@ class AssignmentRemoteDatasource {
       final token = await AuthLocalDatasource().getToken();
       final response = await http.post(
         Uri.parse(
-            '${Url.baseUrl}/api/v1/mobile/student/assignment/classroom/$idClass/assignments/$idAssignment/task/submit'),
+            '${Url.baseUrl}/assignment/classroom/$idClass/assignments/$idAssignment/task/submit'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json',

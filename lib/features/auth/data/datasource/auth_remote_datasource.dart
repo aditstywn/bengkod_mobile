@@ -22,7 +22,7 @@ class AuthRemoteDatasource {
       LoginRequestModel loginRequestModel) async {
     try {
       final response = await http.post(
-        Uri.parse('${Url.baseUrl}/api/v1/auth/login'),
+        Uri.parse('${Url.baseUrlAuth}/login'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json',
@@ -71,7 +71,7 @@ class AuthRemoteDatasource {
     try {
       final token = await AuthLocalDatasource().getToken();
       final response = await http.post(
-        Uri.parse('${Url.baseUrl}/api/v1/auth/logout'),
+        Uri.parse('${Url.baseUrlAuth}/logout'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer $token',
@@ -93,7 +93,7 @@ class AuthRemoteDatasource {
     try {
       final token = await AuthLocalDatasource().getToken();
       final response = await http.get(
-        Uri.parse('${Url.baseUrl}/api/v1/auth/refresh-token'),
+        Uri.parse('${Url.baseUrlAuth}/refresh-token'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer $token',
@@ -140,7 +140,7 @@ class AuthRemoteDatasource {
   Future<bool> isTokenBlacklisted() async {
     try {
       final response = await http.get(
-        Uri.parse('${Url.baseUrl}/api/v1/auth/profile'),
+        Uri.parse('${Url.baseUrlAuth}/profile'),
         headers: {
           'Authorization': 'Bearer ${await AuthLocalDatasource().getToken()}'
         },

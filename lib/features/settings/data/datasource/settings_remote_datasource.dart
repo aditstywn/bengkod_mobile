@@ -14,7 +14,7 @@ class SettingsRemoteDatasource {
     try {
       final token = await AuthLocalDatasource().getToken();
       final response = await http.put(
-        Uri.parse('${Url.baseUrl}/api/v1/auth/profile'),
+        Uri.parse('${Url.baseUrlAuth}/profile'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json',

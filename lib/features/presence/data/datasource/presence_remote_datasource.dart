@@ -15,7 +15,7 @@ class PresenceRemoteDatasource {
     try {
       final token = await AuthLocalDatasource().getToken();
       final response = await http.post(
-          Uri.parse('${Url.baseUrl}/api/v1/mobile/student/presences/scan-qr'),
+          Uri.parse('${Url.baseUrl}/presences/scan-qr'),
           headers: <String, String>{
             'Authorization': 'Bearer $token',
           },
@@ -43,8 +43,7 @@ class PresenceRemoteDatasource {
     try {
       final token = await AuthLocalDatasource().getToken();
       final response = await http.get(
-        Uri.parse(
-            '${Url.baseUrl}/api/v1/mobile/student/classroom/$idClass/presences'),
+        Uri.parse('${Url.baseUrl}/classroom/$idClass/presences'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json',
@@ -67,8 +66,7 @@ class PresenceRemoteDatasource {
     try {
       final token = await AuthLocalDatasource().getToken();
       final response = await http.get(
-        Uri.parse(
-            '${Url.baseUrl}/api/v1/mobile/student/presences/attendances/history'),
+        Uri.parse('${Url.baseUrl}/presences/attendances/history'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json',
@@ -91,8 +89,7 @@ class PresenceRemoteDatasource {
     try {
       final token = await AuthLocalDatasource().getToken();
       final response = await http.get(
-        Uri.parse(
-            '${Url.baseUrl}/api/v1/mobile/student/presences/absences/history'),
+        Uri.parse('${Url.baseUrl}/presences/absences/history'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json',
@@ -123,8 +120,7 @@ class PresenceRemoteDatasource {
 
       var request = http.MultipartRequest(
         'POST',
-        Uri.parse(
-            '${Url.baseUrl}/api/v1/mobile/student/presences/absences/store'),
+        Uri.parse('${Url.baseUrl}/presences/absences/store'),
       );
 
       request.fields.addAll(izin.toMap());

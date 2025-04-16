@@ -13,7 +13,7 @@ class ClassRemoteDatasource {
     try {
       final token = await AuthLocalDatasource().getToken();
       final response = await http.get(
-        Uri.parse('${Url.baseUrl}/api/v1/mobile/student/classroom/'),
+        Uri.parse('${Url.baseUrl}/classroom/'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json',
@@ -36,8 +36,7 @@ class ClassRemoteDatasource {
     try {
       final token = await AuthLocalDatasource().getToken();
       final response = await http.get(
-        Uri.parse(
-            '${Url.baseUrl}/api/v1/mobile/student/classroom/$id/instructors'),
+        Uri.parse('${Url.baseUrl}/classroom/$id/instructors'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json',
@@ -60,8 +59,7 @@ class ClassRemoteDatasource {
     try {
       final token = await AuthLocalDatasource().getToken();
       final response = await http.get(
-        Uri.parse(
-            '${Url.baseUrl}/api/v1/mobile/student/classroom/$id/informations'),
+        Uri.parse('${Url.baseUrl}/classroom/$id/informations'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json',
@@ -83,8 +81,7 @@ class ClassRemoteDatasource {
     try {
       final token = await AuthLocalDatasource().getToken();
       final response = await http.get(
-        Uri.parse(
-            '${Url.baseUrl}/api/v1/mobile/student/classroom/$id/classmates'),
+        Uri.parse('${Url.baseUrl}/classroom/$id/classmates'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json',
