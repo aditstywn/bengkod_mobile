@@ -1,5 +1,8 @@
+import 'package:bengkod_mobile_app/features/certificate/presentation/bloc/certificate_bloc.dart';
+
 import 'core/style/theme/bengkod_theme.dart';
 import 'features/auth/presentation/bloc/google/google_bloc.dart';
+import 'features/certificate/data/datasource/certificate_remote_datasource.dart';
 import 'features/class/presentation/bloc/grades/grades_bloc.dart';
 import 'features/courses/presentation/bloc/answer/answer_bloc.dart';
 import 'features/courses/presentation/bloc/discussions/discussions_bloc.dart';
@@ -64,6 +67,7 @@ class MyApp extends StatelessWidget {
         RepositoryProvider(create: (context) => CoursesRemoteDatasource()),
         RepositoryProvider(create: (context) => PresenceRemoteDatasource()),
         RepositoryProvider(create: (context) => DiscussionRemoteDatasource()),
+        RepositoryProvider(create: (context) => CertificateRemoteDatasource()),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -165,6 +169,10 @@ class MyApp extends StatelessWidget {
           BlocProvider(
             create: (context) =>
                 ReplyBloc(context.read<DiscussionRemoteDatasource>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                CertificateBloc(context.read<CertificateRemoteDatasource>()),
           ),
           BlocProvider(
             create: (context) =>
