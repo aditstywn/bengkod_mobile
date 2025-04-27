@@ -306,7 +306,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                             child: const Center(
                               child: Text(
-                                'No Active Course',
+                                'Tidak Ada Progress Kursus',
                                 style: TextStyle(
                                   color: AppColors.grey,
                                   fontSize: 14,
@@ -429,7 +429,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       child: const Center(
                         child: Text(
-                          'No Data Latest Assignment',
+                          'Tidak Ada Tugas Terbaru',
                           style: TextStyle(
                             color: AppColors.grey,
                             fontSize: 14,
