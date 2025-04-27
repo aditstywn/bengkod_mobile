@@ -1,5 +1,6 @@
 import '../../../../core/components/spaces.dart';
 import '../../../../core/extensions/build_context_ext.dart';
+import '../../../class/presentation/bloc/class/class_bloc.dart';
 import 'courses_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,9 +24,7 @@ class _ClassCoursesPageState extends State<ClassCoursesPage> {
   @override
   void initState() {
     super.initState();
-    context
-        .read<ClassAssignmentBloc>()
-        .add(const ClassAssignmentEvent.getClassAssignment());
+    context.read<ClassBloc>().add(const ClassEvent.getClass());
   }
 
   @override
@@ -34,7 +33,7 @@ class _ClassCoursesPageState extends State<ClassCoursesPage> {
       appBar: AppBar(
         title: const Text('Learnig Path'),
       ),
-      body: BlocBuilder<ClassAssignmentBloc, ClassAssignmentState>(
+      body: BlocBuilder<ClassBloc, ClassState>(
         builder: (context, state) {
           return state.maybeWhen(
             orElse: () => const SizedBox(),
@@ -76,8 +75,8 @@ class _ClassCoursesPageState extends State<ClassCoursesPage> {
                 ),
               );
             },
-            getClassAssignmentSuccess: (classAssignmentResponseModel) {
-              if (classAssignmentResponseModel.data.isEmpty) {
+            getClassSuccess: (classResponseModel) {
+              if (classResponseModel.data.isEmpty) {
                 return Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -103,21 +102,19 @@ class _ClassCoursesPageState extends State<ClassCoursesPage> {
 
               return RefreshIndicator(
                 onRefresh: () async {
-                  context
-                      .read<ClassAssignmentBloc>()
-                      .add(const ClassAssignmentEvent.getClassAssignment());
+                  context.read<ClassBloc>().add(const ClassEvent.getClass());
                 },
                 child: ListView.separated(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 16,
                     vertical: 16,
                   ),
-                  itemCount: classAssignmentResponseModel.data.length,
+                  itemCount: classResponseModel.data.length,
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
                         context.push(CoursesPage(
-                          idClass: classAssignmentResponseModel.data[index].id,
+                          idClass: classResponseModel.data[index].id,
                         ));
                       },
                       child: Container(
@@ -160,8 +157,7 @@ class _ClassCoursesPageState extends State<ClassCoursesPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    classAssignmentResponseModel
-                                        .data[index].name,
+                                    classResponseModel.data[index].name,
                                     style: const TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
@@ -170,10 +166,12 @@ class _ClassCoursesPageState extends State<ClassCoursesPage> {
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                   ),
-                                  const Row(
+                                  Row(
                                     children: [
                                       Text(
-                                        '-',
+                                        classResponseModel
+                                            .data[index].numberOfCourse
+                                            .toString(),
                                         style: TextStyle(
                                           color: AppColors.white,
                                           fontSize: 14,

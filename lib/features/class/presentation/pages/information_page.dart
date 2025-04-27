@@ -112,7 +112,7 @@ class _InformationPageState extends State<InformationPage> {
                                     ),
                                   ),
                                   Text(
-                                    grades.data?.taskScore.toString() ?? '-',
+                                    '${grades.data?.taskScore ?? '-'}',
                                     style: TextStyle(
                                       color: AppColors.white,
                                       fontSize: 24,
@@ -135,7 +135,7 @@ class _InformationPageState extends State<InformationPage> {
                                     ),
                                   ),
                                   Text(
-                                    grades.data?.utsScore.toString() ?? '-',
+                                    '${grades.data?.utsScore ?? '-'}',
                                     style: TextStyle(
                                       color: AppColors.white,
                                       fontSize: 24,
@@ -158,7 +158,7 @@ class _InformationPageState extends State<InformationPage> {
                                     ),
                                   ),
                                   Text(
-                                    grades.data?.uasScore.toString() ?? '-',
+                                    '${grades.data?.uasScore ?? '-'}',
                                     style: TextStyle(
                                       color: AppColors.white,
                                       fontSize: 24,
@@ -193,7 +193,7 @@ class _InformationPageState extends State<InformationPage> {
                                   ),
                                 ),
                                 Text(
-                                  '${grades.data?.finalScore.toString() ?? '-'} | ${grades.data?.gradeInfo?.grade ?? '-'}',
+                                  '${grades.data?.finalScore ?? '-'} | ${grades.data?.gradeInfo?.grade ?? '-'}',
                                   style: TextStyle(
                                     color: AppColors.white,
                                     fontSize: 24,

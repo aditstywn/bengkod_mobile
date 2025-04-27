@@ -29,6 +29,7 @@ class ErrorCard extends StatelessWidget {
               fontWeight: FontWeight.w500,
               fontSize: 16,
             ),
+            textAlign: TextAlign.center,
           ),
         ),
       ),

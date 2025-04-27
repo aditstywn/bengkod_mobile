@@ -192,7 +192,8 @@ class _LoginPageState extends State<LoginPage> {
                 orElse: () {},
                 googleSignInSucess: (googleSignInResponseModel) {
                   AuthLocalDatasource()
-                      .saveToken(googleSignInResponseModel.token!);
+                      .saveToken(googleSignInResponseModel.token);
+                  AuthLocalDatasource().saveAuthData(googleSignInResponseModel);
                   context.pushReplacement(const MainNav());
 
                   context

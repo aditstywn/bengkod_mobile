@@ -35,6 +35,7 @@ class Class {
   final String day;
   final String room;
   final dynamic finalScore;
+  final int numberOfCourse;
 
   Class({
     required this.id,
@@ -45,6 +46,7 @@ class Class {
     required this.day,
     required this.room,
     required this.finalScore,
+    required this.numberOfCourse,
   });
 
   factory Class.fromJson(String str) => Class.fromMap(json.decode(str));
@@ -60,6 +62,7 @@ class Class {
         day: json["day"],
         room: json["room"],
         finalScore: json["final_score"],
+        numberOfCourse: json["number_of_course"],
       );
 
   Map<String, dynamic> toMap() => {

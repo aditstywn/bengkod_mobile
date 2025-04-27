@@ -2,7 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../data/datasource/auth_remote_datasource.dart';
-import '../../../data/models/response/google_sign_in_response_model.dart';
+import '../../../data/models/response/login_response_model.dart'
+    show LoginResponseModel;
 
 part 'google_event.dart';
 part 'google_state.dart';

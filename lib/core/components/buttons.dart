@@ -14,7 +14,7 @@ class Button extends StatelessWidget {
     this.textColor = Colors.white,
     this.width = double.infinity,
     this.height = 50.0,
-    this.borderRadius = 16.0,
+    this.borderRadius = 10.0,
     this.icon,
     this.iconRight,
     this.disabled = false,
@@ -77,7 +77,7 @@ class Button extends StatelessWidget {
                           end: Alignment.centerLeft,
                         )
                       : null,
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(borderRadius),
                 ),
                 child: Center(
                   child: isLoading == true

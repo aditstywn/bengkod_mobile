@@ -1,3 +1,4 @@
+import 'package:bengkod_mobile_app/features/courses/data/models/response/discussions/dropdown_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -7,8 +8,10 @@ import '../../../../core/components/error_card.dart';
 import '../../../../core/components/spaces.dart';
 import '../../../../core/config/app_color.dart';
 import '../../../../core/extensions/build_context_ext.dart';
+import '../../data/models/request/feedback_request_model.dart';
 import '../../data/models/response/lesson_response_model.dart';
 import '../bloc/courses/courses_bloc.dart';
+import '../bloc/feedback/feedback_bloc.dart';
 import '../bloc/lesson/lesson_bloc.dart';
 import '../widgets/courses_card.dart';
 import 'detail_courses_page.dart';
@@ -26,6 +29,14 @@ class CoursesPage extends StatefulWidget {
 
 class _CoursesPageState extends State<CoursesPage> {
   final ScrollController _scrollController = ScrollController();
+  int selectedRating = 0;
+  TextEditingController feedbackController = TextEditingController();
+  final _keyForm = GlobalKey<FormState>();
+
+  int? coursesId;
+
+  List<DropdownItem>? dropdownArticles;
+
   @override
   void initState() {
     super.initState();
@@ -70,7 +81,7 @@ class _CoursesPageState extends State<CoursesPage> {
                     ),
                     error: (message) {
                       return Padding(
-                        padding: const EdgeInsets.all(0.0),
+                        padding: const EdgeInsets.all(16.0),
                         child: RefreshIndicator(
                           onRefresh: () async {
                             context
@@ -85,6 +96,7 @@ class _CoursesPageState extends State<CoursesPage> {
                     },
                     getCoursesSuccess: (coursesResponseModel) {
                       final courses = coursesResponseModel.data;
+
                       if (widget.idCourses != null) {
                         context.read<LessonBloc>().add(
                               LessonEvent.getLesson(widget.idCourses!),
@@ -117,6 +129,7 @@ class _CoursesPageState extends State<CoursesPage> {
                                     children: [
                                       GestureDetector(
                                         onTap: () {
+                                          coursesId = course.id;
                                           context.read<LessonBloc>().add(
                                                 LessonEvent.getLesson(
                                                     course.id),
@@ -190,6 +203,19 @@ class _CoursesPageState extends State<CoursesPage> {
                     getLessonSuccess: (lessonResponseModel) {
                       final sections = lessonResponseModel.data[0].sections;
 
+                      // Ambil semua articles dari semua sections
+                      final allArticles = sections
+                          .expand((section) => section.articles)
+                          .toList();
+
+                      // Mapping ke DropdownItem
+                      dropdownArticles = allArticles.map((article) {
+                        return DropdownItem(
+                          id: article.id,
+                          title: article.title,
+                        );
+                      }).toList();
+
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -202,57 +228,118 @@ class _CoursesPageState extends State<CoursesPage> {
                             itemBuilder: (context, index) {
                               final section = sections[index];
                               final articles = section.articles;
+
                               return _buildArticle(section, articles, context,
                                   lessonResponseModel);
                             },
                           ),
-                          Card(
-                            color: AppColors.white,
-                            elevation: 2,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
+                          GestureDetector(
+                            onTap: () {
+                              context.push(QuizDashboard(
+                                idCourse:
+                                    coursesId ?? lessonResponseModel.data[0].id,
+                              ));
+                            },
+                            child: Card(
+                              color: AppColors.white,
+                              elevation: 2,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Container(
+                                padding: EdgeInsets.all(14),
+                                width: double.infinity,
+                                child: Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                      'assets/icons/icon_checkist2.svg',
+                                      width: 18,
+                                    ),
+                                    SpaceWidth(22),
+                                    Text(
+                                      'Ujian Akhir',
+                                      style: const TextStyle(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.primary,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
-                            child: Container(
-                              padding: EdgeInsets.all(14),
-                              width: double.infinity,
-                              child: Row(
-                                children: [
-                                  SvgPicture.asset(
-                                    'assets/icons/icon_checkist2.svg',
-                                    width: 18,
+                          ),
+                          const SpaceHeight(10),
+                          BlocListener<FeedbackBloc, FeedbackState>(
+                            listener: (context, state) {
+                              state.maybeWhen(
+                                orElse: () => const SizedBox(),
+                                error: (message) {
+                                  if (message ==
+                                      'Certificate not found for this course.') {
+                                    Feedback(context, lessonResponseModel);
+                                    return;
+                                  }
+                                  context.pop();
+                                  context.showAlert(false, message);
+                                },
+                                feedbackSuccess: (feedback, certif) {
+                                  context.pop();
+                                  context.showAlert(
+                                      true,
+                                      feedback.meta?.message ??
+                                          'Feedback berhasil dikirim');
+                                },
+                                getCertificateSuccess: (certificate) {
+                                  if (certificate.data?.certificateUrl !=
+                                      null) {
+                                    context.showAlertFile(
+                                        'Sertifikat',
+                                        certificate.data?.certificateUrl ?? '',
+                                        true);
+                                    return;
+                                  } else {
+                                    Feedback(context, lessonResponseModel);
+                                  }
+                                },
+                              );
+                            },
+                            child: GestureDetector(
+                              onTap: () {
+                                context.read<FeedbackBloc>().add(
+                                    FeedbackEvent.getCertificate(
+                                        lessonResponseModel.data[0].id));
+                              },
+                              child: Card(
+                                elevation: 2,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Container(
+                                  padding: EdgeInsets.all(14),
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: AppColors.white,
+                                    border: Border.all(
+                                      color: AppColors.primary,
+                                      width: 2,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
-                                  SpaceWidth(22),
-                                  Text(
-                                    'Ujian Akhir',
-                                    style: const TextStyle(
+                                  alignment: Alignment.center,
+                                  child: const Text(
+                                    'Dapatkan Sertifikat',
+                                    style: TextStyle(
                                       fontSize: 17,
                                       fontWeight: FontWeight.bold,
                                       color: AppColors.primary,
                                     ),
                                   ),
-                                  Spacer(),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      context.push(QuizDashboard());
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: AppColors.primary,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
-                                    child: const Text(
-                                      'Lanjut',
-                                      style: TextStyle(
-                                        color: AppColors.white,
-                                        fontSize: 15,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                                ),
                               ),
                             ),
                           ),
+                          SpaceHeight(25),
                         ],
                       );
                     },
@@ -263,20 +350,208 @@ class _CoursesPageState extends State<CoursesPage> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: AppColors.primary,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50),
-        ),
-        child: const Icon(
-          Icons.chat_outlined,
-          size: 30,
-          color: AppColors.white,
-        ),
-        onPressed: () {
-          context.push(DiscussionForumPage());
+      floatingActionButton: BlocBuilder<CoursesBloc, CoursesState>(
+        builder: (context, state) {
+          return state.maybeWhen(
+            orElse: () => const SizedBox(),
+            loading: () {
+              return FloatingActionButton(
+                backgroundColor: AppColors.primary,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                child: const Icon(
+                  Icons.chat_outlined,
+                  size: 30,
+                  color: AppColors.white,
+                ),
+                onPressed: () {},
+              );
+            },
+            getCoursesSuccess: (coursesResponseModel) {
+              if (coursesResponseModel.data.isEmpty) {
+                return const SizedBox();
+              }
+              return FloatingActionButton(
+                backgroundColor: AppColors.primary,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                child: const Icon(
+                  Icons.chat_outlined,
+                  size: 30,
+                  color: AppColors.white,
+                ),
+                onPressed: () {
+                  context.push(DiscussionForumPage(
+                    idCourse: coursesId ?? coursesResponseModel.data[0].id,
+                    dropdownArticles: dropdownArticles ?? [],
+                  ));
+                },
+              );
+            },
+          );
         },
       ),
+    );
+  }
+
+  Future<dynamic> Feedback(
+      BuildContext context, LessonResponseModel lessonResponseModel) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          backgroundColor: AppColors.white,
+          title: const Text(
+            'Kirim Feedback',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: AppColors.primary,
+            ),
+          ),
+          content: StatefulBuilder(
+            builder: (context, setState) {
+              return SizedBox(
+                width: context.deviceWidth * 0.8,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text(
+                      'Berikan rating:',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(5, (index) {
+                        return IconButton(
+                          icon: Icon(
+                            index < selectedRating
+                                ? Icons.star
+                                : Icons.star_border,
+                            color: Colors.amber,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              selectedRating = index + 1;
+                            });
+                          },
+                        );
+                      }),
+                    ),
+                    const SizedBox(height: 10),
+                    const Text(
+                      'Komentar:',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 6),
+                    Form(
+                      key: _keyForm,
+                      child: TextFormField(
+                        controller: feedbackController,
+                        maxLines: 3,
+                        decoration: InputDecoration(
+                          hintText: 'Tulis komentar Anda...',
+                          border: OutlineInputBorder(),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Komentar tidak boleh kosong';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+          actions: [
+            TextButton(
+              style: TextButton.styleFrom(
+                backgroundColor: AppColors.grey,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6),
+                ),
+              ),
+              onPressed: () {
+                context.pop();
+              },
+              child: const Text(
+                'Batal',
+                style: TextStyle(
+                  color: AppColors.white,
+                ),
+              ),
+            ),
+            BlocBuilder<FeedbackBloc, FeedbackState>(
+              builder: (context, state) {
+                return state.maybeWhen(
+                  loading: () {
+                    return TextButton(
+                        style: TextButton.styleFrom(
+                          backgroundColor: AppColors.primary,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                        ),
+                        onPressed: () {},
+                        child: SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: const CircularProgressIndicator(
+                            color: AppColors.white,
+                            strokeWidth: 2,
+                          ),
+                        ));
+                  },
+                  orElse: () {
+                    return TextButton(
+                      style: TextButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                      ),
+                      onPressed: () {
+                        if (_keyForm.currentState!.validate()) {
+                          final feedback = FeedbackRequestModel(
+                            rating: selectedRating,
+                            comment: feedbackController.text,
+                          );
+
+                          selectedRating = 0;
+                          feedbackController.clear();
+
+                          context
+                              .read<FeedbackBloc>()
+                              .add(FeedbackEvent.feedback(
+                                feedback,
+                                lessonResponseModel.data[0].id,
+                              ));
+                        }
+                      },
+                      child: const Text(
+                        'Kirim',
+                        style: TextStyle(
+                          color: AppColors.white,
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 

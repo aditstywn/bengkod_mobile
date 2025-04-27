@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:google_sign_in/google_sign_in.dart';
 
-import '../models/response/google_sign_in_response_model.dart';
 import '../models/response/logout_response_model.dart';
 import '../models/response/refresh_token_response_model.dart';
 import 'package:dartz/dartz.dart';
@@ -40,11 +39,12 @@ class AuthRemoteDatasource {
     }
   }
 
-  Future<Either<String, GoogleSignInResponseModel>> googleSignIn(
+  Future<Either<String, LoginResponseModel>> googleSignIn(
       String idToken) async {
     try {
       final response = await http.post(
-        Uri.parse('${Url.baseUrl}/api/v2/mobile/student/auth/google-login'),
+        Uri.parse(
+            'https://devbengkod.natagw.my.id/api/v2/mobile/student/auth/google-login'),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -55,7 +55,7 @@ class AuthRemoteDatasource {
       );
 
       if (response.statusCode == 200) {
-        return right(GoogleSignInResponseModel.fromJson(response.body));
+        return right(LoginResponseModel.fromJson(response.body));
       } else {
         final error = json.decode(response.body);
 

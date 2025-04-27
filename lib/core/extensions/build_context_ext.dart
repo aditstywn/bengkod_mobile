@@ -95,6 +95,7 @@ extension NavigatorExt on BuildContext {
                   fontSize: 16.0,
                   fontWeight: FontWeight.w400,
                 ),
+                textAlign: TextAlign.center,
               ),
             ],
           ),
@@ -131,13 +132,16 @@ extension NavigatorExt on BuildContext {
         ),
         content: ConstrainedBox(
           constraints: const BoxConstraints(
-            minHeight: 100,
+            minHeight: 190,
             maxHeight: 400,
           ),
           child: SizedBox(
             width: double.maxFinite,
             child: type
-                ? SfPdfViewer.network(url)
+                ? SizedBox(
+                    height: double.minPositive,
+                    child: SfPdfViewer.network(url),
+                  )
                 : CachedNetworkImage(
                     imageUrl: url,
                     placeholder: (context, url) => Stack(

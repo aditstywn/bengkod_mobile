@@ -150,6 +150,7 @@ class _IzinPageState extends State<IzinPage> {
                     ? file!.files.map((element) => element.name).join(", ")
                     : "Upload File";
               });
+              print('imgPath: ${_result}');
             },
             label: _result,
             icon: SvgPicture.asset('assets/icons/icons_fileUpload.svg'),

@@ -1,6 +1,11 @@
-import 'package:bengkod_mobile_app/core/style/theme/bengkod_theme.dart';
-import 'package:bengkod_mobile_app/features/auth/presentation/bloc/google/google_bloc.dart';
-import 'package:bengkod_mobile_app/features/class/presentation/bloc/grades/grades_bloc.dart';
+import 'core/style/theme/bengkod_theme.dart';
+import 'features/auth/presentation/bloc/google/google_bloc.dart';
+import 'features/class/presentation/bloc/grades/grades_bloc.dart';
+import 'features/courses/presentation/bloc/answer/answer_bloc.dart';
+import 'features/courses/presentation/bloc/discussions/discussions_bloc.dart';
+import 'features/courses/presentation/bloc/exams/exams_bloc.dart';
+import 'features/courses/presentation/bloc/feedback/feedback_bloc.dart';
+import 'features/courses/presentation/bloc/reply/reply_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,9 +25,13 @@ import 'features/class/presentation/bloc/information/information_bloc.dart';
 import 'features/class/presentation/bloc/instructor/instructor_bloc.dart';
 import 'features/class/presentation/bloc/student/student_bloc.dart';
 import 'features/courses/data/datasource/courses_remote_datasource.dart';
+import 'features/courses/data/datasource/discussion_remote_datasource.dart';
 import 'features/courses/presentation/bloc/article/article_bloc.dart';
 import 'features/courses/presentation/bloc/courses/courses_bloc.dart';
+import 'features/courses/presentation/bloc/detail_discussions/detail_discussions_bloc.dart';
+import 'features/courses/presentation/bloc/iformation_exams/information_exams_bloc.dart';
 import 'features/courses/presentation/bloc/lesson/lesson_bloc.dart';
+import 'features/courses/presentation/bloc/start_exams/start_exams_bloc.dart';
 import 'features/home/data/datasorce/home_remote_datasource.dart';
 import 'features/home/presentation/bloc/active_course/active_course_bloc.dart';
 import 'features/home/presentation/bloc/latest_assignment/latest_assignment_bloc.dart';
@@ -54,6 +63,7 @@ class MyApp extends StatelessWidget {
         RepositoryProvider(create: (context) => AssignmentRemoteDatasource()),
         RepositoryProvider(create: (context) => CoursesRemoteDatasource()),
         RepositoryProvider(create: (context) => PresenceRemoteDatasource()),
+        RepositoryProvider(create: (context) => DiscussionRemoteDatasource()),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -123,6 +133,38 @@ class MyApp extends StatelessWidget {
           BlocProvider(
             create: (context) =>
                 ArticleBloc(context.read<CoursesRemoteDatasource>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                ExamsBloc(context.read<CoursesRemoteDatasource>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                StartExamsBloc(context.read<CoursesRemoteDatasource>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                AnswerBloc(context.read<CoursesRemoteDatasource>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                InformationExamsBloc(context.read<CoursesRemoteDatasource>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                FeedbackBloc(context.read<CoursesRemoteDatasource>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                DiscussionsBloc(context.read<DiscussionRemoteDatasource>()),
+          ),
+          BlocProvider(
+            create: (context) => DetailDiscussionsBloc(
+                context.read<DiscussionRemoteDatasource>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                ReplyBloc(context.read<DiscussionRemoteDatasource>()),
           ),
           BlocProvider(
             create: (context) =>
