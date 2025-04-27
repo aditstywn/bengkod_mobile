@@ -20,7 +20,10 @@ class ClassCard extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-            height: 172,
+            constraints: const BoxConstraints(
+              minHeight: 172,
+              // maxHeight: 150,
+            ),
             width: double.infinity,
             padding: const EdgeInsets.symmetric(
               horizontal: 18,
@@ -48,7 +51,7 @@ class ClassCard extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     color: AppColors.white,
                   ),
-                  maxLines: 1,
+                  maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SpaceHeight(6),
@@ -60,6 +63,31 @@ class ClassCard extends StatelessWidget {
                   ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
+                ),
+                const SpaceHeight(30),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Row(
+                    children: [
+                      Text(
+                        '${data.timeStart} - ${data.timeEnd}',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: AppColors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SpaceWidth(10),
+                      Text(
+                        '( ${data.room} )',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: AppColors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -93,31 +121,31 @@ class ClassCard extends StatelessWidget {
               ),
             ),
           ),
-          Positioned(
-            bottom: 16,
-            left: 18,
-            child: Row(
-              children: [
-                Text(
-                  '${data.timeStart} - ${data.timeEnd}',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: AppColors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SpaceWidth(10),
-                Text(
-                  '( ${data.room} )',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: AppColors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-          ),
+          // Positioned(
+          //   bottom: 16,
+          //   left: 18,
+          //   child: Row(
+          //     children: [
+          //       Text(
+          //         '${data.timeStart} - ${data.timeEnd}',
+          //         style: const TextStyle(
+          //           fontSize: 16,
+          //           color: AppColors.white,
+          //           fontWeight: FontWeight.bold,
+          //         ),
+          //       ),
+          //       const SpaceWidth(10),
+          //       Text(
+          //         '( ${data.room} )',
+          //         style: const TextStyle(
+          //           fontSize: 16,
+          //           color: AppColors.white,
+          //           fontWeight: FontWeight.bold,
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );

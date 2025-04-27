@@ -264,40 +264,59 @@ class _InformationPageState extends State<InformationPage> {
                           ),
                         ),
                         const SpaceHeight(10),
-                        ListView.separated(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: informationClassResponseModel.data.length,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                color: AppColors.white,
-                                borderRadius: BorderRadius.circular(10),
+                        if (informationClassResponseModel.data.isEmpty)
+                          Container(
+                            height: 120,
+                            decoration: BoxDecoration(
+                              color: AppColors.white,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const Center(
+                              child: Text(
+                                'Tidak ada informasi',
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.grey),
                               ),
-                              padding: const EdgeInsets.all(16),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    informationClassResponseModel
-                                        .data[index].title,
-                                    style: const TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  const SpaceHeight(5),
-                                  buildTextWithLinks(
-                                      context,
+                            ),
+                          ),
+                        if (informationClassResponseModel.data.isNotEmpty)
+                          ListView.separated(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount:
+                                informationClassResponseModel.data.length,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                decoration: BoxDecoration(
+                                  color: AppColors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                padding: const EdgeInsets.all(16),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
                                       informationClassResponseModel
-                                          .data[index].description),
-                                ],
-                              ),
-                            );
-                          },
-                          separatorBuilder: (context, index) =>
-                              const SpaceHeight(10),
-                        ),
+                                          .data[index].title,
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    const SpaceHeight(5),
+                                    buildTextWithLinks(
+                                        context,
+                                        informationClassResponseModel
+                                            .data[index].description),
+                                  ],
+                                ),
+                              );
+                            },
+                            separatorBuilder: (context, index) =>
+                                const SpaceHeight(10),
+                          ),
                       ],
                     );
                   },
