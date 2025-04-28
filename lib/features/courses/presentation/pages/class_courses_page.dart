@@ -31,7 +31,7 @@ class _ClassCoursesPageState extends State<ClassCoursesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Learnig Path'),
+        title: const Text('Learning Path'),
       ),
       body: BlocBuilder<ClassBloc, ClassState>(
         builder: (context, state) {

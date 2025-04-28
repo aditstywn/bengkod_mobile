@@ -193,21 +193,22 @@ class _InformationPageState extends State<InformationPage> {
                                   ),
                                 ),
                                 Text(
-                                  '${grades.data?.finalScore ?? '-'} | ${grades.data?.gradeInfo?.grade ?? '-'}',
+                                  '${grades.data?.finalScore ?? '-'} | ${grades.data?.finalScore != null ? grades.data?.gradeInfo?.grade : '-'}',
                                   style: TextStyle(
                                     color: AppColors.white,
                                     fontSize: 24,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                Text(
-                                  '${grades.data?.gradeInfo?.description ?? '-'}',
-                                  style: TextStyle(
-                                    color: AppColors.white,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
+                                if (grades.data?.finalScore != null)
+                                  Text(
+                                    '${grades.data?.gradeInfo?.description ?? '-'}',
+                                    style: TextStyle(
+                                      color: AppColors.white,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                    ),
                                   ),
-                                ),
                               ],
                             ),
                           ),

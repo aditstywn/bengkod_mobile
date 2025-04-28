@@ -27,13 +27,9 @@ class InformartionExamsResponseModel {
 }
 
 class Data {
-  final Student? student;
-  final Course? course;
   final List<Exam>? exams;
 
   Data({
-    this.student,
-    this.course,
     this.exams,
   });
 
@@ -42,58 +38,32 @@ class Data {
   String toJson() => json.encode(toMap());
 
   factory Data.fromMap(Map<String, dynamic> json) => Data(
-        student:
-            json["student"] == null ? null : Student.fromMap(json["student"]),
-        course: json["course"] == null ? null : Course.fromMap(json["course"]),
         exams: json["exams"] == null
             ? []
             : List<Exam>.from(json["exams"]!.map((x) => Exam.fromMap(x))),
       );
 
   Map<String, dynamic> toMap() => {
-        "student": student?.toMap(),
-        "course": course?.toMap(),
         "exams": exams == null
             ? []
             : List<dynamic>.from(exams!.map((x) => x.toMap())),
       };
 }
 
-class Course {
-  final String? name;
-  final String? description;
-
-  Course({
-    this.name,
-    this.description,
-  });
-
-  factory Course.fromJson(String str) => Course.fromMap(json.decode(str));
-
-  String toJson() => json.encode(toMap());
-
-  factory Course.fromMap(Map<String, dynamic> json) => Course(
-        name: json["name"],
-        description: json["description"],
-      );
-
-  Map<String, dynamic> toMap() => {
-        "name": name,
-        "description": description,
-      };
-}
-
 class Exam {
+  final int? id;
   final int? durationMinutes;
   final String? status;
-  final DateTime? startTime;
-  final DateTime? endTime;
+  final String? startTime;
+  final String? endTime;
   final int? score;
   final int? correctAnswers;
   final int? wrongAnswers;
+  final DateTime? date;
   final String? result;
 
   Exam({
+    this.id,
     this.durationMinutes,
     this.status,
     this.startTime,
@@ -101,6 +71,7 @@ class Exam {
     this.score,
     this.correctAnswers,
     this.wrongAnswers,
+    this.date,
     this.result,
   });
 
@@ -109,48 +80,30 @@ class Exam {
   String toJson() => json.encode(toMap());
 
   factory Exam.fromMap(Map<String, dynamic> json) => Exam(
+        id: json["id"],
         durationMinutes: json["duration_minutes"],
         status: json["status"],
-        startTime: json["start_time"] == null
-            ? null
-            : DateTime.parse(json["start_time"]),
-        endTime:
-            json["end_time"] == null ? null : DateTime.parse(json["end_time"]),
+        startTime: json["start_time"],
+        endTime: json["end_time"],
         score: json["score"],
         correctAnswers: json["correct_answers"],
         wrongAnswers: json["wrong_answers"],
+        date: json["date"] == null ? null : DateTime.parse(json["date"]),
         result: json["result"],
       );
 
   Map<String, dynamic> toMap() => {
+        "id": id,
         "duration_minutes": durationMinutes,
         "status": status,
-        "start_time": startTime?.toIso8601String(),
-        "end_time": endTime?.toIso8601String(),
+        "start_time": startTime,
+        "end_time": endTime,
         "score": score,
         "correct_answers": correctAnswers,
         "wrong_answers": wrongAnswers,
+        "date":
+            "${date!.year.toString().padLeft(4, '0')}-${date!.month.toString().padLeft(2, '0')}-${date!.day.toString().padLeft(2, '0')}",
         "result": result,
-      };
-}
-
-class Student {
-  final String? name;
-
-  Student({
-    this.name,
-  });
-
-  factory Student.fromJson(String str) => Student.fromMap(json.decode(str));
-
-  String toJson() => json.encode(toMap());
-
-  factory Student.fromMap(Map<String, dynamic> json) => Student(
-        name: json["name"],
-      );
-
-  Map<String, dynamic> toMap() => {
-        "name": name,
       };
 }
 

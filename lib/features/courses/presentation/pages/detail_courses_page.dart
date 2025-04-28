@@ -1,3 +1,5 @@
+import 'package:bengkod_mobile_app/core/extensions/build_context_ext.dart';
+import 'package:bengkod_mobile_app/features/courses/presentation/pages/quiz_dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -357,8 +359,38 @@ class _DetailCoursesPageState extends State<DetailCoursesPage> {
                                 ),
                               )
                             else
-                              const SizedBox(
-                                width: 48,
+                              InkWell(
+                                onTap: () {
+                                  context.push(
+                                    QuizDashboard(idCourse: widget.idCourses),
+                                  );
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 8),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.primary,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        'Ujian Akhir',
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.white,
+                                        ),
+                                        maxLines: 1,
+                                      ),
+                                      const SizedBox(width: 8),
+                                      const Icon(
+                                        Icons.arrow_forward,
+                                        size: 18,
+                                        color: Colors.white,
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               )
                           ],
                         ),

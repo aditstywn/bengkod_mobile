@@ -375,7 +375,7 @@ class _QuizDashboardState extends State<QuizDashboard> {
                                                 widget.idCourse, null));
                                       },
                                       style: ElevatedButton.styleFrom(
-                                        maximumSize: const Size(120, 40),
+                                        minimumSize: const Size(120, 40),
                                         backgroundColor: AppColors.primary,
                                         shape: RoundedRectangleBorder(
                                           borderRadius:

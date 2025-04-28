@@ -171,38 +171,15 @@ class _DetailDiscussionPageState extends State<DetailDiscussionPage> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Row(
-                                        children: [
-                                          SizedBox(
-                                            width: context.deviceWidth * 0.4,
-                                            child: Text(
-                                              discussion.data?.student?.name ??
-                                                  '-',
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w700,
-                                                color: AppColors.black,
-                                              ),
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ),
-                                          SpaceWidth(10),
-                                          Flexible(
-                                            child: Text(
-                                              discussion.data?.createdAt != null
-                                                  ? DateFormat(
-                                                          'dd MMM yyyy HH:mm')
-                                                      .format(discussion
-                                                          .data!.createdAt!)
-                                                  : '-',
-                                              style: TextStyle(
-                                                fontSize: 10,
-                                                color: AppColors.grey,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
+                                      Text(
+                                        discussion.data?.student?.name ?? '-',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w700,
+                                          color: AppColors.black,
+                                        ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
                                       ),
                                       Text(
                                         'Mahasiswa',
@@ -280,6 +257,16 @@ class _DetailDiscussionPageState extends State<DetailDiscussionPage> {
                                 separatorBuilder: (context, index) =>
                                     SpaceHeight(20),
                               ),
+                            Text(
+                              discussion.data?.createdAt != null
+                                  ? DateFormat('dd MMM yyyy HH:mm')
+                                      .format(discussion.data!.createdAt!)
+                                  : '-',
+                              style: TextStyle(
+                                fontSize: 10,
+                                color: AppColors.grey,
+                              ),
+                            ),
                             Divider(
                               color: AppColors.greyMuda,
                               thickness: 1,
