@@ -119,32 +119,15 @@ class _ForumCardState extends State<ForumCard> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: context.deviceWidth * 0.4,
-                          child: Text(
-                            widget.discussion?.student?.name ?? '-',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.black,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        SpaceWidth(10),
-                        Flexible(
-                          child: Text(
-                            widget.discussion?.createdAgo ?? '-',
-                            style: TextStyle(
-                              fontSize: 10,
-                              color: AppColors.grey,
-                            ),
-                          ),
-                        ),
-                      ],
+                    Text(
+                      widget.discussion?.student?.name ?? '-',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.black,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     Text(
                       widget.discussion?.student?.role
@@ -230,8 +213,16 @@ class _ForumCardState extends State<ForumCard> {
               ));
             },
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                Text(
+                  widget.discussion?.createdAgo ?? '-',
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: AppColors.grey,
+                  ),
+                ),
+                Spacer(),
                 Icon(
                   Icons.comment_rounded,
                   color: AppColors.primary,
