@@ -28,7 +28,7 @@ class _DetailPresencePageState extends State<DetailPresencePage> {
     super.initState();
     context
         .read<PresencesBloc>()
-        .add(PresencesEvent.getPresences(widget.dataClass.id));
+        .add(PresencesEvent.getPresences(widget.dataClass.id ?? 0));
   }
 
   @override
@@ -104,9 +104,8 @@ class _DetailPresencePageState extends State<DetailPresencePage> {
                 padding: const EdgeInsets.all(16.0),
                 child: RefreshIndicator(
                   onRefresh: () async {
-                    context
-                        .read<PresencesBloc>()
-                        .add(PresencesEvent.getPresences(widget.dataClass.id));
+                    context.read<PresencesBloc>().add(
+                        PresencesEvent.getPresences(widget.dataClass.id ?? 0));
                   },
                   child: ErrorCard(
                     message: message,
@@ -125,9 +124,8 @@ class _DetailPresencePageState extends State<DetailPresencePage> {
 
               return RefreshIndicator(
                 onRefresh: () async {
-                  context
-                      .read<PresencesBloc>()
-                      .add(PresencesEvent.getPresences(widget.dataClass.id));
+                  context.read<PresencesBloc>().add(
+                      PresencesEvent.getPresences(widget.dataClass.id ?? 0));
                 },
                 child: ListView(
                   padding: const EdgeInsets.all(16),
@@ -149,7 +147,7 @@ class _DetailPresencePageState extends State<DetailPresencePage> {
                         ),
                         child: Center(
                           child: Text(
-                            widget.dataClass.name,
+                            widget.dataClass.name ?? '-',
                             style: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
@@ -326,7 +324,7 @@ class _DetailPresencePageState extends State<DetailPresencePage> {
                     ),
                     const SizedBox(height: 16),
                     ListPresensi(
-                      className: widget.dataClass.name,
+                      className: widget.dataClass.name ?? '-',
                       presences: presences != null ? presences : [],
                       attendances: attendances != null ? attendances : [],
                       absences: absences != null ? absences : [],

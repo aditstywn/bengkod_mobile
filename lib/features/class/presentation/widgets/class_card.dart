@@ -45,7 +45,7 @@ class ClassCard extends StatelessWidget {
               children: [
                 const SpaceHeight(40),
                 Text(
-                  data.name,
+                  data.name ?? '-',
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -56,7 +56,7 @@ class ClassCard extends StatelessWidget {
                 ),
                 const SpaceHeight(6),
                 Text(
-                  data.description,
+                  data.description ?? '-',
                   style: const TextStyle(
                     fontSize: 12,
                     color: AppColors.white,
@@ -111,7 +111,7 @@ class ClassCard extends StatelessWidget {
               ),
               child: Center(
                 child: Text(
-                  data.day,
+                  data.day ?? '-',
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,

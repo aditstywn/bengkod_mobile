@@ -6,6 +6,7 @@ import 'package:shimmer_animation/shimmer_animation.dart';
 import '../../../../core/components/error_card.dart';
 import '../../../../core/components/spaces.dart';
 import '../../../../core/config/app_color.dart';
+import '../../data/models/response/class_response_model.dart';
 import '../bloc/class/class_bloc.dart';
 import '../widgets/class_card.dart';
 import 'information_page.dart';
@@ -75,7 +76,7 @@ class _ClassPageState extends State<ClassPage> {
               );
             },
             getClassSuccess: (classResponseModel) {
-              if (classResponseModel.data.isEmpty) {
+              if (classResponseModel.data?.isEmpty == true) {
                 return Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -99,7 +100,6 @@ class _ClassPageState extends State<ClassPage> {
                 );
               }
 
-              length = classResponseModel.data.length;
               return RefreshIndicator(
                 onRefresh: () async {
                   context.read<ClassBloc>().add(const ClassEvent.getClass());
@@ -109,15 +109,15 @@ class _ClassPageState extends State<ClassPage> {
                     vertical: 16,
                     horizontal: 16,
                   ),
-                  itemCount: classResponseModel.data.length,
+                  itemCount: classResponseModel.data?.length ?? 0,
                   itemBuilder: (context, index) {
                     return ClassCard(
                       onTap: () {
                         context.push(InformationPage(
-                          id: classResponseModel.data[index].id,
+                          id: classResponseModel.data?[index].id ?? 0,
                         ));
                       },
-                      data: classResponseModel.data[index],
+                      data: classResponseModel.data?[index] ?? Class(),
                     );
                   },
                   separatorBuilder: (context, index) => const SpaceHeight(16),

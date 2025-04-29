@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 class ClassResponseModel {
-  final List<Class> data;
-  final Meta meta;
+  final List<Class>? data;
+  final Meta? meta;
 
   ClassResponseModel({
-    required this.data,
-    required this.meta,
+    this.data,
+    this.meta,
   });
 
   factory ClassResponseModel.fromJson(String str) =>
@@ -16,37 +16,40 @@ class ClassResponseModel {
 
   factory ClassResponseModel.fromMap(Map<String, dynamic> json) =>
       ClassResponseModel(
-        data: List<Class>.from(json["data"].map((x) => Class.fromMap(x))),
-        meta: Meta.fromMap(json["meta"]),
+        data: json["data"] == null
+            ? []
+            : List<Class>.from(json["data"]!.map((x) => Class.fromMap(x))),
+        meta: json["meta"] == null ? null : Meta.fromMap(json["meta"]),
       );
 
   Map<String, dynamic> toMap() => {
-        "data": List<dynamic>.from(data.map((x) => x.toMap())),
-        "meta": meta.toMap(),
+        "data":
+            data == null ? [] : List<dynamic>.from(data!.map((x) => x.toMap())),
+        "meta": meta?.toMap(),
       };
 }
 
 class Class {
-  final int id;
-  final String name;
-  final String description;
-  final String timeStart;
-  final String timeEnd;
-  final String day;
-  final String room;
+  final int? id;
+  final String? name;
+  final String? description;
+  final String? timeStart;
+  final String? timeEnd;
+  final String? day;
+  final String? room;
   final dynamic finalScore;
-  final int numberOfCourse;
+  final int? numberOfCourse;
 
   Class({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.timeStart,
-    required this.timeEnd,
-    required this.day,
-    required this.room,
-    required this.finalScore,
-    required this.numberOfCourse,
+    this.id,
+    this.name,
+    this.description,
+    this.timeStart,
+    this.timeEnd,
+    this.day,
+    this.room,
+    this.finalScore,
+    this.numberOfCourse,
   });
 
   factory Class.fromJson(String str) => Class.fromMap(json.decode(str));
@@ -74,20 +77,21 @@ class Class {
         "day": day,
         "room": room,
         "final_score": finalScore,
+        "number_of_course": numberOfCourse,
       };
 }
 
 class Meta {
-  final int statusCode;
-  final bool success;
-  final String message;
-  final Pagination pagination;
+  final int? statusCode;
+  final bool? success;
+  final String? message;
+  final Pagination? pagination;
 
   Meta({
-    required this.statusCode,
-    required this.success,
-    required this.message,
-    required this.pagination,
+    this.statusCode,
+    this.success,
+    this.message,
+    this.pagination,
   });
 
   factory Meta.fromJson(String str) => Meta.fromMap(json.decode(str));
@@ -98,32 +102,34 @@ class Meta {
         statusCode: json["status_code"],
         success: json["success"],
         message: json["message"],
-        pagination: Pagination.fromMap(json["pagination"]),
+        pagination: json["pagination"] == null
+            ? null
+            : Pagination.fromMap(json["pagination"]),
       );
 
   Map<String, dynamic> toMap() => {
         "status_code": statusCode,
         "success": success,
         "message": message,
-        "pagination": pagination.toMap(),
+        "pagination": pagination?.toMap(),
       };
 }
 
 class Pagination {
-  final int total;
-  final int count;
-  final int perPage;
-  final int currentPage;
-  final int totalPages;
-  final Links links;
+  final int? total;
+  final int? count;
+  final int? perPage;
+  final int? currentPage;
+  final int? totalPages;
+  final Links? links;
 
   Pagination({
-    required this.total,
-    required this.count,
-    required this.perPage,
-    required this.currentPage,
-    required this.totalPages,
-    required this.links,
+    this.total,
+    this.count,
+    this.perPage,
+    this.currentPage,
+    this.totalPages,
+    this.links,
   });
 
   factory Pagination.fromJson(String str) =>
@@ -137,7 +143,7 @@ class Pagination {
         perPage: json["per_page"],
         currentPage: json["current_page"],
         totalPages: json["total_pages"],
-        links: Links.fromMap(json["links"]),
+        links: json["links"] == null ? null : Links.fromMap(json["links"]),
       );
 
   Map<String, dynamic> toMap() => {
@@ -146,7 +152,7 @@ class Pagination {
         "per_page": perPage,
         "current_page": currentPage,
         "total_pages": totalPages,
-        "links": links.toMap(),
+        "links": links?.toMap(),
       };
 }
 
@@ -155,8 +161,8 @@ class Links {
   final dynamic previous;
 
   Links({
-    required this.next,
-    required this.previous,
+    this.next,
+    this.previous,
   });
 
   factory Links.fromJson(String str) => Links.fromMap(json.decode(str));

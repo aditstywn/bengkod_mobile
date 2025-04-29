@@ -1,15 +1,14 @@
-import '../../../../core/components/spaces.dart';
-import '../../../../core/extensions/build_context_ext.dart';
-import '../../../class/presentation/bloc/class/class_bloc.dart';
-import 'courses_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
 import '../../../../core/components/error_card.dart';
+import '../../../../core/components/spaces.dart';
 import '../../../../core/config/app_color.dart';
-import '../../../assignment/presentation/bloc/classAssignment/class_assignment_bloc.dart';
+import '../../../../core/extensions/build_context_ext.dart';
+import '../../../class/presentation/bloc/class/class_bloc.dart';
+import 'courses_page.dart';
 
 class ClassCoursesPage extends StatefulWidget {
   const ClassCoursesPage({super.key});
@@ -65,9 +64,7 @@ class _ClassCoursesPageState extends State<ClassCoursesPage> {
                 padding: const EdgeInsets.all(16.0),
                 child: RefreshIndicator(
                   onRefresh: () async {
-                    context
-                        .read<ClassAssignmentBloc>()
-                        .add(const ClassAssignmentEvent.getClassAssignment());
+                    context.read<ClassBloc>().add(const ClassEvent.getClass());
                   },
                   child: ErrorCard(
                     message: message,
@@ -76,7 +73,7 @@ class _ClassCoursesPageState extends State<ClassCoursesPage> {
               );
             },
             getClassSuccess: (classResponseModel) {
-              if (classResponseModel.data.isEmpty) {
+              if (classResponseModel.data?.isEmpty == true) {
                 return Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -109,12 +106,12 @@ class _ClassCoursesPageState extends State<ClassCoursesPage> {
                     horizontal: 16,
                     vertical: 16,
                   ),
-                  itemCount: classResponseModel.data.length,
+                  itemCount: classResponseModel.data?.length ?? 0,
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
                         context.push(CoursesPage(
-                          idClass: classResponseModel.data[index].id,
+                          idClass: classResponseModel.data?[index].id ?? 0,
                         ));
                       },
                       child: Container(
@@ -157,7 +154,7 @@ class _ClassCoursesPageState extends State<ClassCoursesPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    classResponseModel.data[index].name,
+                                    classResponseModel.data?[index].name ?? '-',
                                     style: const TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
@@ -170,8 +167,9 @@ class _ClassCoursesPageState extends State<ClassCoursesPage> {
                                     children: [
                                       Text(
                                         classResponseModel
-                                            .data[index].numberOfCourse
-                                            .toString(),
+                                                .data?[index].numberOfCourse
+                                                .toString() ??
+                                            '0',
                                         style: TextStyle(
                                           color: AppColors.white,
                                           fontSize: 14,

@@ -1,3 +1,4 @@
+import 'package:bengkod_mobile_app/features/class/data/models/response/class_response_model.dart';
 import 'package:bengkod_mobile_app/features/presence/presentation/pages/scaner_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -87,22 +88,19 @@ class _PresencePageState extends State<PresencePage> {
                           );
                         },
                         error: (message) {
-                          return Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: RefreshIndicator(
-                              onRefresh: () async {
-                                context
-                                    .read<ClassBloc>()
-                                    .add(const ClassEvent.getClass());
-                              },
-                              child: ErrorCard(
-                                message: message,
-                              ),
+                          return RefreshIndicator(
+                            onRefresh: () async {
+                              context
+                                  .read<ClassBloc>()
+                                  .add(const ClassEvent.getClass());
+                            },
+                            child: ErrorCard(
+                              message: message,
                             ),
                           );
                         },
                         getClassSuccess: (classResponseModel) {
-                          if (classResponseModel.data.isEmpty) {
+                          if (classResponseModel.data?.isEmpty == true) {
                             final heigth = context.deviceHeight - 200;
                             return Container(
                               margin: EdgeInsets.only(top: heigth / 2 - 100),
@@ -128,19 +126,21 @@ class _PresencePageState extends State<PresencePage> {
                             );
                           }
 
-                          length = classResponseModel.data.length;
                           return ListView.separated(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
-                            itemCount: classResponseModel.data.length,
+                            itemCount: classResponseModel.data?.length ?? 0,
                             itemBuilder: (context, index) {
                               return ClassCard(
                                 onTap: () {
                                   context.push(DetailPresencePage(
-                                    dataClass: classResponseModel.data[index],
+                                    dataClass:
+                                        classResponseModel.data?[index] ??
+                                            Class(),
                                   ));
                                 },
-                                data: classResponseModel.data[index],
+                                data:
+                                    classResponseModel.data?[index] ?? Class(),
                               );
                             },
                             separatorBuilder: (context, index) =>
