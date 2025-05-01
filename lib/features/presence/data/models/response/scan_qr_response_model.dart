@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 class ScanQrResponseModel {
-  final Data data;
-  final Meta meta;
+  final Data? data;
+  final Meta? meta;
 
   ScanQrResponseModel({
-    required this.data,
-    required this.meta,
+    this.data,
+    this.meta,
   });
 
   factory ScanQrResponseModel.fromJson(String str) =>
@@ -16,21 +16,27 @@ class ScanQrResponseModel {
 
   factory ScanQrResponseModel.fromMap(Map<String, dynamic> json) =>
       ScanQrResponseModel(
-        data: Data.fromMap(json["data"]),
-        meta: Meta.fromMap(json["meta"]),
+        data: json["data"] == null ? null : Data.fromMap(json["data"]),
+        meta: json["meta"] == null ? null : Meta.fromMap(json["meta"]),
       );
 
   Map<String, dynamic> toMap() => {
-        "data": data.toMap(),
-        "meta": meta.toMap(),
+        "data": data?.toMap(),
+        "meta": meta?.toMap(),
       };
 }
 
 class Data {
-  final int presenceId;
+  final int? presenceId;
+  final String? longitude;
+  final String? latitude;
+  final String? statusExistence;
 
   Data({
-    required this.presenceId,
+    this.presenceId,
+    this.longitude,
+    this.latitude,
+    this.statusExistence,
   });
 
   factory Data.fromJson(String str) => Data.fromMap(json.decode(str));
@@ -39,22 +45,28 @@ class Data {
 
   factory Data.fromMap(Map<String, dynamic> json) => Data(
         presenceId: json["presence_id"],
+        longitude: json["longitude"],
+        latitude: json["latitude"],
+        statusExistence: json["status_existence"],
       );
 
   Map<String, dynamic> toMap() => {
         "presence_id": presenceId,
+        "longitude": longitude,
+        "latitude": latitude,
+        "status_existence": statusExistence,
       };
 }
 
 class Meta {
-  final int statusCode;
-  final bool success;
-  final String message;
+  final int? statusCode;
+  final bool? success;
+  final String? message;
 
   Meta({
-    required this.statusCode,
-    required this.success,
-    required this.message,
+    this.statusCode,
+    this.success,
+    this.message,
   });
 
   factory Meta.fromJson(String str) => Meta.fromMap(json.decode(str));

@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 
 import '../../../../core/config/url.dart';
 import '../../../auth/data/datasource/auth_local_datasource.dart';
+import '../models/request/scan_qr_request_model.dart';
 import '../models/response/absence_history_response_model.dart';
 import '../models/response/absence_response_model.dart';
 import '../models/response/attendace_history_response_model.dart';
@@ -11,17 +12,19 @@ import '../models/response/presences_response_model.dart';
 import '../models/response/scan_qr_response_model.dart';
 
 class PresenceRemoteDatasource {
-  Future<Either<String, ScanQrResponseModel>> scanQr(String qrCodeLink) async {
+  Future<Either<String, ScanQrResponseModel>> scanQr(
+      ScanQrRequestModel scanQr) async {
     try {
       final token = await AuthLocalDatasource().getToken();
       final response = await http.post(
-          Uri.parse('${Url.baseUrl}/presences/scan-qr'),
-          headers: <String, String>{
-            'Authorization': 'Bearer $token',
-          },
-          body: {
-            'code': qrCodeLink,
-          });
+        Uri.parse('${Url.baseUrl}/presences/scan-qr'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: scanQr.toJson(),
+      );
 
       if (response.statusCode == 200) {
         return Right(ScanQrResponseModel.fromJson(response.body));

@@ -3,11 +3,13 @@ import 'package:bengkod_mobile_app/features/presence/presentation/pages/scaner_p
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
 import '../../../../core/components/error_card.dart';
 import '../../../../core/components/spaces.dart';
 import '../../../../core/config/app_color.dart';
+import '../../../../core/config/location_service.dart';
 import '../../../../core/extensions/build_context_ext.dart';
 import '../../../class/presentation/bloc/class/class_bloc.dart';
 import '../../../class/presentation/widgets/class_card.dart';
@@ -21,11 +23,31 @@ class PresencePage extends StatefulWidget {
 }
 
 class _PresencePageState extends State<PresencePage> {
-  // @override
-  // void initState() {
-  //   context.read<ClassBloc>().add(const ClassEvent.getClass());
-  //   super.initState();
-  // }
+  final LocationService _loc = LocationService();
+  Position? currentPosition;
+
+  Future<void> _getCurrentLocation() async {
+    try {
+      final position = await _loc.getCurrentLocation();
+      setState(() {
+        currentPosition = position;
+      });
+    } catch (e) {
+      if (mounted) {
+        context.pop();
+        context.showAlert(
+          false,
+          'Gagal mendapatkan lokasi, silahkan aktifkan GPS dan coba lagi',
+        );
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    _getCurrentLocation();
+    super.initState();
+  }
 
   int? length;
 
@@ -159,7 +181,16 @@ class _PresencePageState extends State<PresencePage> {
               right: context.deviceWidth / 2 - 80,
               child: GestureDetector(
                 onTap: () {
-                  context.push(const ScanerPage());
+                  if (currentPosition == null) {
+                    context.showAlert(
+                      false,
+                      'Gagal mendapatkan lokasi, silahkan aktifkan GPS dan coba lagi',
+                    );
+                    return;
+                  }
+                  context.push(ScanerPage(
+                    position: currentPosition,
+                  ));
                 },
                 child: Container(
                   height: 44,
@@ -185,7 +216,7 @@ class _PresencePageState extends State<PresencePage> {
                       ),
                       const SpaceWidth(10),
                       const Text(
-                        'Scan Barcode',
+                        'Scan QR Code',
                         style: TextStyle(
                           color: AppColors.primary,
                           fontSize: 13,

@@ -1,16 +1,17 @@
 import 'dart:async';
 
-import '../../../../core/components/spaces.dart';
-import '../../../../core/extensions/build_context_ext.dart';
-import '../../data/models/request/answer_request_model.dart';
-import '../bloc/answer/answer_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/components/error_card.dart';
+import '../../../../core/components/spaces.dart';
 import '../../../../core/config/app_color.dart';
+import '../../../../core/extensions/build_context_ext.dart';
+import '../../data/models/request/answer_request_model.dart';
+import '../bloc/answer/answer_bloc.dart';
 import '../bloc/iformation_exams/information_exams_bloc.dart';
 import '../bloc/start_exams/start_exams_bloc.dart';
+import '../widgets/loading_quiz_page.dart';
 
 class QuizPage extends StatefulWidget {
   final int courseId;
@@ -80,11 +81,7 @@ class _QuizPageState extends State<QuizPage> {
                     );
                   },
                   loading: () {
-                    return const Center(
-                      child: CircularProgressIndicator(
-                        color: AppColors.primary,
-                      ),
-                    );
+                    return LoadingQuizPage();
                   },
                   startExamsSuccess: (start) {
                     totalPage = start.data?.exams?.total ?? 1;
@@ -292,7 +289,7 @@ class _QuizPageState extends State<QuizPage> {
                                   Container(
                                     width: double.infinity,
                                     constraints: BoxConstraints(
-                                      minHeight: context.deviceHeight * 0.1,
+                                      minHeight: context.deviceHeight * 0.2,
                                     ),
                                     padding: const EdgeInsets.all(16.0),
                                     decoration: BoxDecoration(

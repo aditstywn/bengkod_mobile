@@ -214,8 +214,7 @@ class CoursesRemoteDatasource {
     try {
       final token = await AuthLocalDatasource().getToken();
       final response = await http.get(
-        Uri.parse(
-            '${Url.baseUrl}/course/$idCourse/exam-informations?page=$page'),
+        Uri.parse('${Url.baseUrl}/course/$idCourse/exam-histories?page=$page'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json',

@@ -1,18 +1,26 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
 
-import 'package:bengkod_mobile_app/core/extensions/build_context_ext.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
+import 'package:bengkod_mobile_app/core/extensions/build_context_ext.dart';
+
+import '../../data/models/request/scan_qr_request_model.dart';
 import '../bloc/scanQr/scan_qr_bloc.dart';
 import '../widgets/scaner_barcode_label.dart';
 import '../widgets/scaner_error_widget.dart';
 import '../widgets/scaner_widget_button.dart';
 
 class ScanerPage extends StatefulWidget {
-  const ScanerPage({super.key});
+  final Position? position;
+  const ScanerPage({
+    Key? key,
+    this.position,
+  }) : super(key: key);
 
   @override
   State<ScanerPage> createState() => _ScanerPageState();
@@ -149,9 +157,19 @@ class _ScanerPageState extends State<ScanerPage> {
                         if (lastQrValue !=
                             barcodes.barcodes.first.displayValue) {
                           lastQrValue = barcodes.barcodes.first.displayValue;
+                          print(
+                            'Barcode found! ${barcodes.barcodes.first.displayValue}',
+                          );
+
+                          final scanQr = ScanQrRequestModel(
+                            code: barcodes.barcodes.first.displayValue ?? '',
+                            longitude: widget.position?.longitude ?? 0.0,
+                            latitude: widget.position?.latitude ?? 0.0,
+                          );
                           context.read<ScanQrBloc>().add(
                                 ScanQrEvent.scanQr(
-                                    barcodes.barcodes.first.displayValue!),
+                                  scanQr,
+                                ),
                               );
                         }
                       }

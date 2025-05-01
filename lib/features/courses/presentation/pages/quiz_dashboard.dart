@@ -2,6 +2,7 @@ import 'package:bengkod_mobile_app/core/components/custom_pagination.dart';
 import 'package:bengkod_mobile_app/features/courses/presentation/bloc/exams/exams_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 import '../../../../core/components/error_card.dart';
 import '../../../../core/components/spaces.dart';
@@ -42,8 +43,15 @@ class _QuizDashboardState extends State<QuizDashboard> {
         builder: (context, state) {
           return state.maybeWhen(
             orElse: () => SizedBox(),
-            loading: () => const Center(
-              child: CircularProgressIndicator(),
+            loading: () => Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Shimmer(
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: AppColors.shimer,
+                      borderRadius: BorderRadius.circular(10)),
+                ),
+              ),
             ),
             error: (message) {
               return Padding(
@@ -216,6 +224,7 @@ class _QuizDashboardState extends State<QuizDashboard> {
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                 ),
+                                SpaceHeight(10),
                                 BlocBuilder<InformationExamsBloc,
                                     InformationExamsState>(
                                   builder: (context, state) {
@@ -243,16 +252,50 @@ class _QuizDashboardState extends State<QuizDashboard> {
                                           textAlign: TextAlign.center,
                                         );
                                       },
-                                      loading: () => Align(
-                                        alignment: Alignment.center,
-                                        child: SizedBox(
-                                          width: 20,
-                                          height: 20,
-                                          child: CircularProgressIndicator(),
-                                        ),
-                                      ),
+                                      loading: () {
+                                        return ListView.separated(
+                                          shrinkWrap: true,
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          itemCount: 4,
+                                          itemBuilder: (context, index) {
+                                            return Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Shimmer(
+                                                  child: Container(
+                                                    height: 20,
+                                                    width: 91,
+                                                    decoration: BoxDecoration(
+                                                      color: AppColors.shimer,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              4),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SpaceHeight(4),
+                                                Shimmer(
+                                                  child: Container(
+                                                    height: 20,
+                                                    decoration: BoxDecoration(
+                                                      color: AppColors.shimer,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              4),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                          separatorBuilder: (context, index) =>
+                                              SpaceHeight(12),
+                                        );
+                                      },
                                       informationExamsSuccess: (information) {
-                                        final exams = information.data?.exams;
+                                        final exams = information.data;
 
                                         if (exams == null || exams.isEmpty) {
                                           return const Center(

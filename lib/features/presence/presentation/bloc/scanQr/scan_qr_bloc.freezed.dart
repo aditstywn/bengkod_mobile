@@ -19,19 +19,19 @@ mixin _$ScanQrEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(String qrCodeLink) scanQr,
+    required TResult Function(ScanQrRequestModel scanQr) scanQr,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(String qrCodeLink)? scanQr,
+    TResult? Function(ScanQrRequestModel scanQr)? scanQr,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(String qrCodeLink)? scanQr,
+    TResult Function(ScanQrRequestModel scanQr)? scanQr,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -119,7 +119,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(String qrCodeLink) scanQr,
+    required TResult Function(ScanQrRequestModel scanQr) scanQr,
   }) {
     return started();
   }
@@ -128,7 +128,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(String qrCodeLink)? scanQr,
+    TResult? Function(ScanQrRequestModel scanQr)? scanQr,
   }) {
     return started?.call();
   }
@@ -137,7 +137,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(String qrCodeLink)? scanQr,
+    TResult Function(ScanQrRequestModel scanQr)? scanQr,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -188,7 +188,7 @@ abstract class _$$ScanQrImplCopyWith<$Res> {
           _$ScanQrImpl value, $Res Function(_$ScanQrImpl) then) =
       __$$ScanQrImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String qrCodeLink});
+  $Res call({ScanQrRequestModel scanQr});
 }
 
 /// @nodoc
@@ -204,13 +204,13 @@ class __$$ScanQrImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? qrCodeLink = null,
+    Object? scanQr = null,
   }) {
     return _then(_$ScanQrImpl(
-      null == qrCodeLink
-          ? _value.qrCodeLink
-          : qrCodeLink // ignore: cast_nullable_to_non_nullable
-              as String,
+      null == scanQr
+          ? _value.scanQr
+          : scanQr // ignore: cast_nullable_to_non_nullable
+              as ScanQrRequestModel,
     ));
   }
 }
@@ -218,14 +218,14 @@ class __$$ScanQrImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ScanQrImpl implements _ScanQr {
-  const _$ScanQrImpl(this.qrCodeLink);
+  const _$ScanQrImpl(this.scanQr);
 
   @override
-  final String qrCodeLink;
+  final ScanQrRequestModel scanQr;
 
   @override
   String toString() {
-    return 'ScanQrEvent.scanQr(qrCodeLink: $qrCodeLink)';
+    return 'ScanQrEvent.scanQr(scanQr: $scanQr)';
   }
 
   @override
@@ -233,12 +233,11 @@ class _$ScanQrImpl implements _ScanQr {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ScanQrImpl &&
-            (identical(other.qrCodeLink, qrCodeLink) ||
-                other.qrCodeLink == qrCodeLink));
+            (identical(other.scanQr, scanQr) || other.scanQr == scanQr));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, qrCodeLink);
+  int get hashCode => Object.hash(runtimeType, scanQr);
 
   /// Create a copy of ScanQrEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -252,29 +251,29 @@ class _$ScanQrImpl implements _ScanQr {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(String qrCodeLink) scanQr,
+    required TResult Function(ScanQrRequestModel scanQr) scanQr,
   }) {
-    return scanQr(qrCodeLink);
+    return scanQr(this.scanQr);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(String qrCodeLink)? scanQr,
+    TResult? Function(ScanQrRequestModel scanQr)? scanQr,
   }) {
-    return scanQr?.call(qrCodeLink);
+    return scanQr?.call(this.scanQr);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(String qrCodeLink)? scanQr,
+    TResult Function(ScanQrRequestModel scanQr)? scanQr,
     required TResult orElse(),
   }) {
     if (scanQr != null) {
-      return scanQr(qrCodeLink);
+      return scanQr(this.scanQr);
     }
     return orElse();
   }
@@ -312,9 +311,9 @@ class _$ScanQrImpl implements _ScanQr {
 }
 
 abstract class _ScanQr implements ScanQrEvent {
-  const factory _ScanQr(final String qrCodeLink) = _$ScanQrImpl;
+  const factory _ScanQr(final ScanQrRequestModel scanQr) = _$ScanQrImpl;
 
-  String get qrCodeLink;
+  ScanQrRequestModel get scanQr;
 
   /// Create a copy of ScanQrEvent
   /// with the given fields replaced by the non-null parameter values.

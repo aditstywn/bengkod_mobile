@@ -1,3 +1,4 @@
+import '../../../data/models/request/scan_qr_request_model.dart';
 import '../../../data/models/response/scan_qr_response_model.dart';
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -14,7 +15,7 @@ class ScanQrBloc extends Bloc<ScanQrEvent, ScanQrState> {
     on<_ScanQr>((event, emit) async {
       emit(const _Loading());
 
-      final response = await presenceRemoteDatasource.scanQr(event.qrCodeLink);
+      final response = await presenceRemoteDatasource.scanQr(event.scanQr);
 
       response.fold(
         (l) => emit(_Error(l)),

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 class InformartionExamsResponseModel {
-  final Data? data;
+  final List<Datum>? data;
   final Meta? meta;
 
   InformartionExamsResponseModel({
@@ -16,41 +16,20 @@ class InformartionExamsResponseModel {
 
   factory InformartionExamsResponseModel.fromMap(Map<String, dynamic> json) =>
       InformartionExamsResponseModel(
-        data: json["data"] == null ? null : Data.fromMap(json["data"]),
+        data: json["data"] == null
+            ? []
+            : List<Datum>.from(json["data"]!.map((x) => Datum.fromMap(x))),
         meta: json["meta"] == null ? null : Meta.fromMap(json["meta"]),
       );
 
   Map<String, dynamic> toMap() => {
-        "data": data?.toMap(),
+        "data":
+            data == null ? [] : List<dynamic>.from(data!.map((x) => x.toMap())),
         "meta": meta?.toMap(),
       };
 }
 
-class Data {
-  final List<Exam>? exams;
-
-  Data({
-    this.exams,
-  });
-
-  factory Data.fromJson(String str) => Data.fromMap(json.decode(str));
-
-  String toJson() => json.encode(toMap());
-
-  factory Data.fromMap(Map<String, dynamic> json) => Data(
-        exams: json["exams"] == null
-            ? []
-            : List<Exam>.from(json["exams"]!.map((x) => Exam.fromMap(x))),
-      );
-
-  Map<String, dynamic> toMap() => {
-        "exams": exams == null
-            ? []
-            : List<dynamic>.from(exams!.map((x) => x.toMap())),
-      };
-}
-
-class Exam {
+class Datum {
   final int? id;
   final int? durationMinutes;
   final String? status;
@@ -62,7 +41,7 @@ class Exam {
   final DateTime? date;
   final String? result;
 
-  Exam({
+  Datum({
     this.id,
     this.durationMinutes,
     this.status,
@@ -75,11 +54,11 @@ class Exam {
     this.result,
   });
 
-  factory Exam.fromJson(String str) => Exam.fromMap(json.decode(str));
+  factory Datum.fromJson(String str) => Datum.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory Exam.fromMap(Map<String, dynamic> json) => Exam(
+  factory Datum.fromMap(Map<String, dynamic> json) => Datum(
         id: json["id"],
         durationMinutes: json["duration_minutes"],
         status: json["status"],
@@ -183,7 +162,7 @@ class Pagination {
 }
 
 class Links {
-  final String? next;
+  final dynamic next;
   final dynamic previous;
 
   Links({

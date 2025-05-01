@@ -109,11 +109,16 @@ class _ClassCoursesPageState extends State<ClassCoursesPage> {
                   itemCount: classResponseModel.data?.length ?? 0,
                   itemBuilder: (context, index) {
                     return GestureDetector(
-                      onTap: () {
-                        context.push(CoursesPage(
-                          idClass: classResponseModel.data?[index].id ?? 0,
-                        ));
-                      },
+                      onTap: (classResponseModel.data?[index].numberOfCourse ??
+                                  0) >
+                              0
+                          ? () {
+                              context.push(CoursesPage(
+                                idClass:
+                                    classResponseModel.data?[index].id ?? 0,
+                              ));
+                            }
+                          : null,
                       child: Container(
                         padding: const EdgeInsets.all(12),
                         height: 110,
