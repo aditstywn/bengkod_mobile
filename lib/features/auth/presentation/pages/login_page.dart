@@ -59,12 +59,16 @@ class _LoginPageState extends State<LoginPage> {
     } catch (error) {
       debugPrint('Error signing in with Google: $error');
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Login Google Gagal: $error'),
-            backgroundColor: Colors.red,
-          ),
+        context.showAlert(
+          false,
+          'Gagal Masuk Dengan Google',
         );
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //   SnackBar(
+        //     content: Text('Login Google Gagal: $error'),
+        //     backgroundColor: Colors.red,
+        //   ),
+        // );
       }
     }
   }

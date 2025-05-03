@@ -220,36 +220,47 @@ class _DetailDiscussionPageState extends State<DetailDiscussionPage> {
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemBuilder: (context, index) {
-                                  return Container(
-                                    decoration: BoxDecoration(
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: AppColors.grey.withAlpha(100),
-                                          blurRadius: 5,
-                                          offset: const Offset(0, 2),
-                                        ),
-                                      ],
-                                    ),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: CachedNetworkImage(
-                                        imageUrl:
-                                            discussion.data?.images?[index] ??
-                                                '',
-                                        fit: BoxFit.cover,
-                                        // height: 200,
-                                        alignment: Alignment.topCenter,
-                                        placeholder: (context, url) => Shimmer(
-                                          child: Container(
-                                            height: 200,
-                                            decoration: BoxDecoration(
-                                                color: AppColors.shimer,
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
+                                  return GestureDetector(
+                                    onTap: () {
+                                      showZoomImagePopup(
+                                        context,
+                                        discussion.data?.images?[index] ?? '',
+                                      );
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color:
+                                                AppColors.grey.withAlpha(100),
+                                            blurRadius: 5,
+                                            offset: const Offset(0, 2),
                                           ),
+                                        ],
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: CachedNetworkImage(
+                                          imageUrl:
+                                              discussion.data?.images?[index] ??
+                                                  '',
+                                          fit: BoxFit.cover,
+                                          // height: 200,
+                                          alignment: Alignment.topCenter,
+                                          placeholder: (context, url) =>
+                                              Shimmer(
+                                            child: Container(
+                                              height: 200,
+                                              decoration: BoxDecoration(
+                                                  color: AppColors.shimer,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                            ),
+                                          ),
+                                          errorWidget: (context, url, error) =>
+                                              const Icon(Icons.error),
                                         ),
-                                        errorWidget: (context, url, error) =>
-                                            const Icon(Icons.error),
                                       ),
                                     ),
                                   );
@@ -257,6 +268,7 @@ class _DetailDiscussionPageState extends State<DetailDiscussionPage> {
                                 separatorBuilder: (context, index) =>
                                     SpaceHeight(20),
                               ),
+                            SpaceHeight(10),
                             Text(
                               discussion.data?.createdAt != null
                                   ? DateFormat('dd MMM yyyy HH:mm')
@@ -495,6 +507,58 @@ class _DetailDiscussionPageState extends State<DetailDiscussionPage> {
               },
             );
           },
+        ),
+      ),
+    );
+  }
+
+  void showZoomImagePopup(BuildContext context, String imageUrl) {
+    showDialog(
+      context: context,
+      builder: (_) => Dialog(
+        backgroundColor: Colors.black,
+        insetPadding: EdgeInsets.zero,
+        child: SizedBox(
+          width: context.deviceWidth * 0.95,
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              GestureDetector(
+                onTap: () => context.pop(),
+                child: InteractiveViewer(
+                  panEnabled: true,
+                  minScale: 1,
+                  maxScale: 5,
+                  child: CachedNetworkImage(
+                    imageUrl: imageUrl,
+                    fit: BoxFit.contain,
+                    placeholder: (context, url) => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error, color: Colors.white),
+                  ),
+                ),
+              ),
+              Positioned(
+                bottom: -60,
+                right: 0,
+                left: 0,
+                child: IconButton(
+                  style: IconButton.styleFrom(
+                    backgroundColor: AppColors.primary.withAlpha(100),
+                    shape: const CircleBorder(),
+                  ),
+                  icon: const Icon(
+                    Icons.close,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                  onPressed: () => context.pop(),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

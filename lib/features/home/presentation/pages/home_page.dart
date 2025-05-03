@@ -6,6 +6,7 @@ import 'package:shimmer_animation/shimmer_animation.dart';
 
 import '../../../../core/components/spaces.dart';
 import '../../../../core/config/app_color.dart';
+import '../../../../core/config/location_service.dart';
 import '../../../../core/extensions/build_context_ext.dart';
 import '../../../assignment/presentation/pages/class_and_assignment_page.dart';
 import '../../../assignment/presentation/pages/detail_assignment_page.dart';
@@ -27,6 +28,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  Future<void> _getCurrentLocation() async {
+    try {
+      await LocationService().getCurrentLocation();
+    } catch (e) {
+      if (mounted) {
+        context.pop();
+        context.showAlert(
+          false,
+          'Gagal mendapatkan lokasi, silahkan aktifkan GPS dan coba lagi',
+        );
+      }
+    }
+  }
+
   @override
   void initState() {
     // context.read<ProfileBloc>().add(const ProfileEvent.getProfile());
@@ -37,6 +52,7 @@ class _HomePageState extends State<HomePage> {
     //     .read<ActiveCourseBloc>()
     //     .add(const ActiveCourseEvent.getActiveCourse());
     super.initState();
+    _getCurrentLocation();
   }
 
   @override

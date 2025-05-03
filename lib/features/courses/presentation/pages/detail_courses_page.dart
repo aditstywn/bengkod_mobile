@@ -1,5 +1,7 @@
-import 'package:bengkod_mobile_app/core/extensions/build_context_ext.dart';
-import 'package:bengkod_mobile_app/features/courses/presentation/pages/quiz_dashboard.dart';
+import '../../../../core/extensions/build_context_ext.dart';
+import '../../data/models/response/discussions/dropdown_item.dart';
+import 'discussion_forum_page.dart';
+import 'quiz_dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -17,8 +19,12 @@ import '../bloc/article/article_bloc.dart';
 class DetailCoursesPage extends StatefulWidget {
   final int idCourses;
   final int idArticle;
+  final List<DropdownItem>? dropdownArticles;
   const DetailCoursesPage(
-      {super.key, required this.idCourses, required this.idArticle});
+      {super.key,
+      required this.idCourses,
+      required this.idArticle,
+      this.dropdownArticles});
 
   @override
   State<DetailCoursesPage> createState() => _DetailCoursesPageState();
@@ -396,6 +402,27 @@ class _DetailCoursesPageState extends State<DetailCoursesPage> {
                         ),
                       ),
                     ),
+                  Positioned(
+                    bottom: context.deviceHeight * 0.1,
+                    right: 16,
+                    child: FloatingActionButton(
+                        backgroundColor: AppColors.primary,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        onPressed: () {
+                          context.push(DiscussionForumPage(
+                            idCourse: widget.idCourses,
+                            idArticle: widget.idArticle,
+                            dropdownArticles: widget.dropdownArticles,
+                          ));
+                        },
+                        child: const Icon(
+                          Icons.forum_rounded,
+                          color: AppColors.white,
+                          size: 30,
+                        )),
+                  ),
                 ],
               );
             },

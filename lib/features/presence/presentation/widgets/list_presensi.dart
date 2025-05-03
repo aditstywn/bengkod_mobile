@@ -112,7 +112,7 @@ class ListPresensi extends StatelessWidget {
                     ),
                     const SpaceHeight(12),
                     SizedBox(
-                      width: 100,
+                      // width: 100,
                       height: 25,
                       child: ElevatedButton(
                         onPressed: presensi

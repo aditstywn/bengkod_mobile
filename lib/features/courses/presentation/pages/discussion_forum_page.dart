@@ -18,8 +18,10 @@ import 'create_discussion_page.dart';
 
 class DiscussionForumPage extends StatefulWidget {
   final int? idCourse;
+  final int? idArticle;
   final List<DropdownItem>? dropdownArticles;
-  const DiscussionForumPage({super.key, this.idCourse, this.dropdownArticles});
+  const DiscussionForumPage(
+      {super.key, this.idCourse, this.dropdownArticles, this.idArticle});
 
   @override
   State<DiscussionForumPage> createState() => _DiscussionForumPageState();
@@ -32,7 +34,8 @@ class _DiscussionForumPageState extends State<DiscussionForumPage> {
   void initState() {
     super.initState();
     context.read<DiscussionsBloc>().add(
-          DiscussionsEvent.discussion(widget.idCourse!, 1, null, null),
+          DiscussionsEvent.discussion(
+              widget.idCourse!, 1, null, widget.idArticle ?? null),
         );
   }
 

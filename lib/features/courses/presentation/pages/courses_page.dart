@@ -361,7 +361,7 @@ class _CoursesPageState extends State<CoursesPage> {
                   borderRadius: BorderRadius.circular(50),
                 ),
                 child: const Icon(
-                  Icons.chat_outlined,
+                  Icons.forum_rounded,
                   size: 30,
                   color: AppColors.white,
                 ),
@@ -378,7 +378,7 @@ class _CoursesPageState extends State<CoursesPage> {
                   borderRadius: BorderRadius.circular(50),
                 ),
                 child: const Icon(
-                  Icons.chat_outlined,
+                  Icons.forum_rounded,
                   size: 30,
                   color: AppColors.white,
                 ),
@@ -620,14 +620,22 @@ class _CoursesPageState extends State<CoursesPage> {
                             radius: 9,
                           ),
                     title: TextButton(
-                      onPressed: () {
-                        context.push(
-                          DetailCoursesPage(
-                            idCourses: lessonResponseModel.data[0].id,
-                            idArticle: article.id,
-                          ),
-                        );
-                      },
+                      onPressed: article.completed
+                          ? () {
+                              context.push(
+                                DetailCoursesPage(
+                                  idCourses: lessonResponseModel.data[0].id,
+                                  idArticle: article.id,
+                                  dropdownArticles: dropdownArticles ?? [],
+                                ),
+                              );
+                            }
+                          : () {
+                              context.showAlert(
+                                false,
+                                'Artikel belum selesai dibaca',
+                              );
+                            },
                       style: TextButton.styleFrom(
                         padding: EdgeInsets.zero,
                         overlayColor: Colors.transparent,

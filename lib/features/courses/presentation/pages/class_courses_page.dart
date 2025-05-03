@@ -108,6 +108,9 @@ class _ClassCoursesPageState extends State<ClassCoursesPage> {
                   ),
                   itemCount: classResponseModel.data?.length ?? 0,
                   itemBuilder: (context, index) {
+                    if (classResponseModel.data?[index].numberOfCourse == 0) {
+                      return const SizedBox();
+                    }
                     return GestureDetector(
                       onTap: (classResponseModel.data?[index].numberOfCourse ??
                                   0) >

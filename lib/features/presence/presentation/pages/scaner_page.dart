@@ -9,6 +9,7 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 
 import 'package:bengkod_mobile_app/core/extensions/build_context_ext.dart';
 
+import '../../../../core/config/location_service.dart';
 import '../../data/models/request/scan_qr_request_model.dart';
 import '../bloc/scanQr/scan_qr_bloc.dart';
 import '../widgets/scaner_barcode_label.dart';
@@ -16,10 +17,8 @@ import '../widgets/scaner_error_widget.dart';
 import '../widgets/scaner_widget_button.dart';
 
 class ScanerPage extends StatefulWidget {
-  final Position? position;
   const ScanerPage({
     Key? key,
-    this.position,
   }) : super(key: key);
 
   @override
@@ -27,6 +26,32 @@ class ScanerPage extends StatefulWidget {
 }
 
 class _ScanerPageState extends State<ScanerPage> {
+  final LocationService _loc = LocationService();
+  Position? currentPosition;
+
+  Future<void> _getCurrentLocation() async {
+    try {
+      final position = await _loc.getCurrentLocation();
+      setState(() {
+        currentPosition = position;
+      });
+    } catch (e) {
+      if (mounted) {
+        context.pop();
+        context.showAlert(
+          false,
+          'Gagal mendapatkan lokasi, silahkan aktifkan GPS dan coba lagi',
+        );
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    _getCurrentLocation();
+    super.initState();
+  }
+
   final MobileScannerController controller = MobileScannerController(
     torchEnabled: false,
     formats: [BarcodeFormat.qrCode],
@@ -163,8 +188,8 @@ class _ScanerPageState extends State<ScanerPage> {
 
                           final scanQr = ScanQrRequestModel(
                             code: barcodes.barcodes.first.displayValue ?? '',
-                            longitude: widget.position?.longitude ?? 0.0,
-                            latitude: widget.position?.latitude ?? 0.0,
+                            longitude: currentPosition?.longitude ?? 0.0,
+                            latitude: currentPosition?.latitude ?? 0.0,
                           );
                           context.read<ScanQrBloc>().add(
                                 ScanQrEvent.scanQr(

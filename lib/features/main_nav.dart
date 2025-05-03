@@ -91,6 +91,7 @@ class _MainNavState extends State<MainNav> {
                       color: _selectedIndex == 0
                           ? AppColors.primary
                           : AppColors.grey,
+                      width: 25,
                     ),
                   ],
                 ),
@@ -109,11 +110,12 @@ class _MainNavState extends State<MainNav> {
                         ),
                       ),
                     const SpaceHeight(4),
-                    SvgPicture.asset(
-                      'assets/icons/icon_finger.svg',
+                    Icon(
+                      Icons.qr_code_scanner,
                       color: _selectedIndex == 1
                           ? AppColors.primary
                           : AppColors.grey,
+                      size: 25,
                     ),
                   ],
                 ),
@@ -137,6 +139,7 @@ class _MainNavState extends State<MainNav> {
                       color: _selectedIndex == 2
                           ? AppColors.primary
                           : AppColors.grey,
+                      width: 25,
                     ),
                   ],
                 ),

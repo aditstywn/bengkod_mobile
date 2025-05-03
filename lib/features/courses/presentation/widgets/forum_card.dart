@@ -1,6 +1,6 @@
-import 'package:bengkod_mobile_app/features/courses/presentation/bloc/discussions/discussions_bloc.dart';
-import 'package:bengkod_mobile_app/features/courses/presentation/pages/create_discussion_page.dart';
-import 'package:bengkod_mobile_app/features/courses/presentation/pages/detail_discussion_page.dart';
+import '../bloc/discussions/discussions_bloc.dart';
+import '../pages/create_discussion_page.dart';
+import '../pages/detail_discussion_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -169,37 +169,47 @@ class _ForumCardState extends State<ForumCard> {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
-                return Container(
-                  decoration: BoxDecoration(
-                    color: AppColors.greyMuda,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.grey.withAlpha(100),
-                        blurRadius: 5,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  margin: const EdgeInsets.only(bottom: 20),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: CachedNetworkImage(
-                      imageUrl: widget.discussion?.images?[index] ?? '-',
-                      fit: BoxFit.cover,
-                      width: context.deviceWidth,
-                      // height: 200,
-                      alignment: Alignment.topCenter,
-                      placeholder: (context, url) => Shimmer(
-                        child: Container(
-                          height: 200,
-                          decoration: BoxDecoration(
-                              color: AppColors.shimer,
-                              borderRadius: BorderRadius.circular(10)),
+                return GestureDetector(
+                  onTap: () {
+                    // context.push(ZoomImage(
+                    //     imageUrl: widget.discussion?.images?[index] ?? '-'));
+                    showZoomImagePopup(
+                      context,
+                      widget.discussion?.images?[index] ?? '-',
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.greyMuda,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.grey.withAlpha(100),
+                          blurRadius: 5,
+                          offset: const Offset(0, 2),
                         ),
+                      ],
+                    ),
+                    margin: const EdgeInsets.only(bottom: 20),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: CachedNetworkImage(
+                        imageUrl: widget.discussion?.images?[index] ?? '-',
+                        fit: BoxFit.cover,
+                        width: context.deviceWidth,
+                        // height: 200,
+                        alignment: Alignment.topCenter,
+                        placeholder: (context, url) => Shimmer(
+                          child: Container(
+                            height: 200,
+                            decoration: BoxDecoration(
+                                color: AppColors.shimer,
+                                borderRadius: BorderRadius.circular(10)),
+                          ),
+                        ),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
                       ),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
                     ),
                   ),
                 );
@@ -254,6 +264,58 @@ class _ForumCardState extends State<ForumCard> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  void showZoomImagePopup(BuildContext context, String imageUrl) {
+    showDialog(
+      context: context,
+      builder: (_) => Dialog(
+        backgroundColor: Colors.black,
+        insetPadding: EdgeInsets.zero,
+        child: SizedBox(
+          width: context.deviceWidth * 0.95,
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              GestureDetector(
+                onTap: () => context.pop(),
+                child: InteractiveViewer(
+                  panEnabled: true,
+                  minScale: 1,
+                  maxScale: 5,
+                  child: CachedNetworkImage(
+                    imageUrl: imageUrl,
+                    fit: BoxFit.contain,
+                    placeholder: (context, url) => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error, color: Colors.white),
+                  ),
+                ),
+              ),
+              Positioned(
+                bottom: -60,
+                right: 0,
+                left: 0,
+                child: IconButton(
+                  style: IconButton.styleFrom(
+                    backgroundColor: AppColors.primary.withAlpha(100),
+                    shape: const CircleBorder(),
+                  ),
+                  icon: const Icon(
+                    Icons.close,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                  onPressed: () => context.pop(),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
