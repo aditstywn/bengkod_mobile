@@ -128,7 +128,9 @@ class _DetailCoursesPageState extends State<DetailCoursesPage> {
 
               final content = articleResponseModel.data.content
                   .replaceAll('\\n', '\n')
-                  .replaceAll('<br>', '\n');
+                  .replaceAll('<br>', '\n')
+                  .replaceAll('<b>', '**')
+                  .replaceAll('</b>', '**');
 
               final dataContent =
                   content.replaceAllMapped(imgTagRegex, (match) {
@@ -245,12 +247,16 @@ class _DetailCoursesPageState extends State<DetailCoursesPage> {
                             },
                             extensionSet: md.ExtensionSet(
                               [
-                                const md.TableSyntax(),
-                                const md.FencedCodeBlockSyntax(),
+                                md.TableSyntax(),
+                                md.FencedCodeBlockSyntax(),
                                 LatexBlockSyntax(),
+                                // md.BlockquoteSyntax(),
+                                // md.HtmlBlockSyntax(),
                               ],
                               [
                                 LatexInlineSyntax(),
+                                // md.InlineHtmlSyntax(),
+                                // md.ImageSyntax(),
                               ],
                             ),
                           ),
