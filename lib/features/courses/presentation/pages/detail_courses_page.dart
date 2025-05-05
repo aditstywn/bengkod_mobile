@@ -46,7 +46,22 @@ class _DetailCoursesPageState extends State<DetailCoursesPage> {
         backgroundColor: AppColors.white,
         title: const Text('Detail Kursus'),
       ),
-      body: BlocBuilder<ArticleBloc, ArticleState>(
+      body: BlocConsumer<ArticleBloc, ArticleState>(
+        listener: (context, state) {
+          state.maybeWhen(
+            orElse: () {},
+            error: (message) {
+              if (message ==
+                  'Access restricted. Complete the previous article first.') {
+                context.pop();
+                context.showAlert(
+                  false,
+                  'Selesaikan Artikel Sebelumnya',
+                );
+              }
+            },
+          );
+        },
         builder: (context, state) {
           return state.maybeWhen(
             orElse: () => const SizedBox(),
@@ -96,6 +111,10 @@ class _DetailCoursesPageState extends State<DetailCoursesPage> {
               ),
             ),
             error: (message) {
+              if (message ==
+                  'Access restricted. Complete the previous article first.') {
+                return const SizedBox();
+              }
               return Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: RefreshIndicator(

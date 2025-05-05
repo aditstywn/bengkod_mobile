@@ -31,7 +31,7 @@ class Datum {
   final String image;
   final String title;
   final String description;
-  final String courseProgress;
+  final dynamic courseProgress;
   final Classroom classroom;
 
   Datum({

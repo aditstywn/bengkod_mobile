@@ -81,7 +81,9 @@ class CoursesRemoteDatasource {
       if (response.statusCode == 200) {
         return Right(ArticleResponseModel.fromJson(response.body));
       } else {
-        return const Left('Gagal mendapatkan data article');
+        final error = json.decode(response.body);
+        return left(error['meta']['error']);
+        // return const Left('Gagal mendapatkan data article');
       }
     } catch (e) {
       return const Left('Gagal mendapatkan data article');

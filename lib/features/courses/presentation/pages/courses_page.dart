@@ -80,17 +80,14 @@ class _CoursesPageState extends State<CoursesPage> {
                       ),
                     ),
                     error: (message) {
-                      return Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: RefreshIndicator(
-                          onRefresh: () async {
-                            context
-                                .read<CoursesBloc>()
-                                .add(CoursesEvent.getCourses(widget.idClass));
-                          },
-                          child: ErrorCard(
-                            message: message,
-                          ),
+                      return RefreshIndicator(
+                        onRefresh: () async {
+                          context
+                              .read<CoursesBloc>()
+                              .add(CoursesEvent.getCourses(widget.idClass));
+                        },
+                        child: ErrorCard(
+                          message: message,
                         ),
                       );
                     },
@@ -251,9 +248,10 @@ class _CoursesPageState extends State<CoursesPage> {
                                 width: double.infinity,
                                 child: Row(
                                   children: [
-                                    SvgPicture.asset(
-                                      'assets/icons/icon_checkist2.svg',
-                                      width: 18,
+                                    Icon(
+                                      Icons.my_library_books_outlined,
+                                      color: AppColors.primary,
+                                      size: 30,
                                     ),
                                     SpaceWidth(22),
                                     Text(
@@ -620,22 +618,15 @@ class _CoursesPageState extends State<CoursesPage> {
                             radius: 9,
                           ),
                     title: TextButton(
-                      onPressed: article.completed
-                          ? () {
-                              context.push(
-                                DetailCoursesPage(
-                                  idCourses: lessonResponseModel.data[0].id,
-                                  idArticle: article.id,
-                                  dropdownArticles: dropdownArticles ?? [],
-                                ),
-                              );
-                            }
-                          : () {
-                              context.showAlert(
-                                false,
-                                'Artikel belum selesai dibaca',
-                              );
-                            },
+                      onPressed: () {
+                        context.push(
+                          DetailCoursesPage(
+                            idCourses: lessonResponseModel.data[0].id,
+                            idArticle: article.id,
+                            dropdownArticles: dropdownArticles ?? [],
+                          ),
+                        );
+                      },
                       style: TextButton.styleFrom(
                         padding: EdgeInsets.zero,
                         overlayColor: Colors.transparent,
