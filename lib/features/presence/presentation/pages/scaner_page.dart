@@ -37,10 +37,9 @@ class _ScanerPageState extends State<ScanerPage> {
       });
     } catch (e) {
       if (mounted) {
-        context.pop();
         context.showAlert(
           false,
-          'Gagal mendapatkan lokasi, silahkan aktifkan GPS dan coba lagi',
+          'Gagal mendapatkan lokasi, silahkan aktifkan GPS',
         );
       }
     }

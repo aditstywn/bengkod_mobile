@@ -467,7 +467,7 @@ class _CreateDiscussionPageState extends State<CreateDiscussionPage> {
                       message.meta?.message ?? 'Berhasil membuat diskusi');
                   context.read<DiscussionsBloc>().add(
                         DiscussionsEvent.discussion(
-                            widget.idCourse, 1, null, null),
+                            widget.idCourse, 1, null, null, null),
                       );
 
                   titleController.clear();
@@ -477,13 +477,13 @@ class _CreateDiscussionPageState extends State<CreateDiscussionPage> {
                   });
                 },
                 updateDiscussionsSuccess: (message) {
-                  context.pop();
-                  context.showAlert(true,
-                      message.meta?.message ?? 'Berhasil mengubah diskusi');
-                  context.read<DiscussionsBloc>().add(
-                        DiscussionsEvent.discussion(
-                            widget.idCourse, 1, null, null),
-                      );
+                  // context.pop();
+                  // context.showAlert(true,
+                  //     message.meta?.message ?? 'Berhasil mengubah diskusi');
+                  // context.read<DiscussionsBloc>().add(
+                  //       DiscussionsEvent.discussion(
+                  //           widget.idCourse, 1, null, null, null),
+                  //     );
 
                   titleController.clear();
                   contentController.clear();
@@ -495,7 +495,7 @@ class _CreateDiscussionPageState extends State<CreateDiscussionPage> {
                   context.showAlert(false, message);
                   context.read<DiscussionsBloc>().add(
                         DiscussionsEvent.discussion(
-                            widget.idCourse, 1, null, null),
+                            widget.idCourse, 1, null, null, null),
                       );
                 },
                 orElse: () {},

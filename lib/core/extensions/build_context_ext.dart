@@ -103,9 +103,9 @@ extension NavigatorExt on BuildContext {
         actions: <Widget>[
           Button.outlined(
             height: 40,
-            width: 70,
+            width: 80,
             label: 'OK',
-            fontSize: 16,
+            fontSize: 14,
             color: AppColors.white,
             borderColor: type ? AppColors.green : AppColors.error,
             textColor: type ? AppColors.green : AppColors.error,
@@ -116,10 +116,11 @@ extension NavigatorExt on BuildContext {
     );
   }
 
-  void showAlertFile(String title, String url, bool type) {
+  void showAlertFile(String title, String url, bool type, [double? height]) {
     showDialog(
       context: this,
       builder: (context) => AlertDialog(
+        insetPadding: EdgeInsets.zero,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(4),
         ),
@@ -131,12 +132,12 @@ extension NavigatorExt on BuildContext {
           fontSize: 20,
         ),
         content: ConstrainedBox(
-          constraints: const BoxConstraints(
-            minHeight: 190,
+          constraints: BoxConstraints(
+            minHeight: height ?? 200,
             maxHeight: 400,
           ),
           child: SizedBox(
-            width: double.maxFinite,
+            width: context.deviceWidth * 0.8,
             child: type
                 ? SizedBox(
                     height: double.minPositive,

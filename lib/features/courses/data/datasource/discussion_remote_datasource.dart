@@ -19,16 +19,17 @@ import '../models/response/reply/add_reply_response_model.dart';
 import '../models/response/reply/all_reply_response_model.dart';
 
 class DiscussionRemoteDatasource {
-  Future<Either<String, DiscussionsResponseModel>> discussion(
-      int idCourses, int? page, String? search, int? idArticle) async {
+  Future<Either<String, DiscussionsResponseModel>> discussion(int idCourses,
+      int? page, String? search, int? idArticle, String? sort) async {
     try {
       final token = await AuthLocalDatasource().getToken();
 
       final uri = Uri.parse('${Url.baseUrl}/course/$idCourses/discussions')
           .replace(queryParameters: {
         'page': page?.toString(),
-        if (search != null && search.isNotEmpty) 'article': search,
+        if (search != null && search.isNotEmpty) 'title': search,
         if (idArticle != null) 'article_id': idArticle.toString(),
+        if (sort != null) 'sort': sort,
       });
       final response = await http.get(
         // Uri.parse(

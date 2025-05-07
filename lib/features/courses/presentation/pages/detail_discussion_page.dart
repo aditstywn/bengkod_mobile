@@ -14,6 +14,7 @@ import '../../../../core/components/spaces.dart';
 import '../../../../core/config/app_color.dart';
 import '../../../auth/data/datasource/auth_local_datasource.dart';
 import '../bloc/detail_discussions/detail_discussions_bloc.dart';
+import '../bloc/discussions/discussions_bloc.dart';
 import '../bloc/reply/reply_bloc.dart';
 import '../widgets/reply_card.dart';
 import '../widgets/reply_loading.dart';
@@ -21,10 +22,12 @@ import '../widgets/reply_loading.dart';
 class DetailDiscussionPage extends StatefulWidget {
   final int? idCourses;
   final int? idDiscussion;
+  final int idArticle;
   const DetailDiscussionPage({
     Key? key,
     this.idCourses,
     this.idDiscussion,
+    required this.idArticle,
   }) : super(key: key);
 
   @override
@@ -329,6 +332,14 @@ class _DetailDiscussionPageState extends State<DetailDiscussionPage> {
                                               widget.idCourses ?? 0,
                                               widget.idDiscussion ?? 0,
                                               page),
+                                        );
+                                    context.read<DiscussionsBloc>().add(
+                                          DiscussionsEvent.discussion(
+                                              widget.idCourses ?? 0,
+                                              1,
+                                              null,
+                                              widget.idArticle,
+                                              null),
                                         );
                                   },
                                   error: (message) {

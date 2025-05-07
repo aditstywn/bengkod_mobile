@@ -10,12 +10,14 @@ import '../pages/izin_page.dart';
 
 class ListPresensi extends StatelessWidget {
   final String className;
+  final int? idClass;
   const ListPresensi({
     super.key,
     required this.className,
     required this.presences,
     required this.attendances,
     required this.absences,
+    this.idClass,
   });
 
   final List<PresencesDatum> presences;
@@ -195,6 +197,7 @@ class ListPresensi extends StatelessWidget {
                                         context: context,
                                         builder: (context) {
                                           return AlertDialog(
+                                            insetPadding: EdgeInsets.zero,
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(10),
@@ -206,102 +209,115 @@ class ListPresensi extends StatelessWidget {
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
-                                            content: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Text(
-                                                  'Jenis : ${absence!.absenceType}',
-                                                  style: const TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: AppColors.tertiary,
-                                                  ),
-                                                ),
-                                                const SpaceHeight(8),
-                                                Text(
-                                                  'Status : ${absence.approveStatusLabel}',
-                                                  style: const TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: AppColors.tertiary,
-                                                  ),
-                                                ),
-                                                const SpaceHeight(8),
-                                                Text(
-                                                  'Tanggal : ${absence.approveChangedAtFormatted}',
-                                                  style: const TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: AppColors.tertiary,
-                                                  ),
-                                                ),
-                                                const SpaceHeight(8),
-                                                Row(
-                                                  children: [
-                                                    const Text(
-                                                      'File : ',
-                                                      style: TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        color:
-                                                            AppColors.tertiary,
-                                                      ),
+                                            content: SizedBox(
+                                              width: context.deviceWidth * 0.7,
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Text(
+                                                    'Jenis : ${absence!.absenceType}',
+                                                    style: const TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      color: AppColors.tertiary,
                                                     ),
-                                                    GestureDetector(
-                                                      onTap: () async {
-                                                        final url = absence
-                                                                ?.attachment ??
-                                                            '';
-                                                        final fileExtention =
-                                                            url
-                                                                .toString()
-                                                                .split('.')
-                                                                .last
-                                                                .toLowerCase();
-
-                                                        if (['pdf'].contains(
-                                                            fileExtention)) {
-                                                          context.showAlertFile(
-                                                              'PDF', url, true);
-                                                        } else {
-                                                          context.showAlertFile(
-                                                              'Image',
-                                                              url,
-                                                              false);
-                                                        }
-                                                      },
-                                                      child: const Text(
-                                                        'Unduh File',
+                                                  ),
+                                                  const SpaceHeight(8),
+                                                  Text(
+                                                    'Status : ${absence.approveStatusLabel}',
+                                                    style: const TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      color: AppColors.tertiary,
+                                                    ),
+                                                  ),
+                                                  const SpaceHeight(8),
+                                                  Text(
+                                                    'Tanggal : ${absence.approveChangedAtFormatted}',
+                                                    style: const TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      color: AppColors.tertiary,
+                                                    ),
+                                                  ),
+                                                  const SpaceHeight(8),
+                                                  Row(
+                                                    children: [
+                                                      const Text(
+                                                        'File : ',
                                                         style: TextStyle(
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            color: AppColors
-                                                                .course,
-                                                            fontStyle: FontStyle
-                                                                .italic,
-                                                            decoration:
-                                                                TextDecoration
-                                                                    .underline),
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color: AppColors
+                                                              .tertiary,
+                                                        ),
                                                       ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                const SpaceHeight(8),
-                                                Text(
-                                                  absence.approveNote != null
-                                                      ? 'Catatan : ${absence.approveNote}'
-                                                      : '',
-                                                  style: const TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: AppColors.tertiary,
+                                                      GestureDetector(
+                                                        onTap: () async {
+                                                          final url = absence
+                                                                  ?.attachment ??
+                                                              '';
+                                                          final fileExtention =
+                                                              url
+                                                                  .toString()
+                                                                  .split('.')
+                                                                  .last
+                                                                  .toLowerCase();
+
+                                                          if (['pdf'].contains(
+                                                              fileExtention)) {
+                                                            context
+                                                                .showAlertFile(
+                                                                    'PDF',
+                                                                    url,
+                                                                    true);
+                                                          } else {
+                                                            context
+                                                                .showAlertFile(
+                                                                    'Image',
+                                                                    url,
+                                                                    false);
+                                                          }
+                                                        },
+                                                        child: const Text(
+                                                          'Unduh File',
+                                                          style: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              color: AppColors
+                                                                  .course,
+                                                              fontStyle:
+                                                                  FontStyle
+                                                                      .italic,
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .underline),
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
-                                                ),
-                                              ],
+                                                  const SpaceHeight(8),
+                                                  Text(
+                                                    absence.approveNote != null
+                                                        ? 'Catatan : ${absence.approveNote}'
+                                                        : '',
+                                                    style: const TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      color: AppColors.tertiary,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                             actions: [
                                               TextButton(
@@ -334,6 +350,7 @@ class ListPresensi extends StatelessWidget {
                                           IzinPage(
                                             presence: presences[index],
                                             className: className,
+                                            idClass: idClass,
                                           ),
                                         );
                                       }
@@ -371,7 +388,9 @@ class ListPresensi extends StatelessWidget {
                 right: 0,
                 child: Container(
                   height: 38,
-                  width: 93,
+                  constraints: const BoxConstraints(
+                    minWidth: 93,
+                  ),
                   padding: const EdgeInsets.symmetric(
                     horizontal: 8,
                     vertical: 4,

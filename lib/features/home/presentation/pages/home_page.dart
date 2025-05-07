@@ -2,11 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
 import '../../../../core/components/spaces.dart';
 import '../../../../core/config/app_color.dart';
-import '../../../../core/config/location_service.dart';
 import '../../../../core/extensions/build_context_ext.dart';
 import '../../../assignment/presentation/pages/class_and_assignment_page.dart';
 import '../../../assignment/presentation/pages/detail_assignment_page.dart';
@@ -28,19 +28,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Future<void> _getCurrentLocation() async {
-    try {
-      await LocationService().getCurrentLocation();
-    } catch (e) {
-      if (mounted) {
-        context.pop();
-        context.showAlert(
-          false,
-          'Gagal mendapatkan lokasi, silahkan aktifkan GPS dan coba lagi',
-        );
-      }
-    }
-  }
+  // Future<void> _getCurrentLocation() async {
+  //   try {
+  //     await LocationService().getCurrentLocation();
+  //   } catch (e) {
+  //     if (mounted) {
+  //       context.showAlert(
+  //         false,
+  //         'Gagal mendapatkan lokasi, silahkan aktifkan GPS ',
+  //       );
+  //     }
+  //   }
+  // }
 
   @override
   void initState() {
@@ -52,7 +51,7 @@ class _HomePageState extends State<HomePage> {
     //     .read<ActiveCourseBloc>()
     //     .add(const ActiveCourseEvent.getActiveCourse());
     super.initState();
-    _getCurrentLocation();
+    // _getCurrentLocation();
   }
 
   @override
@@ -489,7 +488,10 @@ class _HomePageState extends State<HomePage> {
                         description:
                             latestAssignmentResponseModel.data?.description ??
                                 '-',
-                        start: '-',
+                        start: DateFormat('d MMM yyyy HH:mm').format(
+                          latestAssignmentResponseModel.data?.startTime ??
+                              DateTime.now(),
+                        ),
                         deadline:
                             latestAssignmentResponseModel.data?.deadline ?? '-',
                         status:

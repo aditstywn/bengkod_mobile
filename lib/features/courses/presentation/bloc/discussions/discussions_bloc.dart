@@ -19,8 +19,8 @@ class DiscussionsBloc extends Bloc<DiscussionsEvent, DiscussionsState> {
   DiscussionsBloc(this.discussionRemoteDatasource) : super(_Initial()) {
     on<_Discussion>((event, emit) async {
       emit(_Loading());
-      final result = await discussionRemoteDatasource.discussion(
-          event.idCourse, event.page, event.search, event.idArticle);
+      final result = await discussionRemoteDatasource.discussion(event.idCourse,
+          event.page, event.search, event.idArticle, event.sort);
 
       result.fold(
         (l) => emit(_Error(l)),

@@ -118,10 +118,28 @@ class AssignmentRemoteDatasource {
 
       final body = await response.stream.bytesToString();
 
+      // if (response.statusCode == 200) {
+      //   return Right(UploadTaskResponseModel.fromJson(body));
+      // } else {
+      //   return const Left('Gagal upload task');
+      // }
       if (response.statusCode == 200) {
         return Right(UploadTaskResponseModel.fromJson(body));
       } else {
-        return const Left('Gagal upload task');
+        final bodyJson = jsonDecode(body);
+
+        // Ambil pesan error paling pertama dari body jika ada
+        final error = bodyJson['meta']?['error'];
+        String errorMessage = 'Gagal upload task';
+
+        if (error is Map && error.containsKey('answer_file')) {
+          final messages = error['answer_file'];
+          if (messages is List && messages.isNotEmpty) {
+            errorMessage = messages.join(', ');
+          }
+        }
+
+        return Left(errorMessage);
       }
     } catch (e) {
       return const Left('Gagal upload task');

@@ -19,8 +19,8 @@ mixin _$DiscussionsEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(
-            int idCourse, int page, String? search, int? idArticle)
+    required TResult Function(int idCourse, int page, String? search,
+            int? idArticle, String? sort)
         discussion,
     required TResult Function(
             CreateDiscussionsRequestModel discussions, int idCourse)
@@ -34,7 +34,8 @@ mixin _$DiscussionsEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(int idCourse, int page, String? search, int? idArticle)?
+    TResult? Function(int idCourse, int page, String? search, int? idArticle,
+            String? sort)?
         discussion,
     TResult? Function(CreateDiscussionsRequestModel discussions, int idCourse)?
         createDiscussions,
@@ -47,7 +48,8 @@ mixin _$DiscussionsEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(int idCourse, int page, String? search, int? idArticle)?
+    TResult Function(int idCourse, int page, String? search, int? idArticle,
+            String? sort)?
         discussion,
     TResult Function(CreateDiscussionsRequestModel discussions, int idCourse)?
         createDiscussions,
@@ -151,8 +153,8 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(
-            int idCourse, int page, String? search, int? idArticle)
+    required TResult Function(int idCourse, int page, String? search,
+            int? idArticle, String? sort)
         discussion,
     required TResult Function(
             CreateDiscussionsRequestModel discussions, int idCourse)
@@ -169,7 +171,8 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(int idCourse, int page, String? search, int? idArticle)?
+    TResult? Function(int idCourse, int page, String? search, int? idArticle,
+            String? sort)?
         discussion,
     TResult? Function(CreateDiscussionsRequestModel discussions, int idCourse)?
         createDiscussions,
@@ -185,7 +188,8 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(int idCourse, int page, String? search, int? idArticle)?
+    TResult Function(int idCourse, int page, String? search, int? idArticle,
+            String? sort)?
         discussion,
     TResult Function(CreateDiscussionsRequestModel discussions, int idCourse)?
         createDiscussions,
@@ -252,7 +256,8 @@ abstract class _$$DiscussionImplCopyWith<$Res> {
           _$DiscussionImpl value, $Res Function(_$DiscussionImpl) then) =
       __$$DiscussionImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({int idCourse, int page, String? search, int? idArticle});
+  $Res call(
+      {int idCourse, int page, String? search, int? idArticle, String? sort});
 }
 
 /// @nodoc
@@ -272,6 +277,7 @@ class __$$DiscussionImplCopyWithImpl<$Res>
     Object? page = null,
     Object? search = freezed,
     Object? idArticle = freezed,
+    Object? sort = freezed,
   }) {
     return _then(_$DiscussionImpl(
       null == idCourse
@@ -290,6 +296,10 @@ class __$$DiscussionImplCopyWithImpl<$Res>
           ? _value.idArticle
           : idArticle // ignore: cast_nullable_to_non_nullable
               as int?,
+      freezed == sort
+          ? _value.sort
+          : sort // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -297,7 +307,8 @@ class __$$DiscussionImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$DiscussionImpl implements _Discussion {
-  const _$DiscussionImpl(this.idCourse, this.page, this.search, this.idArticle);
+  const _$DiscussionImpl(
+      this.idCourse, this.page, this.search, this.idArticle, this.sort);
 
   @override
   final int idCourse;
@@ -307,10 +318,12 @@ class _$DiscussionImpl implements _Discussion {
   final String? search;
   @override
   final int? idArticle;
+  @override
+  final String? sort;
 
   @override
   String toString() {
-    return 'DiscussionsEvent.discussion(idCourse: $idCourse, page: $page, search: $search, idArticle: $idArticle)';
+    return 'DiscussionsEvent.discussion(idCourse: $idCourse, page: $page, search: $search, idArticle: $idArticle, sort: $sort)';
   }
 
   @override
@@ -323,12 +336,13 @@ class _$DiscussionImpl implements _Discussion {
             (identical(other.page, page) || other.page == page) &&
             (identical(other.search, search) || other.search == search) &&
             (identical(other.idArticle, idArticle) ||
-                other.idArticle == idArticle));
+                other.idArticle == idArticle) &&
+            (identical(other.sort, sort) || other.sort == sort));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, idCourse, page, search, idArticle);
+      Object.hash(runtimeType, idCourse, page, search, idArticle, sort);
 
   /// Create a copy of DiscussionsEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -342,8 +356,8 @@ class _$DiscussionImpl implements _Discussion {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(
-            int idCourse, int page, String? search, int? idArticle)
+    required TResult Function(int idCourse, int page, String? search,
+            int? idArticle, String? sort)
         discussion,
     required TResult Function(
             CreateDiscussionsRequestModel discussions, int idCourse)
@@ -353,14 +367,15 @@ class _$DiscussionImpl implements _Discussion {
         updateDiscussions,
     required TResult Function(int idCourse, int idDiscussions) deleteDiscussion,
   }) {
-    return discussion(idCourse, page, search, idArticle);
+    return discussion(idCourse, page, search, idArticle, sort);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(int idCourse, int page, String? search, int? idArticle)?
+    TResult? Function(int idCourse, int page, String? search, int? idArticle,
+            String? sort)?
         discussion,
     TResult? Function(CreateDiscussionsRequestModel discussions, int idCourse)?
         createDiscussions,
@@ -369,14 +384,15 @@ class _$DiscussionImpl implements _Discussion {
         updateDiscussions,
     TResult? Function(int idCourse, int idDiscussions)? deleteDiscussion,
   }) {
-    return discussion?.call(idCourse, page, search, idArticle);
+    return discussion?.call(idCourse, page, search, idArticle, sort);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(int idCourse, int page, String? search, int? idArticle)?
+    TResult Function(int idCourse, int page, String? search, int? idArticle,
+            String? sort)?
         discussion,
     TResult Function(CreateDiscussionsRequestModel discussions, int idCourse)?
         createDiscussions,
@@ -387,7 +403,7 @@ class _$DiscussionImpl implements _Discussion {
     required TResult orElse(),
   }) {
     if (discussion != null) {
-      return discussion(idCourse, page, search, idArticle);
+      return discussion(idCourse, page, search, idArticle, sort);
     }
     return orElse();
   }
@@ -434,13 +450,18 @@ class _$DiscussionImpl implements _Discussion {
 }
 
 abstract class _Discussion implements DiscussionsEvent {
-  const factory _Discussion(final int idCourse, final int page,
-      final String? search, final int? idArticle) = _$DiscussionImpl;
+  const factory _Discussion(
+      final int idCourse,
+      final int page,
+      final String? search,
+      final int? idArticle,
+      final String? sort) = _$DiscussionImpl;
 
   int get idCourse;
   int get page;
   String? get search;
   int? get idArticle;
+  String? get sort;
 
   /// Create a copy of DiscussionsEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -529,8 +550,8 @@ class _$CreateDiscussionsImpl implements _CreateDiscussions {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(
-            int idCourse, int page, String? search, int? idArticle)
+    required TResult Function(int idCourse, int page, String? search,
+            int? idArticle, String? sort)
         discussion,
     required TResult Function(
             CreateDiscussionsRequestModel discussions, int idCourse)
@@ -547,7 +568,8 @@ class _$CreateDiscussionsImpl implements _CreateDiscussions {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(int idCourse, int page, String? search, int? idArticle)?
+    TResult? Function(int idCourse, int page, String? search, int? idArticle,
+            String? sort)?
         discussion,
     TResult? Function(CreateDiscussionsRequestModel discussions, int idCourse)?
         createDiscussions,
@@ -563,7 +585,8 @@ class _$CreateDiscussionsImpl implements _CreateDiscussions {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(int idCourse, int page, String? search, int? idArticle)?
+    TResult Function(int idCourse, int page, String? search, int? idArticle,
+            String? sort)?
         discussion,
     TResult Function(CreateDiscussionsRequestModel discussions, int idCourse)?
         createDiscussions,
@@ -729,8 +752,8 @@ class _$UpdateDiscussionsImpl implements _UpdateDiscussions {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(
-            int idCourse, int page, String? search, int? idArticle)
+    required TResult Function(int idCourse, int page, String? search,
+            int? idArticle, String? sort)
         discussion,
     required TResult Function(
             CreateDiscussionsRequestModel discussions, int idCourse)
@@ -747,7 +770,8 @@ class _$UpdateDiscussionsImpl implements _UpdateDiscussions {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(int idCourse, int page, String? search, int? idArticle)?
+    TResult? Function(int idCourse, int page, String? search, int? idArticle,
+            String? sort)?
         discussion,
     TResult? Function(CreateDiscussionsRequestModel discussions, int idCourse)?
         createDiscussions,
@@ -763,7 +787,8 @@ class _$UpdateDiscussionsImpl implements _UpdateDiscussions {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(int idCourse, int page, String? search, int? idArticle)?
+    TResult Function(int idCourse, int page, String? search, int? idArticle,
+            String? sort)?
         discussion,
     TResult Function(CreateDiscussionsRequestModel discussions, int idCourse)?
         createDiscussions,
@@ -917,8 +942,8 @@ class _$DeleteDiscussionImpl implements _DeleteDiscussion {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(
-            int idCourse, int page, String? search, int? idArticle)
+    required TResult Function(int idCourse, int page, String? search,
+            int? idArticle, String? sort)
         discussion,
     required TResult Function(
             CreateDiscussionsRequestModel discussions, int idCourse)
@@ -935,7 +960,8 @@ class _$DeleteDiscussionImpl implements _DeleteDiscussion {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(int idCourse, int page, String? search, int? idArticle)?
+    TResult? Function(int idCourse, int page, String? search, int? idArticle,
+            String? sort)?
         discussion,
     TResult? Function(CreateDiscussionsRequestModel discussions, int idCourse)?
         createDiscussions,
@@ -951,7 +977,8 @@ class _$DeleteDiscussionImpl implements _DeleteDiscussion {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(int idCourse, int page, String? search, int? idArticle)?
+    TResult Function(int idCourse, int page, String? search, int? idArticle,
+            String? sort)?
         discussion,
     TResult Function(CreateDiscussionsRequestModel discussions, int idCourse)?
         createDiscussions,

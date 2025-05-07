@@ -350,6 +350,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         context.read<AuthBloc>().add(const AuthEvent.logout());
                       },
                       label: 'Keluar',
+                      color: Colors.red[500],
                     );
                   }, loading: () {
                     return Button.filled(

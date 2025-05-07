@@ -7,12 +7,14 @@ class IzinTextField extends StatelessWidget {
   final String label;
   final String? hintText;
   final String? value;
+  final bool? isReadOnly;
   const IzinTextField({
     super.key,
     this.controller,
     required this.label,
     this.hintText,
     this.value,
+    this.isReadOnly,
   });
 
   @override
@@ -42,6 +44,7 @@ class IzinTextField extends StatelessWidget {
           ),
         ),
         TextFormField(
+          readOnly: isReadOnly ?? false,
           initialValue: value,
           controller: controller,
           decoration: InputDecoration(

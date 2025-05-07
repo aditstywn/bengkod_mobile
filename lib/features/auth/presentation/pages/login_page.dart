@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import '../../../../core/components/custom_checkbox.dart';
 import '../../../../core/components/custom_text_field.dart';
 import '../../../../core/config/url.dart';
 import '../../../class/presentation/bloc/class/class_bloc.dart';
@@ -31,6 +32,23 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController passwordController = TextEditingController();
 
   bool isObscure = true;
+  bool isRemember = false;
+
+  void getKredensial() async {
+    final email = await AuthLocalDatasource().getRememberMe();
+
+    setState(() {});
+    if (email.isNotEmpty) {
+      emailController.text = email;
+      setState(() {
+        isRemember = true;
+      });
+    } else {
+      setState(() {
+        isRemember = false;
+      });
+    }
+  }
 
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     serverClientId: Url.clientId,
@@ -71,6 +89,12 @@ class _LoginPageState extends State<LoginPage> {
         // );
       }
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getKredensial();
   }
 
   @override
@@ -125,7 +149,37 @@ class _LoginPageState extends State<LoginPage> {
               child: Icon(isObscure ? Icons.visibility_off : Icons.visibility),
             ),
           ),
-          const SpaceHeight(20),
+          Row(
+            children: [
+              CustomCheckbox(
+                value: isRemember,
+                onChanged: (value) {
+                  setState(() {
+                    isRemember = value ?? false;
+                  });
+
+                  if (isRemember) {
+                    if (emailController.text.isNotEmpty &&
+                        passwordController.text.isNotEmpty) {
+                      AuthLocalDatasource()
+                          .saveRememberMe(emailController.text);
+                    }
+                  } else {
+                    AuthLocalDatasource().removeRememberMe();
+                  }
+                },
+              ),
+              Text(
+                'Simpan Akun',
+                style: TextStyle(
+                  color: AppColors.primary,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ],
+          ),
+          const SpaceHeight(10),
           BlocConsumer<AuthBloc, AuthState>(
             listener: (context, state) {
               state.maybeWhen(

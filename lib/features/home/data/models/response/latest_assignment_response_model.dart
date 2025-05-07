@@ -31,15 +31,17 @@ class Data {
   final int? classroomId;
   final String? title;
   final String? description;
+  final DateTime? startTime;
   final String? deadline;
   final bool? isUploaded;
-  final List<dynamic>? tasks;
+  final List<Task>? tasks;
 
   Data({
     this.id,
     this.classroomId,
     this.title,
     this.description,
+    this.startTime,
     this.deadline,
     this.isUploaded,
     this.tasks,
@@ -54,11 +56,14 @@ class Data {
         classroomId: json["classroom_id"],
         title: json["title"],
         description: json["description"],
+        startTime: json["start_time"] == null
+            ? null
+            : DateTime.parse(json["start_time"]),
         deadline: json["deadline"],
         isUploaded: json["is_uploaded"],
         tasks: json["tasks"] == null
             ? []
-            : List<dynamic>.from(json["tasks"]!.map((x) => x)),
+            : List<Task>.from(json["tasks"]!.map((x) => Task.fromMap(x))),
       );
 
   Map<String, dynamic> toMap() => {
@@ -66,9 +71,40 @@ class Data {
         "classroom_id": classroomId,
         "title": title,
         "description": description,
+        "start_time": startTime?.toIso8601String(),
         "deadline": deadline,
         "is_uploaded": isUploaded,
-        "tasks": tasks == null ? [] : List<dynamic>.from(tasks!.map((x) => x)),
+        "tasks": tasks == null
+            ? []
+            : List<dynamic>.from(tasks!.map((x) => x.toMap())),
+      };
+}
+
+class Task {
+  final int? id;
+  final dynamic score;
+  final bool? isSubmitted;
+
+  Task({
+    this.id,
+    this.score,
+    this.isSubmitted,
+  });
+
+  factory Task.fromJson(String str) => Task.fromMap(json.decode(str));
+
+  String toJson() => json.encode(toMap());
+
+  factory Task.fromMap(Map<String, dynamic> json) => Task(
+        id: json["id"],
+        score: json["score"],
+        isSubmitted: json["is_submitted"],
+      );
+
+  Map<String, dynamic> toMap() => {
+        "id": id,
+        "score": score,
+        "is_submitted": isSubmitted,
       };
 }
 

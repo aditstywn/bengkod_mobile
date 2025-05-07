@@ -1,5 +1,8 @@
+import 'package:url_launcher/url_launcher.dart';
+
 import '../../../../core/extensions/build_context_ext.dart';
 import '../../data/models/response/discussions/dropdown_item.dart';
+import '../bloc/courses/courses_bloc.dart';
 import 'discussion_forum_page.dart';
 import 'quiz_dashboard.dart';
 import 'package:flutter/material.dart';
@@ -19,12 +22,14 @@ import '../bloc/article/article_bloc.dart';
 class DetailCoursesPage extends StatefulWidget {
   final int idCourses;
   final int idArticle;
+  final int idClass;
   final List<DropdownItem>? dropdownArticles;
   const DetailCoursesPage(
       {super.key,
       required this.idCourses,
       required this.idArticle,
-      this.dropdownArticles});
+      this.dropdownArticles,
+      required this.idClass});
 
   @override
   State<DetailCoursesPage> createState() => _DetailCoursesPageState();
@@ -41,418 +46,436 @@ class _DetailCoursesPageState extends State<DetailCoursesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.white,
-        title: const Text('Detail Kursus'),
-      ),
-      body: BlocConsumer<ArticleBloc, ArticleState>(
-        listener: (context, state) {
-          state.maybeWhen(
-            orElse: () {},
-            error: (message) {
-              if (message ==
-                  'Access restricted. Complete the previous article first.') {
-                context.pop();
-                context.showAlert(
-                  false,
-                  'Selesaikan Artikel Sebelumnya',
+    return PopScope(
+      onPopInvokedWithResult: (didPop, result) {
+        context
+            .read<CoursesBloc>()
+            .add(CoursesEvent.getCourses(widget.idClass));
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: AppColors.white,
+          title: const Text('Detail Kursus'),
+        ),
+        body: BlocConsumer<ArticleBloc, ArticleState>(
+          listener: (context, state) {
+            state.maybeWhen(
+              orElse: () {},
+              error: (message) {
+                if (message ==
+                    'Access restricted. Complete the previous article first.') {
+                  context.pop();
+                  context.showAlert(
+                    false,
+                    'Selesaikan Artikel Sebelumnya',
+                  );
+                }
+              },
+            );
+          },
+          builder: (context, state) {
+            return state.maybeWhen(
+              orElse: () => const SizedBox(),
+              loading: () => Shimmer(
+                child: Column(
+                  children: [
+                    Flexible(
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          top: 10,
+                          left: 16,
+                          right: 16,
+                        ),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: AppColors.shimer,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                      child: Row(
+                        children: [
+                          Container(
+                            height: 34,
+                            width: 125.6,
+                            decoration: BoxDecoration(
+                              color: AppColors.shimer,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          Spacer(),
+                          Container(
+                            height: 34,
+                            width: 125.6,
+                            decoration: BoxDecoration(
+                              color: AppColors.shimer,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              error: (message) {
+                if (message ==
+                    'Access restricted. Complete the previous article first.') {
+                  return const SizedBox();
+                }
+                return Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: RefreshIndicator(
+                    onRefresh: () async {
+                      context.read<ArticleBloc>().add(ArticleEvent.getArticle(
+                          widget.idCourses, widget.idArticle));
+                    },
+                    child: ErrorCard(
+                      message: message,
+                    ),
+                  ),
                 );
-              }
-            },
-          );
-        },
-        builder: (context, state) {
-          return state.maybeWhen(
-            orElse: () => const SizedBox(),
-            loading: () => Shimmer(
-              child: Column(
-                children: [
-                  Flexible(
-                    child: Padding(
-                      padding: EdgeInsets.only(
+              },
+              getArticleSuccess: (articleResponseModel) {
+                // final htmlContent = md.markdownToHtml(
+                //   articleResponseModel.data.content.replaceAll('\\n', '\n'),
+                //   blockSyntaxes: [
+                //     const md.TableSyntax(),
+                //     LatexBlockSyntax(),
+                //   ],
+                //   extensionSet: md.ExtensionSet.gitHubFlavored,
+                // );
+
+                // final dataContent = html.convert(htmlContent);
+
+                final imgTagRegex = RegExp(
+                  r'''<img[^>]*src=["']([^"']+)["'][^>]*alt=["']([^"']*)["'][^>]*>''',
+                  caseSensitive: false,
+                );
+
+                final content = articleResponseModel.data.content
+                    .replaceAll('\\n', '\n')
+                    .replaceAll('<br>', '\n')
+                    .replaceAll('<b>', '**')
+                    .replaceAll('</b>', '**');
+
+                final dataContent =
+                    content.replaceAllMapped(imgTagRegex, (match) {
+                  final src = match.group(1) ?? '';
+                  final alt =
+                      match.group(2) ?? 'image'; // bisa juga kasih kosong
+                  return '![${alt}](${src})';
+                });
+
+                return Stack(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
                         top: 10,
+                        bottom: 55,
                         left: 16,
                         right: 16,
                       ),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: AppColors.shimer,
-                          borderRadius: BorderRadius.circular(10),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.vertical,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: AppColors.white,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 16,
+                            ),
+                            child: MarkdownBody(
+                              data: dataContent,
+                              // data: articleResponseModel.data.content,
+                              selectable: true,
+                              onTapLink: (text, href, title) async {
+                                if (href != null &&
+                                    await canLaunchUrl(Uri.parse(href))) {
+                                  await launchUrl(Uri.parse(href),
+                                      mode: LaunchMode.externalApplication);
+                                }
+                              },
+                              styleSheet: MarkdownStyleSheet(
+                                p: const TextStyle(
+                                  fontSize: 14,
+                                  color: AppColors.black,
+                                ),
+                                h1: const TextStyle(
+                                  fontSize: 24,
+                                  color: AppColors.black,
+                                  // fontWeight: FontWeight.bold,
+                                ),
+                                h2: const TextStyle(
+                                  fontSize: 22,
+                                  color: AppColors.black,
+                                ),
+                                h3: const TextStyle(
+                                  fontSize: 20,
+                                  color: AppColors.black,
+                                ),
+                                h4: const TextStyle(
+                                  fontSize: 18,
+                                  color: AppColors.black,
+                                ),
+                                h5: const TextStyle(
+                                  fontSize: 16,
+                                  color: AppColors.black,
+                                ),
+                                h6: const TextStyle(
+                                  fontSize: 14,
+                                  color: AppColors.black,
+                                ),
+                                blockquote: const TextStyle(
+                                  fontSize: 16,
+                                  color: AppColors.black,
+                                ),
+                                code: const TextStyle(
+                                  fontSize: 12,
+                                  color: AppColors.black,
+                                ),
+                                em: const TextStyle(
+                                  fontSize: 16,
+                                  color: AppColors.black,
+                                ),
+                                strong: const TextStyle(
+                                  fontSize: 16,
+                                  color: AppColors.black,
+                                ),
+                                del: const TextStyle(
+                                  fontSize: 16,
+                                  color: AppColors.black,
+                                ),
+                                tableHead: const TextStyle(
+                                  fontSize: 12,
+                                  color: AppColors.black,
+                                ),
+                                tableBody: const TextStyle(
+                                  fontSize: 10,
+                                  color: AppColors.black,
+                                ),
+                                tableHeadAlign: TextAlign.center,
+                              ),
+                              builders: {
+                                'latex': LatexElementBuilder(
+                                  textStyle: const TextStyle(
+                                    color: Colors.blue,
+                                    fontWeight: FontWeight.w100,
+                                  ),
+                                  textScaleFactor: 1.2,
+                                ),
+                              },
+                              imageBuilder: (uri, title, alt) {
+                                return Center(
+                                  child: Image.network(
+                                    uri.toString(),
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return const Text('Gagal memuat gambar',
+                                          style: TextStyle(color: Colors.red));
+                                    },
+                                  ),
+                                );
+                              },
+                              extensionSet: md.ExtensionSet(
+                                [
+                                  md.TableSyntax(),
+                                  md.FencedCodeBlockSyntax(),
+                                  LatexBlockSyntax(),
+                                  // md.BlockquoteSyntax(),
+                                  // md.HtmlBlockSyntax(),
+                                ],
+                                [
+                                  LatexInlineSyntax(),
+                                  // md.InlineHtmlSyntax(),
+                                  // md.ImageSyntax(),
+                                ],
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                    child: Row(
-                      children: [
-                        Container(
-                          height: 34,
-                          width: 125.6,
-                          decoration: BoxDecoration(
-                            color: AppColors.shimer,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        Spacer(),
-                        Container(
-                          height: 34,
-                          width: 125.6,
-                          decoration: BoxDecoration(
-                            color: AppColors.shimer,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-            error: (message) {
-              if (message ==
-                  'Access restricted. Complete the previous article first.') {
-                return const SizedBox();
-              }
-              return Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: RefreshIndicator(
-                  onRefresh: () async {
-                    context.read<ArticleBloc>().add(ArticleEvent.getArticle(
-                        widget.idCourses, widget.idArticle));
-                  },
-                  child: ErrorCard(
-                    message: message,
-                  ),
-                ),
-              );
-            },
-            getArticleSuccess: (articleResponseModel) {
-              // final htmlContent = md.markdownToHtml(
-              //   articleResponseModel.data.content.replaceAll('\\n', '\n'),
-              //   blockSyntaxes: [
-              //     const md.TableSyntax(),
-              //     LatexBlockSyntax(),
-              //   ],
-              //   extensionSet: md.ExtensionSet.gitHubFlavored,
-              // );
-
-              // final dataContent = html.convert(htmlContent);
-
-              final imgTagRegex = RegExp(
-                r'''<img[^>]*src=["']([^"']+)["'][^>]*alt=["']([^"']*)["'][^>]*>''',
-                caseSensitive: false,
-              );
-
-              final content = articleResponseModel.data.content
-                  .replaceAll('\\n', '\n')
-                  .replaceAll('<br>', '\n')
-                  .replaceAll('<b>', '**')
-                  .replaceAll('</b>', '**');
-
-              final dataContent =
-                  content.replaceAllMapped(imgTagRegex, (match) {
-                final src = match.group(1) ?? '';
-                final alt = match.group(2) ?? 'image'; // bisa juga kasih kosong
-                return '![${alt}](${src})';
-              });
-
-              return Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: 10,
-                      bottom: 55,
-                      left: 16,
-                      right: 16,
-                    ),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.vertical,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: AppColors.white,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
+                    if (articleResponseModel.data.prev != null ||
+                        articleResponseModel.data.next != null)
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 16,
-                          ),
-                          child: MarkdownBody(
-                            data: dataContent,
-                            // data: articleResponseModel.data.content,
-                            selectable: true,
-                            styleSheet: MarkdownStyleSheet(
-                              p: const TextStyle(
-                                fontSize: 14,
-                                color: AppColors.black,
-                              ),
-                              h1: const TextStyle(
-                                fontSize: 24,
-                                color: AppColors.black,
-                                // fontWeight: FontWeight.bold,
-                              ),
-                              h2: const TextStyle(
-                                fontSize: 22,
-                                color: AppColors.black,
-                              ),
-                              h3: const TextStyle(
-                                fontSize: 20,
-                                color: AppColors.black,
-                              ),
-                              h4: const TextStyle(
-                                fontSize: 18,
-                                color: AppColors.black,
-                              ),
-                              h5: const TextStyle(
-                                fontSize: 16,
-                                color: AppColors.black,
-                              ),
-                              h6: const TextStyle(
-                                fontSize: 14,
-                                color: AppColors.black,
-                              ),
-                              blockquote: const TextStyle(
-                                fontSize: 16,
-                                color: AppColors.black,
-                              ),
-                              code: const TextStyle(
-                                fontSize: 12,
-                                color: AppColors.black,
-                              ),
-                              em: const TextStyle(
-                                fontSize: 16,
-                                color: AppColors.black,
-                              ),
-                              strong: const TextStyle(
-                                fontSize: 16,
-                                color: AppColors.black,
-                              ),
-                              del: const TextStyle(
-                                fontSize: 16,
-                                color: AppColors.black,
-                              ),
-                              tableHead: const TextStyle(
-                                fontSize: 12,
-                                color: AppColors.black,
-                              ),
-                              tableBody: const TextStyle(
-                                fontSize: 10,
-                                color: AppColors.black,
-                              ),
-                              tableHeadAlign: TextAlign.center,
-                            ),
-                            builders: {
-                              'latex': LatexElementBuilder(
-                                textStyle: const TextStyle(
-                                  color: Colors.blue,
-                                  fontWeight: FontWeight.w100,
-                                ),
-                                textScaleFactor: 1.2,
-                              ),
-                            },
-                            imageBuilder: (uri, title, alt) {
-                              return Center(
-                                child: Image.network(
-                                  uri.toString(),
-                                  errorBuilder: (context, error, stackTrace) {
-                                    return const Text('Gagal memuat gambar',
-                                        style: TextStyle(color: Colors.red));
+                              horizontal: 16, vertical: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              if (articleResponseModel.data.prev != null)
+                                InkWell(
+                                  onTap: () {
+                                    if (articleResponseModel.data.prev !=
+                                        null) {
+                                      // context.pushReplacement(
+                                      //   DetailCoursesPage(
+                                      //     idCourses: widget.idCourses,
+                                      //     idArticle:
+                                      //         articleResponseModel.data.prev!.id,
+                                      //   ),
+                                      // );
+                                      context.read<ArticleBloc>().add(
+                                          ArticleEvent.getArticle(
+                                              widget.idCourses,
+                                              articleResponseModel
+                                                  .data.prev!.id));
+                                    }
                                   },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 8),
+                                    decoration: BoxDecoration(
+                                      color: AppColors.primary,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.arrow_back,
+                                          size: 18,
+                                          color: Colors.white,
+                                        ),
+                                        const SizedBox(width: 8),
+                                        Text(
+                                          articleResponseModel.data.prev!.name
+                                              .truncateCharacters(10),
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              else
+                                const SizedBox(
+                                  width: 48,
                                 ),
-                              );
-                            },
-                            extensionSet: md.ExtensionSet(
-                              [
-                                md.TableSyntax(),
-                                md.FencedCodeBlockSyntax(),
-                                LatexBlockSyntax(),
-                                // md.BlockquoteSyntax(),
-                                // md.HtmlBlockSyntax(),
-                              ],
-                              [
-                                LatexInlineSyntax(),
-                                // md.InlineHtmlSyntax(),
-                                // md.ImageSyntax(),
-                              ],
-                            ),
+                              const Spacer(),
+                              if (articleResponseModel.data.next != null)
+                                InkWell(
+                                  onTap: () {
+                                    if (articleResponseModel.data.next !=
+                                        null) {
+                                      // context.pushReplacement(
+                                      //   DetailCoursesPage(
+                                      //     idCourses: widget.idCourses,
+                                      //     idArticle:
+                                      //         articleResponseModel.data.next!.id,
+                                      //   ),
+                                      // );
+                                      context.read<ArticleBloc>().add(
+                                          ArticleEvent.getArticle(
+                                              widget.idCourses,
+                                              articleResponseModel
+                                                  .data.next!.id));
+                                    }
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 8),
+                                    decoration: BoxDecoration(
+                                      color: AppColors.primary,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          articleResponseModel.data.next!.name
+                                              .truncateCharacters(10),
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.white,
+                                          ),
+                                          maxLines: 1,
+                                        ),
+                                        const SizedBox(width: 8),
+                                        const Icon(
+                                          Icons.arrow_forward,
+                                          size: 18,
+                                          color: Colors.white,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              else
+                                InkWell(
+                                  onTap: () {
+                                    context.push(
+                                      QuizDashboard(idCourse: widget.idCourses),
+                                    );
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 8),
+                                    decoration: BoxDecoration(
+                                      color: AppColors.primary,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          'Ujian Akhir',
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.white,
+                                          ),
+                                          maxLines: 1,
+                                        ),
+                                        const SizedBox(width: 8),
+                                        const Icon(
+                                          Icons.arrow_forward,
+                                          size: 18,
+                                          color: Colors.white,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                            ],
                           ),
                         ),
                       ),
+                    Positioned(
+                      bottom: context.deviceHeight * 0.1,
+                      right: 16,
+                      child: FloatingActionButton(
+                          backgroundColor: AppColors.primary,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                          onPressed: () {
+                            context.push(DiscussionForumPage(
+                              idCourse: widget.idCourses,
+                              idArticle: widget.idArticle,
+                              dropdownArticles: widget.dropdownArticles,
+                            ));
+                          },
+                          child: const Icon(
+                            Icons.forum_rounded,
+                            color: AppColors.white,
+                            size: 30,
+                          )),
                     ),
-                  ),
-                  if (articleResponseModel.data.prev != null ||
-                      articleResponseModel.data.next != null)
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            if (articleResponseModel.data.prev != null)
-                              InkWell(
-                                onTap: () {
-                                  if (articleResponseModel.data.prev != null) {
-                                    // context.pushReplacement(
-                                    //   DetailCoursesPage(
-                                    //     idCourses: widget.idCourses,
-                                    //     idArticle:
-                                    //         articleResponseModel.data.prev!.id,
-                                    //   ),
-                                    // );
-                                    context.read<ArticleBloc>().add(
-                                        ArticleEvent.getArticle(
-                                            widget.idCourses,
-                                            articleResponseModel
-                                                .data.prev!.id));
-                                  }
-                                },
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 12, vertical: 8),
-                                  decoration: BoxDecoration(
-                                    color: AppColors.primary,
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      const Icon(
-                                        Icons.arrow_back,
-                                        size: 18,
-                                        color: Colors.white,
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Text(
-                                        articleResponseModel.data.prev!.name
-                                            .truncateCharacters(10),
-                                        style: const TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )
-                            else
-                              const SizedBox(
-                                width: 48,
-                              ),
-                            const Spacer(),
-                            if (articleResponseModel.data.next != null)
-                              InkWell(
-                                onTap: () {
-                                  if (articleResponseModel.data.next != null) {
-                                    // context.pushReplacement(
-                                    //   DetailCoursesPage(
-                                    //     idCourses: widget.idCourses,
-                                    //     idArticle:
-                                    //         articleResponseModel.data.next!.id,
-                                    //   ),
-                                    // );
-                                    context.read<ArticleBloc>().add(
-                                        ArticleEvent.getArticle(
-                                            widget.idCourses,
-                                            articleResponseModel
-                                                .data.next!.id));
-                                  }
-                                },
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 12, vertical: 8),
-                                  decoration: BoxDecoration(
-                                    color: AppColors.primary,
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        articleResponseModel.data.next!.name
-                                            .truncateCharacters(10),
-                                        style: const TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.white,
-                                        ),
-                                        maxLines: 1,
-                                      ),
-                                      const SizedBox(width: 8),
-                                      const Icon(
-                                        Icons.arrow_forward,
-                                        size: 18,
-                                        color: Colors.white,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )
-                            else
-                              InkWell(
-                                onTap: () {
-                                  context.push(
-                                    QuizDashboard(idCourse: widget.idCourses),
-                                  );
-                                },
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 12, vertical: 8),
-                                  decoration: BoxDecoration(
-                                    color: AppColors.primary,
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        'Ujian Akhir',
-                                        style: const TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.white,
-                                        ),
-                                        maxLines: 1,
-                                      ),
-                                      const SizedBox(width: 8),
-                                      const Icon(
-                                        Icons.arrow_forward,
-                                        size: 18,
-                                        color: Colors.white,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )
-                          ],
-                        ),
-                      ),
-                    ),
-                  Positioned(
-                    bottom: context.deviceHeight * 0.1,
-                    right: 16,
-                    child: FloatingActionButton(
-                        backgroundColor: AppColors.primary,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50),
-                        ),
-                        onPressed: () {
-                          context.push(DiscussionForumPage(
-                            idCourse: widget.idCourses,
-                            idArticle: widget.idArticle,
-                            dropdownArticles: widget.dropdownArticles,
-                          ));
-                        },
-                        child: const Icon(
-                          Icons.forum_rounded,
-                          color: AppColors.white,
-                          size: 30,
-                        )),
-                  ),
-                ],
-              );
-            },
-          );
-        },
+                  ],
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }

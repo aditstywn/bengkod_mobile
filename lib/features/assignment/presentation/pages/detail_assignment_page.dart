@@ -1,6 +1,8 @@
 import 'dart:io';
 
-import 'package:bengkod_mobile_app/core/components/custom_text_field.dart';
+import '../../../../core/components/custom_text_field.dart';
+import '../bloc/classAndAssigment/class_and_assignment_bloc.dart';
+import '../widgets/alert_assigment.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,7 +37,6 @@ class DetailAssignmentPage extends StatefulWidget {
 class _DetailAssignmentPageState extends State<DetailAssignmentPage> {
   final TextEditingController _commentController = TextEditingController();
   FilePickerResult? file;
-  String _result = 'Upload File';
 
   @override
   void initState() {
@@ -290,39 +291,156 @@ class _DetailAssignmentPageState extends State<DetailAssignmentPage> {
                                     color: AppColors.assignGreen,
                                   )
                                 : Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Button.outlined(
                                         onPressed: () async {
                                           file = await FilePicker.platform
                                               .pickFiles(allowMultiple: false);
-                                          setState(() {
-                                            // detailAssignmentResponseModel
-                                            //         .data
-                                            //         .tasks[0]
-                                            //         .answerFile
-                                            //         .isNotEmpty
-                                            //     ? _result =
-                                            //         detailAssignmentResponseModel
-                                            //             .data.tasks[0].answerFile
-                                            //     : _result = file != null
-                                            //         ? file!.files
-                                            //             .map((element) =>
-                                            //                 element.name)
-                                            //             .join(", ")
-                                            //         : "Upload File";
-                                            _result = file != null
-                                                ? file!.files
-                                                    .map((element) =>
-                                                        element.name)
-                                                    .join(", ")
-                                                : "Upload File";
-                                          });
+                                          setState(() {});
                                         },
                                         icon: SvgPicture.asset(
                                             'assets/icons/icons_fileUpload.svg'),
-                                        label: _result,
+                                        label: 'Upload File',
                                         height: 75,
                                       ),
+                                      if (detailAssignmentResponseModel
+                                              .data.tasks.isNotEmpty ==
+                                          true) ...[
+                                        const SpaceHeight(10),
+                                        Text(
+                                          'File Sebelumnya',
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                            color: AppColors.primary,
+                                          ),
+                                        ),
+                                        SpaceHeight(5),
+                                        GestureDetector(
+                                          onTap: () {
+                                            UrlLauncer().launchInBrowser(
+                                                Uri.parse(
+                                                    detailAssignmentResponseModel
+                                                        .data
+                                                        .tasks[0]
+                                                        .answerFile),
+                                                context);
+                                          },
+                                          child: Container(
+                                            padding: const EdgeInsets.all(12),
+                                            decoration: BoxDecoration(
+                                              color: AppColors.greyMuda
+                                                  .withAlpha(70),
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                            child: Text(
+                                              detailAssignmentResponseModel
+                                                  .data.tasks[0].answerFile
+                                                  .split('/')
+                                                  .last,
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                      if (file != null) ...[
+                                        const SpaceHeight(10),
+                                        if (detailAssignmentResponseModel
+                                                .data.isUploaded ==
+                                            true) ...[
+                                          Text(
+                                            'File Baru',
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500,
+                                              color: AppColors.primary,
+                                            ),
+                                          ),
+                                          SpaceHeight(5),
+                                        ],
+                                        GestureDetector(
+                                          onTap: () async {
+                                            final path =
+                                                file?.files.single.path;
+                                            if (path == null) return;
+                                            final extension = file
+                                                ?.files.single.path
+                                                .toString()
+                                                .split('.')
+                                                .last
+                                                .toLowerCase();
+
+                                            if (extension == 'pdf') {
+                                              AlertAssigment().fileAlert(
+                                                  context, path, 'pdf');
+                                            } else if (extension == 'txt') {
+                                              final textContent =
+                                                  await File(path)
+                                                      .readAsString();
+                                              AlertAssigment().fileAlert(
+                                                  context, textContent, 'txt');
+                                            } else if (extension == 'doc' ||
+                                                extension == 'docx') {
+                                              AlertAssigment().fileAlert(
+                                                  context, path, 'docs');
+                                            } else {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                    content: Text(
+                                                        'Format file tidak dikenali: $extension')),
+                                              );
+                                            }
+                                          },
+                                          child: Container(
+                                            padding: const EdgeInsets.all(12),
+                                            decoration: BoxDecoration(
+                                              color: AppColors.greyMuda
+                                                  .withAlpha(70),
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Flexible(
+                                                  child: Text(
+                                                    file?.files.single.name ??
+                                                        'No File',
+                                                    style: const TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
+                                                  ),
+                                                ),
+                                                const SpaceWidth(20),
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    setState(() {
+                                                      file = null;
+                                                    });
+                                                  },
+                                                  child: Icon(
+                                                    Icons.close_rounded,
+                                                    color: AppColors.primary,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                       const SpaceHeight(16),
                                       CustomTextField(
                                         showLabel: false,
@@ -338,6 +456,11 @@ class _DetailAssignmentPageState extends State<DetailAssignmentPage> {
                                             orElse: () {},
                                             uploadTaskSuccess:
                                                 (uploadTaskResponseModel) {
+                                              context
+                                                  .read<
+                                                      ClassAndAssignmentBloc>()
+                                                  .add(const ClassAndAssignmentEvent
+                                                      .getClassAndAssignment());
                                               context.pushReplacement(
                                                   DetailAssignmentPage(
                                                 idClass: widget.idClass,
@@ -380,35 +503,37 @@ class _DetailAssignmentPageState extends State<DetailAssignmentPage> {
                                                             file?.files.single
                                                                     .path ??
                                                                 '');
-                                                        final fileExtension =
-                                                            fileTask.path
-                                                                .split('.')
-                                                                .last
-                                                                .toLowerCase();
 
                                                         final task = UploadTaskRequestModel(
-                                                            comment: _commentController
-                                                                    .text
-                                                                    .isEmpty
-                                                                ? 'Not Comment'
-                                                                : _commentController
-                                                                    .text,
+                                                            comment:
+                                                                _commentController
+                                                                        .text
+                                                                        .isEmpty
+                                                                    ? '-'
+                                                                    : _commentController
+                                                                        .text,
                                                             file: fileTask);
+
+                                                        //  final fileExtension =
+                                                        //     fileTask.path
+                                                        //         .split('.')
+                                                        //         .last
+                                                        //         .toLowerCase();
 
                                                         if (fileTask
                                                             .path.isNotEmpty) {
-                                                          if (![
-                                                            'pdf',
-                                                            'doc',
-                                                            'docx',
-                                                            'txt'
-                                                          ].contains(
-                                                              fileExtension)) {
-                                                            context.showAlert(
-                                                                false,
-                                                                'Jenis File Ini Tidak Diizinkan ');
-                                                            return;
-                                                          }
+                                                          // if (![
+                                                          //   'pdf',
+                                                          //   'doc',
+                                                          //   'docx',
+                                                          //   'txt'
+                                                          // ].contains(
+                                                          //     fileExtension)) {
+                                                          //   context.showAlert(
+                                                          //       false,
+                                                          //       'Jenis File Ini Tidak Diizinkan ');
+                                                          //   return;
+                                                          // }
                                                           context
                                                               .read<TaskBloc>()
                                                               .add(

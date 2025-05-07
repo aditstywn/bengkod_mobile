@@ -40,6 +40,7 @@ class DatumReply {
   final int? id;
   final User? user;
   final String? commentReply;
+  final String? isCreator;
   final String? createdAgo;
   final DateTime? createdAt;
   final DateTime? updatedAt;
@@ -48,6 +49,7 @@ class DatumReply {
     this.id,
     this.user,
     this.commentReply,
+    this.isCreator,
     this.createdAgo,
     this.createdAt,
     this.updatedAt,
@@ -62,6 +64,7 @@ class DatumReply {
         id: json["id"],
         user: json["user"] == null ? null : User.fromMap(json["user"]),
         commentReply: json["comment_reply"],
+        isCreator: json["is_creator"],
         createdAgo: json["created_ago"],
         createdAt: json["created_at"] == null
             ? null
@@ -75,6 +78,7 @@ class DatumReply {
         "id": id,
         "user": user?.toMap(),
         "comment_reply": commentReply,
+        "is_creator": isCreator,
         "created_ago": createdAgo,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),

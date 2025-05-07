@@ -161,7 +161,6 @@ class _QuizPageState extends State<QuizPage> {
                                       const SizedBox(width: 16.0),
                                       GestureDetector(
                                         onTap: () {
-                                          selectedAnswerIndex = null;
                                           showDialog(
                                             context: context,
                                             builder: (context) {
@@ -200,6 +199,9 @@ class _QuizPageState extends State<QuizPage> {
 
                                                       return GestureDetector(
                                                         onTap: () {
+                                                          selectedAnswerIndex =
+                                                              null;
+
                                                           context.pop();
                                                           setState(() {
                                                             page =

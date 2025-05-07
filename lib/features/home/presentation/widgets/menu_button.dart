@@ -52,8 +52,9 @@ class MenuButton extends StatelessWidget {
               child: Text(
                 title,
                 style: const TextStyle(
+                  fontSize: 14,
                   color: AppColors.white,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
             ),
@@ -62,8 +63,10 @@ class MenuButton extends StatelessWidget {
               right: 5,
               child: SvgPicture.asset(
                 icon,
-                height: 45,
-                width: 45,
+                height: 40,
+                width: 40,
+                colorFilter: ColorFilter.mode(AppColors.white, BlendMode.srcIn),
+                fit: BoxFit.cover,
               ),
             ),
           ],

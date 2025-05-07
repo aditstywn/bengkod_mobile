@@ -76,6 +76,27 @@ class ReplyCard extends StatelessWidget {
                 ],
               ),
             ),
+            if (allReply?.isCreator == 'true') ...[
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 6,
+                  vertical: 2,
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.primary,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Text(
+                  'Pencipta',
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.white,
+                  ),
+                ),
+              ),
+              SpaceWidth(10),
+            ],
             if (allReply?.user?.id == idUser)
               Row(
                 children: [

@@ -9,18 +9,22 @@ import 'package:flutter_svg/svg.dart';
 import '../../../../core/components/buttons.dart';
 import '../../../../core/components/spaces.dart';
 import '../../../../core/config/app_color.dart';
+import '../../../assignment/presentation/widgets/alert_assigment.dart';
 import '../../data/models/request/izin_request_model.dart';
 import '../../data/models/response/presences_response_model.dart';
 import '../bloc/absence/absence_bloc.dart';
+import '../bloc/presences/presences_bloc.dart';
 import '../widgets/izin_text_field.dart';
 
 class IzinPage extends StatefulWidget {
   final PresencesDatum presence;
   final String className;
+  final int? idClass;
   const IzinPage({
     super.key,
     required this.presence,
     required this.className,
+    this.idClass,
   });
 
   @override
@@ -29,7 +33,6 @@ class IzinPage extends StatefulWidget {
 
 class _IzinPageState extends State<IzinPage> {
   FilePickerResult? file;
-  String _result = 'Upload File';
   final TextEditingController catatanController = TextEditingController();
   String? selectedKeteranganIzin;
 
@@ -52,11 +55,13 @@ class _IzinPageState extends State<IzinPage> {
           IzinTextField(
             label: 'Kelas',
             value: widget.className,
+            isReadOnly: true,
           ),
           const SpaceHeight(16),
           IzinTextField(
             label: 'Pertemuan',
             value: 'Pertemuan ke-${widget.presence.week}',
+            isReadOnly: true,
           ),
           const SpaceHeight(16),
           Column(
@@ -146,30 +151,94 @@ class _IzinPageState extends State<IzinPage> {
             onPressed: () async {
               file = await FilePicker.platform.pickFiles(allowMultiple: false);
               setState(() {
-                _result = file != null
-                    ? file!.files.map((element) => element.name).join(", ")
-                    : "Upload File";
+                // _result = file != null
+                //     ? file!.files.map((element) => element.name).join(", ")
+                //     : "Upload File";
               });
-              print('imgPath: ${_result}');
             },
-            label: _result,
+            label: 'Upload File',
             icon: SvgPicture.asset('assets/icons/icons_fileUpload.svg'),
             height: 90,
             color: Colors.transparent,
           ),
+          if (file != null) ...[
+            const SpaceHeight(10),
+            GestureDetector(
+              onTap: () async {
+                final path = file?.files.single.path;
+                if (path == null) return;
+                final extension = file?.files.single.path
+                    .toString()
+                    .split('.')
+                    .last
+                    .toLowerCase();
+
+                if (extension == 'pdf') {
+                  AlertAssigment().fileAlert(context, path, 'pdf');
+                } else if (extension == 'txt') {
+                  final textContent = await File(path).readAsString();
+                  AlertAssigment().fileAlert(context, textContent, 'txt');
+                } else if (extension == 'doc' || extension == 'docx') {
+                  AlertAssigment().fileAlert(context, path, 'docs');
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                        content:
+                            Text('Format file tidak dikenali: $extension')),
+                  );
+                }
+              },
+              child: Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: AppColors.greyMuda.withAlpha(70),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        file?.files.single.name ?? 'No File',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    const SpaceWidth(20),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          file = null;
+                        });
+                      },
+                      child: Icon(
+                        Icons.close_rounded,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
           const SpaceHeight(16),
           BlocConsumer<AbsenceBloc, AbsenceState>(
             listener: (context, state) {
               state.maybeWhen(
                 orElse: () {},
                 absenceSuccess: (absenceResponseModel) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Izin berhasil dikirim'),
-                      backgroundColor: AppColors.green,
-                    ),
-                  );
+                  context
+                      .read<PresencesBloc>()
+                      .add(PresencesEvent.getPresences(widget.idClass ?? 0));
                   context.pop();
+                  context.showAlert(
+                    true,
+                    'Berhasil mengajukan izin',
+                  );
                 },
                 error: (message) {
                   ScaffoldMessenger.of(context).showSnackBar(

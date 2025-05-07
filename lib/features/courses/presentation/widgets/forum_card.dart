@@ -140,7 +140,13 @@ class _ForumCardState extends State<ForumCard> {
                     ),
                   ],
                 ),
-              )
+              ),
+              if (widget.discussion?.pinned?.user != null)
+                Icon(
+                  Icons.push_pin_rounded,
+                  color: AppColors.primary,
+                  size: 25,
+                ),
             ],
           ),
           SpaceHeight(10),
@@ -220,6 +226,7 @@ class _ForumCardState extends State<ForumCard> {
               context.push(DetailDiscussionPage(
                 idCourses: widget.discussion?.courseId,
                 idDiscussion: widget.discussion?.id,
+                idArticle: widget.discussion?.articleId ?? 0,
               ));
             },
             child: Row(

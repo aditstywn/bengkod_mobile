@@ -624,6 +624,7 @@ class _CoursesPageState extends State<CoursesPage> {
                             idCourses: lessonResponseModel.data[0].id,
                             idArticle: article.id,
                             dropdownArticles: dropdownArticles ?? [],
+                            idClass: widget.idClass,
                           ),
                         );
                       },

@@ -324,6 +324,7 @@ class _DetailPresencePageState extends State<DetailPresencePage> {
                     ),
                     const SizedBox(height: 16),
                     ListPresensi(
+                      idClass: widget.dataClass.id ?? 0,
                       className: widget.dataClass.name ?? '-',
                       presences: presences != null ? presences : [],
                       attendances: attendances != null ? attendances : [],

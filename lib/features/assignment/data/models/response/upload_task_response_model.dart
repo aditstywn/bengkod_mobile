@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 class UploadTaskResponseModel {
-  final Data data;
-  final Meta meta;
+  final Data? data;
+  final Meta? meta;
 
   UploadTaskResponseModel({
-    required this.data,
-    required this.meta,
+    this.data,
+    this.meta,
   });
 
   factory UploadTaskResponseModel.fromJson(String str) =>
@@ -16,25 +16,25 @@ class UploadTaskResponseModel {
 
   factory UploadTaskResponseModel.fromMap(Map<String, dynamic> json) =>
       UploadTaskResponseModel(
-        data: Data.fromMap(json["data"]),
-        meta: Meta.fromMap(json["meta"]),
+        data: json["data"] == null ? null : Data.fromMap(json["data"]),
+        meta: json["meta"] == null ? null : Meta.fromMap(json["meta"]),
       );
 
   Map<String, dynamic> toMap() => {
-        "data": data.toMap(),
-        "meta": meta.toMap(),
+        "data": data?.toMap(),
+        "meta": meta?.toMap(),
       };
 }
 
 class Data {
-  final int id;
-  final String answerFile;
-  final String comment;
+  final int? id;
+  final String? answerFile;
+  final String? comment;
 
   Data({
-    required this.id,
-    required this.answerFile,
-    required this.comment,
+    this.id,
+    this.answerFile,
+    this.comment,
   });
 
   factory Data.fromJson(String str) => Data.fromMap(json.decode(str));
@@ -55,16 +55,16 @@ class Data {
 }
 
 class Meta {
-  final int statusCode;
-  final bool success;
-  final String message;
-  final Pagination pagination;
+  final int? statusCode;
+  final bool? success;
+  final String? message;
+  final Pagination? pagination;
 
   Meta({
-    required this.statusCode,
-    required this.success,
-    required this.message,
-    required this.pagination,
+    this.statusCode,
+    this.success,
+    this.message,
+    this.pagination,
   });
 
   factory Meta.fromJson(String str) => Meta.fromMap(json.decode(str));
@@ -75,14 +75,16 @@ class Meta {
         statusCode: json["status_code"],
         success: json["success"],
         message: json["message"],
-        pagination: Pagination.fromMap(json["pagination"]),
+        pagination: json["pagination"] == null
+            ? null
+            : Pagination.fromMap(json["pagination"]),
       );
 
   Map<String, dynamic> toMap() => {
         "status_code": statusCode,
         "success": success,
         "message": message,
-        "pagination": pagination.toMap(),
+        "pagination": pagination?.toMap(),
       };
 }
 
