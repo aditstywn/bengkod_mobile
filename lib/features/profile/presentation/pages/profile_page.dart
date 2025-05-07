@@ -357,6 +357,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       onPressed: () {},
                       label: 'Loading...',
                       isLoading: true,
+                      color: Colors.red[500],
                     );
                   });
                 },
