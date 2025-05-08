@@ -50,7 +50,7 @@ class _CreateDiscussionPageState extends State<CreateDiscussionPage> {
     if (widget.discussion != null) {
       titleController.text = widget.discussion?.title ?? '';
       contentController.text = widget.discussion?.comment ?? '';
-      selectedArticleId = widget.discussion?.articleId;
+      selectedArticleId = widget.discussion?.article?.articleId;
 
       if (widget.discussion?.images != null) {
         oldImages = List<String>.from(widget.discussion?.images ?? []);

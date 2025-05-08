@@ -3,6 +3,7 @@ part of 'discussions_bloc.dart';
 @freezed
 class DiscussionsEvent with _$DiscussionsEvent {
   const factory DiscussionsEvent.started() = _Started;
+
   const factory DiscussionsEvent.discussion(int idCourse, int page,
       String? search, int? idArticle, String? sort) = _Discussion;
   const factory DiscussionsEvent.createDiscussions(

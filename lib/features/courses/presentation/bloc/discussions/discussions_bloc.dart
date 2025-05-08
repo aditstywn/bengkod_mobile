@@ -1,5 +1,5 @@
-import 'package:bengkod_mobile_app/features/courses/data/models/response/discussions/create_discussions_response_model.dart';
-import 'package:bengkod_mobile_app/features/courses/data/models/response/discussions/delete_discussions_response_model.dart';
+import '../../../data/models/response/discussions/create_discussions_response_model.dart';
+import '../../../data/models/response/discussions/delete_discussions_response_model.dart';
 
 import '../../../data/datasource/discussion_remote_datasource.dart';
 import '../../../data/models/request/create_discussions_request_model.dart';

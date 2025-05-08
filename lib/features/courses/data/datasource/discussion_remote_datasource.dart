@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:bengkod_mobile_app/features/courses/data/models/response/discussions/like_discussions_response_model.dart';
+
 import '../models/request/create_discussions_request_model.dart';
 import '../models/request/update_discussions_request_model .dart';
 import '../models/response/discussions/delete_discussions_response_model.dart';
@@ -325,6 +327,30 @@ class DiscussionRemoteDatasource {
       }
     } catch (e) {
       return const Left('Gagal hapus komentar');
+    }
+  }
+
+  Future<Either<String, LikeDiscussionsResponseModel>> likeDiscussions(
+      int idDiscussion) async {
+    try {
+      final token = await AuthLocalDatasource().getToken();
+      final response = await http.post(
+        Uri.parse('${Url.baseUrl}/discussions/$idDiscussion/like'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        return Right(LikeDiscussionsResponseModel.fromJson(response.body));
+      } else {
+        final error = json.decode(response.body);
+        return left(error['meta']['message']);
+      }
+    } catch (e) {
+      return const Left('Gagal menyukai diskusi');
     }
   }
 }

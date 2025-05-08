@@ -23,7 +23,13 @@ class SplashPage extends StatefulWidget {
   State<SplashPage> createState() => _SplashPageState();
 }
 
-class _SplashPageState extends State<SplashPage> {
+class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
+  late AnimationController _logoAnimationController;
+  late Animation<double> _logoScaleAnimation;
+
+  late AnimationController _textAnimationController;
+  late Animation<double> _textFadeAnimation;
+
   Future<bool> _checkAuthStatus() async {
     final isAuth = await AuthLocalDatasource().isAuth();
     final tokenExpired = await AuthRemoteDatasource().isTokenExpired();
@@ -31,16 +37,39 @@ class _SplashPageState extends State<SplashPage> {
 
     if (isAuth && !tokenExpired && !tokenBlacklisted) {
       await AuthRemoteDatasource().refreshAndSaveToken();
-      return true; // jika token masih valid dan user sudah login
+      return true;
     } else {
       await AuthLocalDatasource().removeAuthData();
     }
-    return false; // jika token sudah expired atau user belum login
+    return false;
   }
 
   @override
   void initState() {
     super.initState();
+
+    // Logo animation
+    _logoAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1200),
+    );
+
+    _logoScaleAnimation = CurvedAnimation(
+      parent: _logoAnimationController,
+      curve: Curves.easeOutBack,
+    );
+
+    // Text animation
+    _textAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    );
+
+    _textFadeAnimation = CurvedAnimation(
+      parent: _textAnimationController,
+      curve: Curves.easeIn,
+    );
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context
           .read<LatestAssignmentBloc>()
@@ -50,8 +79,18 @@ class _SplashPageState extends State<SplashPage> {
           .add(const ActiveCourseEvent.getActiveCourse());
       context.read<ClassBloc>().add(const ClassEvent.getClass());
       context.read<ProfileBloc>().add(const ProfileEvent.getProfile());
-      loadingScreen();
+
+      _logoAnimationController.forward().whenComplete(() {
+        _textAnimationController.forward();
+      });
     });
+  }
+
+  @override
+  void dispose() {
+    _logoAnimationController.dispose();
+    _textAnimationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -64,23 +103,17 @@ class _SplashPageState extends State<SplashPage> {
             return loadingScreen();
           }
           if (snapshot.hasData && snapshot.data == true) {
-            Future.delayed(
-              const Duration(seconds: 2),
-              () {
-                if (context.mounted) {
-                  context.pushReplacement(const MainNav());
-                }
-              },
-            );
+            Future.delayed(const Duration(seconds: 3), () {
+              if (context.mounted) {
+                context.pushReplacement(const MainNav());
+              }
+            });
           } else {
-            Future.delayed(
-              const Duration(seconds: 2),
-              () {
-                if (context.mounted) {
-                  context.pushReplacement(const LoginPage());
-                }
-              },
-            );
+            Future.delayed(const Duration(seconds: 3), () {
+              if (context.mounted) {
+                context.pushReplacement(const LoginPage());
+              }
+            });
           }
           return loadingScreen();
         },
@@ -88,46 +121,56 @@ class _SplashPageState extends State<SplashPage> {
     );
   }
 
-  Container loadingScreen() {
+  Widget loadingScreen() {
     return Container(
+      width: double.infinity,
       decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            AppColors.secondary,
-            AppColors.primary,
-          ],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
+        color: AppColors.background,
+        // gradient: LinearGradient(
+        //   colors: [
+        //     Color(0xFF60A3D9),
+        //     Color(0xFF1E2A5E),
+        //   ],
+        //   begin: Alignment.topCenter,
+        //   end: Alignment.bottomCenter,
+        // ),
       ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Spacer(),
-          Padding(
-            padding: const EdgeInsets.all(50.0),
+          ScaleTransition(
+            scale: _logoScaleAnimation,
             child: SvgPicture.asset(
               'assets/icons/logo_bengkod.svg',
-              height: 250,
+              height: 200,
             ),
           ),
           const Spacer(),
-          const Center(
-            child: Text(
-              'From',
-              style: TextStyle(
-                color: AppColors.white,
-              ),
-            ),
-          ),
-          const SpaceHeight(10.0),
-          const Center(
-            child: Text(
-              'Bengkod Developer',
-              style: TextStyle(
-                color: AppColors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
+          FadeTransition(
+            opacity: _textFadeAnimation,
+            child: Column(
+              children: const [
+                Text(
+                  'From',
+                  style: TextStyle(
+                    color: AppColors.primary,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 1.2,
+                  ),
+                ),
+                SpaceHeight(8.0),
+                Text(
+                  'Bengkod Developer',
+                  style: TextStyle(
+                    color: AppColors.primary,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1.2,
+                  ),
+                ),
+              ],
             ),
           ),
           const SpaceHeight(60.0),

@@ -1,3 +1,4 @@
+import '../bloc/detail_discussions/detail_discussions_bloc.dart';
 import '../bloc/discussions/discussions_bloc.dart';
 import '../pages/create_discussion_page.dart';
 import '../pages/detail_discussion_page.dart';
@@ -26,6 +27,9 @@ class ForumCard extends StatefulWidget {
 class _ForumCardState extends State<ForumCard> {
   int? idUser;
 
+  bool? isLiked;
+  int? numberOfLikes;
+
   void getUser() async {
     final user = await AuthLocalDatasource().getAuthData();
     setState(() {
@@ -37,6 +41,8 @@ class _ForumCardState extends State<ForumCard> {
   void initState() {
     super.initState();
     getUser();
+    isLiked = widget.discussion?.likedByUser;
+    numberOfLikes = widget.discussion?.numberOfLikes;
   }
 
   @override
@@ -150,24 +156,44 @@ class _ForumCardState extends State<ForumCard> {
             ],
           ),
           SpaceHeight(10),
+          // Text(
+          //   'Machine Learning',
+          //   style: TextStyle(
+          //     fontSize: 12,
+          //     fontWeight: FontWeight.w400,
+          //     color: AppColors.grey,
+          //   ),
+          // ),
+          // SpaceHeight(5),
+          Text(
+            widget.discussion?.article?.title ?? '-',
+            style: TextStyle(
+              fontSize: 10,
+              fontWeight: FontWeight.w400,
+              color: Color(0xFFABABAB),
+            ),
+          ),
+          SpaceHeight(5),
           Text(
             widget.discussion?.title ?? '-',
             style: TextStyle(
-              fontSize: 15,
+              fontSize: 12,
               fontWeight: FontWeight.w700,
               color: AppColors.black,
             ),
             textAlign: TextAlign.justify,
           ),
+          SpaceHeight(5),
           Text(
             widget.discussion?.comment ?? '-',
             style: TextStyle(
-              fontSize: 14,
+              fontSize: 12,
               fontWeight: FontWeight.w400,
               color: AppColors.black,
             ),
             textAlign: TextAlign.justify,
           ),
+
           SpaceHeight(20),
           if (widget.discussion?.images?.isNotEmpty == true)
             ListView.builder(
@@ -221,54 +247,82 @@ class _ForumCardState extends State<ForumCard> {
                 );
               },
             ),
-          GestureDetector(
-            onTap: () {
-              context.push(DetailDiscussionPage(
-                idCourses: widget.discussion?.courseId,
-                idDiscussion: widget.discussion?.id,
-                idArticle: widget.discussion?.articleId ?? 0,
-              ));
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  widget.discussion?.createdAgo ?? '-',
-                  style: TextStyle(
-                    fontSize: 10,
-                    color: AppColors.grey,
-                  ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                widget.discussion?.createdAgo ?? '-',
+                style: TextStyle(
+                  fontSize: 10,
+                  color: AppColors.grey,
                 ),
-                Spacer(),
-                Icon(
-                  Icons.comment_rounded,
-                  color: AppColors.primary,
-                  size: 16,
+              ),
+              Spacer(),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    if (isLiked == true) {
+                      isLiked = false;
+                      numberOfLikes = (numberOfLikes ?? 1) - 1;
+                    } else {
+                      isLiked = true;
+                      numberOfLikes = (numberOfLikes ?? 0) + 1;
+                    }
+                  });
+
+                  context.read<DetailDiscussionsBloc>().add(
+                        DetailDiscussionsEvent.likeDiscussions(
+                            widget.discussion?.id ?? 0),
+                      );
+                },
+                child: Row(
+                  children: [
+                    Icon(
+                      isLiked == true
+                          ? Icons.thumb_up
+                          : Icons.thumb_up_outlined,
+                      color: AppColors.primary,
+                      size: 16,
+                    ),
+                    SpaceWidth(4),
+                    Text(
+                      '${numberOfLikes ?? 0} Suka',
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                  ],
                 ),
-                SpaceWidth(4),
-                Text(
-                  '${widget.discussion?.numberOfReplies ?? 0} Komentar',
-                  style: TextStyle(
-                    fontSize: 10,
-                    color: AppColors.primary,
-                  ),
+              ),
+              SpaceWidth(10),
+              GestureDetector(
+                onTap: () {
+                  context.push(DetailDiscussionPage(
+                    idCourses: widget.discussion?.courseId,
+                    idDiscussion: widget.discussion?.id,
+                    idArticle: widget.discussion?.article?.articleId ?? 0,
+                  ));
+                },
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.comment_rounded,
+                      color: AppColors.primary,
+                      size: 16,
+                    ),
+                    SpaceWidth(4),
+                    Text(
+                      '${widget.discussion?.numberOfReplies ?? 0} Komentar',
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                  ],
                 ),
-                // SpaceWidth(10),
-                // Icon(
-                //   Icons.thumb_up,
-                //   color: AppColors.primary,
-                //   size: 16,
-                // ),
-                // SpaceWidth(4),
-                // Text(
-                //   '2',
-                //   style: TextStyle(
-                //     fontSize: 10,
-                //     color: AppColors.primary,
-                //   ),
-                // ),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),

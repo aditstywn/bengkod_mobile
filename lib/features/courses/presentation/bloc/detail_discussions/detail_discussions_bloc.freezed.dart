@@ -20,18 +20,21 @@ mixin _$DetailDiscussionsEvent {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function(int idCourse, int idDiscussion) detailDiscussion,
+    required TResult Function(int idCourse) likeDiscussions,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(int idCourse, int idDiscussion)? detailDiscussion,
+    TResult? Function(int idCourse)? likeDiscussions,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(int idCourse, int idDiscussion)? detailDiscussion,
+    TResult Function(int idCourse)? likeDiscussions,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -39,18 +42,21 @@ mixin _$DetailDiscussionsEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_DetailDiscussion value) detailDiscussion,
+    required TResult Function(_LikeDiscussions value) likeDiscussions,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_DetailDiscussion value)? detailDiscussion,
+    TResult? Function(_LikeDiscussions value)? likeDiscussions,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_DetailDiscussion value)? detailDiscussion,
+    TResult Function(_LikeDiscussions value)? likeDiscussions,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -121,6 +127,7 @@ class _$StartedImpl implements _Started {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function(int idCourse, int idDiscussion) detailDiscussion,
+    required TResult Function(int idCourse) likeDiscussions,
   }) {
     return started();
   }
@@ -130,6 +137,7 @@ class _$StartedImpl implements _Started {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(int idCourse, int idDiscussion)? detailDiscussion,
+    TResult? Function(int idCourse)? likeDiscussions,
   }) {
     return started?.call();
   }
@@ -139,6 +147,7 @@ class _$StartedImpl implements _Started {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(int idCourse, int idDiscussion)? detailDiscussion,
+    TResult Function(int idCourse)? likeDiscussions,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -152,6 +161,7 @@ class _$StartedImpl implements _Started {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_DetailDiscussion value) detailDiscussion,
+    required TResult Function(_LikeDiscussions value) likeDiscussions,
   }) {
     return started(this);
   }
@@ -161,6 +171,7 @@ class _$StartedImpl implements _Started {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_DetailDiscussion value)? detailDiscussion,
+    TResult? Function(_LikeDiscussions value)? likeDiscussions,
   }) {
     return started?.call(this);
   }
@@ -170,6 +181,7 @@ class _$StartedImpl implements _Started {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_DetailDiscussion value)? detailDiscussion,
+    TResult Function(_LikeDiscussions value)? likeDiscussions,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -264,6 +276,7 @@ class _$DetailDiscussionImpl implements _DetailDiscussion {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function(int idCourse, int idDiscussion) detailDiscussion,
+    required TResult Function(int idCourse) likeDiscussions,
   }) {
     return detailDiscussion(idCourse, idDiscussion);
   }
@@ -273,6 +286,7 @@ class _$DetailDiscussionImpl implements _DetailDiscussion {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(int idCourse, int idDiscussion)? detailDiscussion,
+    TResult? Function(int idCourse)? likeDiscussions,
   }) {
     return detailDiscussion?.call(idCourse, idDiscussion);
   }
@@ -282,6 +296,7 @@ class _$DetailDiscussionImpl implements _DetailDiscussion {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(int idCourse, int idDiscussion)? detailDiscussion,
+    TResult Function(int idCourse)? likeDiscussions,
     required TResult orElse(),
   }) {
     if (detailDiscussion != null) {
@@ -295,6 +310,7 @@ class _$DetailDiscussionImpl implements _DetailDiscussion {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_DetailDiscussion value) detailDiscussion,
+    required TResult Function(_LikeDiscussions value) likeDiscussions,
   }) {
     return detailDiscussion(this);
   }
@@ -304,6 +320,7 @@ class _$DetailDiscussionImpl implements _DetailDiscussion {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_DetailDiscussion value)? detailDiscussion,
+    TResult? Function(_LikeDiscussions value)? likeDiscussions,
   }) {
     return detailDiscussion?.call(this);
   }
@@ -313,6 +330,7 @@ class _$DetailDiscussionImpl implements _DetailDiscussion {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_DetailDiscussion value)? detailDiscussion,
+    TResult Function(_LikeDiscussions value)? likeDiscussions,
     required TResult orElse(),
   }) {
     if (detailDiscussion != null) {
@@ -337,6 +355,154 @@ abstract class _DetailDiscussion implements DetailDiscussionsEvent {
 }
 
 /// @nodoc
+abstract class _$$LikeDiscussionsImplCopyWith<$Res> {
+  factory _$$LikeDiscussionsImplCopyWith(_$LikeDiscussionsImpl value,
+          $Res Function(_$LikeDiscussionsImpl) then) =
+      __$$LikeDiscussionsImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int idCourse});
+}
+
+/// @nodoc
+class __$$LikeDiscussionsImplCopyWithImpl<$Res>
+    extends _$DetailDiscussionsEventCopyWithImpl<$Res, _$LikeDiscussionsImpl>
+    implements _$$LikeDiscussionsImplCopyWith<$Res> {
+  __$$LikeDiscussionsImplCopyWithImpl(
+      _$LikeDiscussionsImpl _value, $Res Function(_$LikeDiscussionsImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of DetailDiscussionsEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? idCourse = null,
+  }) {
+    return _then(_$LikeDiscussionsImpl(
+      null == idCourse
+          ? _value.idCourse
+          : idCourse // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$LikeDiscussionsImpl implements _LikeDiscussions {
+  const _$LikeDiscussionsImpl(this.idCourse);
+
+  @override
+  final int idCourse;
+
+  @override
+  String toString() {
+    return 'DetailDiscussionsEvent.likeDiscussions(idCourse: $idCourse)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$LikeDiscussionsImpl &&
+            (identical(other.idCourse, idCourse) ||
+                other.idCourse == idCourse));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, idCourse);
+
+  /// Create a copy of DetailDiscussionsEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$LikeDiscussionsImplCopyWith<_$LikeDiscussionsImpl> get copyWith =>
+      __$$LikeDiscussionsImplCopyWithImpl<_$LikeDiscussionsImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function(int idCourse, int idDiscussion) detailDiscussion,
+    required TResult Function(int idCourse) likeDiscussions,
+  }) {
+    return likeDiscussions(idCourse);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function(int idCourse, int idDiscussion)? detailDiscussion,
+    TResult? Function(int idCourse)? likeDiscussions,
+  }) {
+    return likeDiscussions?.call(idCourse);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function(int idCourse, int idDiscussion)? detailDiscussion,
+    TResult Function(int idCourse)? likeDiscussions,
+    required TResult orElse(),
+  }) {
+    if (likeDiscussions != null) {
+      return likeDiscussions(idCourse);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_DetailDiscussion value) detailDiscussion,
+    required TResult Function(_LikeDiscussions value) likeDiscussions,
+  }) {
+    return likeDiscussions(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_DetailDiscussion value)? detailDiscussion,
+    TResult? Function(_LikeDiscussions value)? likeDiscussions,
+  }) {
+    return likeDiscussions?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_DetailDiscussion value)? detailDiscussion,
+    TResult Function(_LikeDiscussions value)? likeDiscussions,
+    required TResult orElse(),
+  }) {
+    if (likeDiscussions != null) {
+      return likeDiscussions(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _LikeDiscussions implements DetailDiscussionsEvent {
+  const factory _LikeDiscussions(final int idCourse) = _$LikeDiscussionsImpl;
+
+  int get idCourse;
+
+  /// Create a copy of DetailDiscussionsEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$LikeDiscussionsImplCopyWith<_$LikeDiscussionsImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 mixin _$DetailDiscussionsState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
@@ -344,6 +510,8 @@ mixin _$DetailDiscussionsState {
     required TResult Function() loading,
     required TResult Function(ShowDiscussionsResponseModel discussion)
         detailDiscussionSuccess,
+    required TResult Function(LikeDiscussionsResponseModel like)
+        likeDiscussionSuccess,
     required TResult Function(String message) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -353,6 +521,7 @@ mixin _$DetailDiscussionsState {
     TResult? Function()? loading,
     TResult? Function(ShowDiscussionsResponseModel discussion)?
         detailDiscussionSuccess,
+    TResult? Function(LikeDiscussionsResponseModel like)? likeDiscussionSuccess,
     TResult? Function(String message)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -362,6 +531,7 @@ mixin _$DetailDiscussionsState {
     TResult Function()? loading,
     TResult Function(ShowDiscussionsResponseModel discussion)?
         detailDiscussionSuccess,
+    TResult Function(LikeDiscussionsResponseModel like)? likeDiscussionSuccess,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) =>
@@ -372,6 +542,8 @@ mixin _$DetailDiscussionsState {
     required TResult Function(_Loading value) loading,
     required TResult Function(_DetailDiscussionSuccess value)
         detailDiscussionSuccess,
+    required TResult Function(_LikeDiscussionSuccess value)
+        likeDiscussionSuccess,
     required TResult Function(_Error value) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -380,6 +552,7 @@ mixin _$DetailDiscussionsState {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_DetailDiscussionSuccess value)? detailDiscussionSuccess,
+    TResult? Function(_LikeDiscussionSuccess value)? likeDiscussionSuccess,
     TResult? Function(_Error value)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -388,6 +561,7 @@ mixin _$DetailDiscussionsState {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_DetailDiscussionSuccess value)? detailDiscussionSuccess,
+    TResult Function(_LikeDiscussionSuccess value)? likeDiscussionSuccess,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) =>
@@ -461,6 +635,8 @@ class _$InitialImpl implements _Initial {
     required TResult Function() loading,
     required TResult Function(ShowDiscussionsResponseModel discussion)
         detailDiscussionSuccess,
+    required TResult Function(LikeDiscussionsResponseModel like)
+        likeDiscussionSuccess,
     required TResult Function(String message) error,
   }) {
     return initial();
@@ -473,6 +649,7 @@ class _$InitialImpl implements _Initial {
     TResult? Function()? loading,
     TResult? Function(ShowDiscussionsResponseModel discussion)?
         detailDiscussionSuccess,
+    TResult? Function(LikeDiscussionsResponseModel like)? likeDiscussionSuccess,
     TResult? Function(String message)? error,
   }) {
     return initial?.call();
@@ -485,6 +662,7 @@ class _$InitialImpl implements _Initial {
     TResult Function()? loading,
     TResult Function(ShowDiscussionsResponseModel discussion)?
         detailDiscussionSuccess,
+    TResult Function(LikeDiscussionsResponseModel like)? likeDiscussionSuccess,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -501,6 +679,8 @@ class _$InitialImpl implements _Initial {
     required TResult Function(_Loading value) loading,
     required TResult Function(_DetailDiscussionSuccess value)
         detailDiscussionSuccess,
+    required TResult Function(_LikeDiscussionSuccess value)
+        likeDiscussionSuccess,
     required TResult Function(_Error value) error,
   }) {
     return initial(this);
@@ -512,6 +692,7 @@ class _$InitialImpl implements _Initial {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_DetailDiscussionSuccess value)? detailDiscussionSuccess,
+    TResult? Function(_LikeDiscussionSuccess value)? likeDiscussionSuccess,
     TResult? Function(_Error value)? error,
   }) {
     return initial?.call(this);
@@ -523,6 +704,7 @@ class _$InitialImpl implements _Initial {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_DetailDiscussionSuccess value)? detailDiscussionSuccess,
+    TResult Function(_LikeDiscussionSuccess value)? likeDiscussionSuccess,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
@@ -582,6 +764,8 @@ class _$LoadingImpl implements _Loading {
     required TResult Function() loading,
     required TResult Function(ShowDiscussionsResponseModel discussion)
         detailDiscussionSuccess,
+    required TResult Function(LikeDiscussionsResponseModel like)
+        likeDiscussionSuccess,
     required TResult Function(String message) error,
   }) {
     return loading();
@@ -594,6 +778,7 @@ class _$LoadingImpl implements _Loading {
     TResult? Function()? loading,
     TResult? Function(ShowDiscussionsResponseModel discussion)?
         detailDiscussionSuccess,
+    TResult? Function(LikeDiscussionsResponseModel like)? likeDiscussionSuccess,
     TResult? Function(String message)? error,
   }) {
     return loading?.call();
@@ -606,6 +791,7 @@ class _$LoadingImpl implements _Loading {
     TResult Function()? loading,
     TResult Function(ShowDiscussionsResponseModel discussion)?
         detailDiscussionSuccess,
+    TResult Function(LikeDiscussionsResponseModel like)? likeDiscussionSuccess,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -622,6 +808,8 @@ class _$LoadingImpl implements _Loading {
     required TResult Function(_Loading value) loading,
     required TResult Function(_DetailDiscussionSuccess value)
         detailDiscussionSuccess,
+    required TResult Function(_LikeDiscussionSuccess value)
+        likeDiscussionSuccess,
     required TResult Function(_Error value) error,
   }) {
     return loading(this);
@@ -633,6 +821,7 @@ class _$LoadingImpl implements _Loading {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_DetailDiscussionSuccess value)? detailDiscussionSuccess,
+    TResult? Function(_LikeDiscussionSuccess value)? likeDiscussionSuccess,
     TResult? Function(_Error value)? error,
   }) {
     return loading?.call(this);
@@ -644,6 +833,7 @@ class _$LoadingImpl implements _Loading {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_DetailDiscussionSuccess value)? detailDiscussionSuccess,
+    TResult Function(_LikeDiscussionSuccess value)? likeDiscussionSuccess,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
@@ -735,6 +925,8 @@ class _$DetailDiscussionSuccessImpl implements _DetailDiscussionSuccess {
     required TResult Function() loading,
     required TResult Function(ShowDiscussionsResponseModel discussion)
         detailDiscussionSuccess,
+    required TResult Function(LikeDiscussionsResponseModel like)
+        likeDiscussionSuccess,
     required TResult Function(String message) error,
   }) {
     return detailDiscussionSuccess(discussion);
@@ -747,6 +939,7 @@ class _$DetailDiscussionSuccessImpl implements _DetailDiscussionSuccess {
     TResult? Function()? loading,
     TResult? Function(ShowDiscussionsResponseModel discussion)?
         detailDiscussionSuccess,
+    TResult? Function(LikeDiscussionsResponseModel like)? likeDiscussionSuccess,
     TResult? Function(String message)? error,
   }) {
     return detailDiscussionSuccess?.call(discussion);
@@ -759,6 +952,7 @@ class _$DetailDiscussionSuccessImpl implements _DetailDiscussionSuccess {
     TResult Function()? loading,
     TResult Function(ShowDiscussionsResponseModel discussion)?
         detailDiscussionSuccess,
+    TResult Function(LikeDiscussionsResponseModel like)? likeDiscussionSuccess,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -775,6 +969,8 @@ class _$DetailDiscussionSuccessImpl implements _DetailDiscussionSuccess {
     required TResult Function(_Loading value) loading,
     required TResult Function(_DetailDiscussionSuccess value)
         detailDiscussionSuccess,
+    required TResult Function(_LikeDiscussionSuccess value)
+        likeDiscussionSuccess,
     required TResult Function(_Error value) error,
   }) {
     return detailDiscussionSuccess(this);
@@ -786,6 +982,7 @@ class _$DetailDiscussionSuccessImpl implements _DetailDiscussionSuccess {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_DetailDiscussionSuccess value)? detailDiscussionSuccess,
+    TResult? Function(_LikeDiscussionSuccess value)? likeDiscussionSuccess,
     TResult? Function(_Error value)? error,
   }) {
     return detailDiscussionSuccess?.call(this);
@@ -797,6 +994,7 @@ class _$DetailDiscussionSuccessImpl implements _DetailDiscussionSuccess {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_DetailDiscussionSuccess value)? detailDiscussionSuccess,
+    TResult Function(_LikeDiscussionSuccess value)? likeDiscussionSuccess,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
@@ -818,6 +1016,174 @@ abstract class _DetailDiscussionSuccess implements DetailDiscussionsState {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DetailDiscussionSuccessImplCopyWith<_$DetailDiscussionSuccessImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$LikeDiscussionSuccessImplCopyWith<$Res> {
+  factory _$$LikeDiscussionSuccessImplCopyWith(
+          _$LikeDiscussionSuccessImpl value,
+          $Res Function(_$LikeDiscussionSuccessImpl) then) =
+      __$$LikeDiscussionSuccessImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({LikeDiscussionsResponseModel like});
+}
+
+/// @nodoc
+class __$$LikeDiscussionSuccessImplCopyWithImpl<$Res>
+    extends _$DetailDiscussionsStateCopyWithImpl<$Res,
+        _$LikeDiscussionSuccessImpl>
+    implements _$$LikeDiscussionSuccessImplCopyWith<$Res> {
+  __$$LikeDiscussionSuccessImplCopyWithImpl(_$LikeDiscussionSuccessImpl _value,
+      $Res Function(_$LikeDiscussionSuccessImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of DetailDiscussionsState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? like = null,
+  }) {
+    return _then(_$LikeDiscussionSuccessImpl(
+      null == like
+          ? _value.like
+          : like // ignore: cast_nullable_to_non_nullable
+              as LikeDiscussionsResponseModel,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$LikeDiscussionSuccessImpl implements _LikeDiscussionSuccess {
+  const _$LikeDiscussionSuccessImpl(this.like);
+
+  @override
+  final LikeDiscussionsResponseModel like;
+
+  @override
+  String toString() {
+    return 'DetailDiscussionsState.likeDiscussionSuccess(like: $like)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$LikeDiscussionSuccessImpl &&
+            (identical(other.like, like) || other.like == like));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, like);
+
+  /// Create a copy of DetailDiscussionsState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$LikeDiscussionSuccessImplCopyWith<_$LikeDiscussionSuccessImpl>
+      get copyWith => __$$LikeDiscussionSuccessImplCopyWithImpl<
+          _$LikeDiscussionSuccessImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(ShowDiscussionsResponseModel discussion)
+        detailDiscussionSuccess,
+    required TResult Function(LikeDiscussionsResponseModel like)
+        likeDiscussionSuccess,
+    required TResult Function(String message) error,
+  }) {
+    return likeDiscussionSuccess(like);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(ShowDiscussionsResponseModel discussion)?
+        detailDiscussionSuccess,
+    TResult? Function(LikeDiscussionsResponseModel like)? likeDiscussionSuccess,
+    TResult? Function(String message)? error,
+  }) {
+    return likeDiscussionSuccess?.call(like);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(ShowDiscussionsResponseModel discussion)?
+        detailDiscussionSuccess,
+    TResult Function(LikeDiscussionsResponseModel like)? likeDiscussionSuccess,
+    TResult Function(String message)? error,
+    required TResult orElse(),
+  }) {
+    if (likeDiscussionSuccess != null) {
+      return likeDiscussionSuccess(like);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_DetailDiscussionSuccess value)
+        detailDiscussionSuccess,
+    required TResult Function(_LikeDiscussionSuccess value)
+        likeDiscussionSuccess,
+    required TResult Function(_Error value) error,
+  }) {
+    return likeDiscussionSuccess(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_DetailDiscussionSuccess value)? detailDiscussionSuccess,
+    TResult? Function(_LikeDiscussionSuccess value)? likeDiscussionSuccess,
+    TResult? Function(_Error value)? error,
+  }) {
+    return likeDiscussionSuccess?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_DetailDiscussionSuccess value)? detailDiscussionSuccess,
+    TResult Function(_LikeDiscussionSuccess value)? likeDiscussionSuccess,
+    TResult Function(_Error value)? error,
+    required TResult orElse(),
+  }) {
+    if (likeDiscussionSuccess != null) {
+      return likeDiscussionSuccess(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _LikeDiscussionSuccess implements DetailDiscussionsState {
+  const factory _LikeDiscussionSuccess(
+      final LikeDiscussionsResponseModel like) = _$LikeDiscussionSuccessImpl;
+
+  LikeDiscussionsResponseModel get like;
+
+  /// Create a copy of DetailDiscussionsState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$LikeDiscussionSuccessImplCopyWith<_$LikeDiscussionSuccessImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -893,6 +1259,8 @@ class _$ErrorImpl implements _Error {
     required TResult Function() loading,
     required TResult Function(ShowDiscussionsResponseModel discussion)
         detailDiscussionSuccess,
+    required TResult Function(LikeDiscussionsResponseModel like)
+        likeDiscussionSuccess,
     required TResult Function(String message) error,
   }) {
     return error(message);
@@ -905,6 +1273,7 @@ class _$ErrorImpl implements _Error {
     TResult? Function()? loading,
     TResult? Function(ShowDiscussionsResponseModel discussion)?
         detailDiscussionSuccess,
+    TResult? Function(LikeDiscussionsResponseModel like)? likeDiscussionSuccess,
     TResult? Function(String message)? error,
   }) {
     return error?.call(message);
@@ -917,6 +1286,7 @@ class _$ErrorImpl implements _Error {
     TResult Function()? loading,
     TResult Function(ShowDiscussionsResponseModel discussion)?
         detailDiscussionSuccess,
+    TResult Function(LikeDiscussionsResponseModel like)? likeDiscussionSuccess,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -933,6 +1303,8 @@ class _$ErrorImpl implements _Error {
     required TResult Function(_Loading value) loading,
     required TResult Function(_DetailDiscussionSuccess value)
         detailDiscussionSuccess,
+    required TResult Function(_LikeDiscussionSuccess value)
+        likeDiscussionSuccess,
     required TResult Function(_Error value) error,
   }) {
     return error(this);
@@ -944,6 +1316,7 @@ class _$ErrorImpl implements _Error {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_DetailDiscussionSuccess value)? detailDiscussionSuccess,
+    TResult? Function(_LikeDiscussionSuccess value)? likeDiscussionSuccess,
     TResult? Function(_Error value)? error,
   }) {
     return error?.call(this);
@@ -955,6 +1328,7 @@ class _$ErrorImpl implements _Error {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_DetailDiscussionSuccess value)? detailDiscussionSuccess,
+    TResult Function(_LikeDiscussionSuccess value)? likeDiscussionSuccess,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {

@@ -12,5 +12,6 @@ class DiscussionsState with _$DiscussionsState {
       DiscussionsResponseModel discussions) = _DiscussionSuccess;
   const factory DiscussionsState.deleteDiscussionsSuccess(
       DeleteDiscussionsResponseModel discussions) = _DeleteDiscussionsSuccess;
+
   const factory DiscussionsState.error(String message) = _Error;
 }

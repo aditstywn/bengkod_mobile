@@ -5,4 +5,6 @@ class DetailDiscussionsEvent with _$DetailDiscussionsEvent {
   const factory DetailDiscussionsEvent.started() = _Started;
   const factory DetailDiscussionsEvent.detailDiscussion(
       int idCourse, int idDiscussion) = _DetailDiscussion;
+  const factory DetailDiscussionsEvent.likeDiscussions(int idCourse) =
+      _LikeDiscussions;
 }

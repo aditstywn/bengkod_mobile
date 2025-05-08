@@ -33,13 +33,15 @@ class DiscussionsResponseModel {
 class DataDiscussions {
   final int? id;
   final int? courseId;
-  final int? articleId;
+  final Article? article;
   final Student? student;
   final Pinned? pinned;
   final String? title;
   final String? comment;
-  final int? numberOfReplies;
   final List<String>? images;
+  final int? numberOfReplies;
+  final int? numberOfLikes;
+  final bool? likedByUser;
   final String? createdAgo;
   final DateTime? createdAt;
   final DateTime? updatedAt;
@@ -47,13 +49,15 @@ class DataDiscussions {
   DataDiscussions({
     this.id,
     this.courseId,
-    this.articleId,
+    this.article,
     this.student,
     this.pinned,
     this.title,
     this.comment,
-    this.numberOfReplies,
     this.images,
+    this.numberOfReplies,
+    this.numberOfLikes,
+    this.likedByUser,
     this.createdAgo,
     this.createdAt,
     this.updatedAt,
@@ -67,16 +71,19 @@ class DataDiscussions {
   factory DataDiscussions.fromMap(Map<String, dynamic> json) => DataDiscussions(
         id: json["id"],
         courseId: json["course_id"],
-        articleId: json["article_id"],
+        article:
+            json["article"] == null ? null : Article.fromMap(json["article"]),
         student:
             json["student"] == null ? null : Student.fromMap(json["student"]),
         pinned: json["pinned"] == null ? null : Pinned.fromMap(json["pinned"]),
         title: json["title"],
         comment: json["comment"],
-        numberOfReplies: json["number_of_replies"],
         images: json["images"] == null
             ? []
             : List<String>.from(json["images"]!.map((x) => x)),
+        numberOfReplies: json["number_of_replies"],
+        numberOfLikes: json["number_of_likes"],
+        likedByUser: json["liked_by_user"],
         createdAgo: json["created_ago"],
         createdAt: json["created_at"] == null
             ? null
@@ -89,37 +96,43 @@ class DataDiscussions {
   Map<String, dynamic> toMap() => {
         "id": id,
         "course_id": courseId,
-        "article_id": articleId,
+        "article": article?.toMap(),
         "student": student?.toMap(),
         "pinned": pinned?.toMap(),
         "title": title,
         "comment": comment,
-        "number_of_replies": numberOfReplies,
         "images":
             images == null ? [] : List<dynamic>.from(images!.map((x) => x)),
+        "number_of_replies": numberOfReplies,
+        "number_of_likes": numberOfLikes,
+        "liked_by_user": likedByUser,
         "created_ago": createdAgo,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
       };
 }
 
-class Pinned {
-  final String? user;
+class Article {
+  final int? articleId;
+  final String? title;
 
-  Pinned({
-    this.user,
+  Article({
+    this.articleId,
+    this.title,
   });
 
-  factory Pinned.fromJson(String str) => Pinned.fromMap(json.decode(str));
+  factory Article.fromJson(String str) => Article.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory Pinned.fromMap(Map<String, dynamic> json) => Pinned(
-        user: json["user"],
+  factory Article.fromMap(Map<String, dynamic> json) => Article(
+        articleId: json["article_id"],
+        title: json["title"],
       );
 
   Map<String, dynamic> toMap() => {
-        "user": user,
+        "article_id": articleId,
+        "title": title,
       };
 }
 
@@ -130,8 +143,8 @@ class Student {
   final String? image;
 
   Student({
-    this.name,
     this.id,
+    this.name,
     this.role,
     this.image,
   });
@@ -141,15 +154,15 @@ class Student {
   String toJson() => json.encode(toMap());
 
   factory Student.fromMap(Map<String, dynamic> json) => Student(
-        name: json["name"],
         id: json["id"],
+        name: json["name"],
         role: json["role"],
         image: json["image"],
       );
 
   Map<String, dynamic> toMap() => {
-        "name": name,
         "id": id,
+        "name": name,
         "role": role,
         "image": image,
       };
@@ -227,6 +240,26 @@ class Pagination {
         "current_page": currentPage,
         "total_pages": totalPages,
         "links": links?.toMap(),
+      };
+}
+
+class Pinned {
+  final String? user;
+
+  Pinned({
+    this.user,
+  });
+
+  factory Pinned.fromJson(String str) => Pinned.fromMap(json.decode(str));
+
+  String toJson() => json.encode(toMap());
+
+  factory Pinned.fromMap(Map<String, dynamic> json) => Pinned(
+        user: json["user"],
+      );
+
+  Map<String, dynamic> toMap() => {
+        "user": user,
       };
 }
 

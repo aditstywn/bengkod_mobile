@@ -5,6 +5,7 @@ import 'package:shimmer_animation/shimmer_animation.dart';
 import '../../../../core/components/error_card.dart';
 import '../../../../core/components/spaces.dart';
 import '../../../../core/config/app_color.dart';
+import '../../../../core/config/location_service.dart';
 import '../../../../core/extensions/build_context_ext.dart';
 import '../../../class/data/models/response/class_response_model.dart';
 import '../../../class/presentation/bloc/class/class_bloc.dart';
@@ -21,6 +22,25 @@ class PresencePage extends StatefulWidget {
 
 class _PresencePageState extends State<PresencePage> {
   int? length;
+
+  Future<void> _getCurrentLocation() async {
+    try {
+      await LocationService().getCurrentLocation();
+    } catch (e) {
+      if (mounted) {
+        // context.showAlert(
+        //   false,
+        //   'Gagal mendapatkan lokasi, silahkan aktifkan GPS ',
+        // );
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentLocation();
+  }
 
   @override
   Widget build(BuildContext context) {
