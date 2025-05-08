@@ -1,3 +1,4 @@
+import 'package:bengkod_mobile_app/features/presence/presentation/widgets/presence_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
@@ -9,7 +10,6 @@ import '../../../../core/config/location_service.dart';
 import '../../../../core/extensions/build_context_ext.dart';
 import '../../../class/data/models/response/class_response_model.dart';
 import '../../../class/presentation/bloc/class/class_bloc.dart';
-import '../../../class/presentation/widgets/class_card.dart';
 import 'detail_presence_page.dart';
 import 'scaner_page.dart';
 
@@ -144,7 +144,7 @@ class _PresencePageState extends State<PresencePage> {
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: classResponseModel.data?.length ?? 0,
                             itemBuilder: (context, index) {
-                              return ClassCard(
+                              return PresenceCard(
                                 onTap: () {
                                   context.push(DetailPresencePage(
                                     dataClass:
