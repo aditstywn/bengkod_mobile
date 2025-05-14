@@ -488,7 +488,7 @@ class _HomePageState extends State<HomePage> {
                         description:
                             latestAssignmentResponseModel.data?.description ??
                                 '-',
-                        start: DateFormat('d MMM yyyy HH:mm').format(
+                        start: DateFormat('d MMM yyyy HH:mm', 'id_ID').format(
                           latestAssignmentResponseModel.data?.startTime ??
                               DateTime.now(),
                         ),

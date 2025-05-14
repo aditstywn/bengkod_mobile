@@ -33,19 +33,27 @@ class AlertAssigment {
                 ? SfPdfViewer.file(
                     File(file!),
                   )
-                : type == 'txt'
-                    ? SingleChildScrollView(
-                        child: Text(
-                          file!,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: AppColors.black,
-                          ),
-                        ),
+                : (type == 'image' ||
+                        type == 'jpg' ||
+                        type == 'jpeg' ||
+                        type == 'png')
+                    ? Image.file(
+                        File(file!),
+                        fit: BoxFit.cover,
                       )
-                    : const Center(
-                        child: Text('File tidak dapat ditampilkan'),
-                      ),
+                    : type == 'txt'
+                        ? SingleChildScrollView(
+                            child: Text(
+                              file!,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: AppColors.black,
+                              ),
+                            ),
+                          )
+                        : const Center(
+                            child: Text('File tidak dapat ditampilkan'),
+                          ),
           ),
           actions: <Widget>[
             Button.outlined(

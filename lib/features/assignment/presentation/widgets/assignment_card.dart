@@ -13,6 +13,7 @@ class AssignmentCard extends StatelessWidget {
   final String start;
   final String deadline;
   final String status;
+  final int? score;
   final Color color;
   final Color colorBg;
   final VoidCallback onTap;
@@ -24,6 +25,7 @@ class AssignmentCard extends StatelessWidget {
     required this.start,
     required this.deadline,
     required this.status,
+    this.score,
     required this.color,
     required this.colorBg,
     required this.onTap,
@@ -114,7 +116,33 @@ class AssignmentCard extends StatelessWidget {
                           ),
                         ],
                       ),
-                      dottedBorder(color, colorBg, status),
+                      const SpaceWidth(10),
+                      if (score == null)
+                        dottedBorder(color, colorBg, status)
+                      else
+                        Flexible(
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            constraints: const BoxConstraints(
+                              minWidth: 125,
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(6),
+                              color: AppColors.primary,
+                            ),
+                            child: Text(
+                              'Nilai Tugas : $score ',
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.white,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
                     ],
                   )
                 ],

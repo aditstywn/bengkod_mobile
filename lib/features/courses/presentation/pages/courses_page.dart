@@ -98,6 +98,7 @@ class _CoursesPageState extends State<CoursesPage> {
                         context.read<LessonBloc>().add(
                               LessonEvent.getLesson(widget.idCourses!),
                             );
+                        coursesId = widget.idCourses;
                       } else {
                         context
                             .read<LessonBloc>()

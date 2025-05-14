@@ -1,4 +1,5 @@
 import 'package:bengkod_mobile_app/features/certificate/presentation/bloc/certificate_bloc.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 import 'core/style/theme/bengkod_theme.dart';
 import 'features/auth/presentation/bloc/google/google_bloc.dart';
@@ -47,7 +48,9 @@ import 'features/profile/presentation/bloc/profile_bloc.dart';
 import 'features/settings/data/datasource/settings_remote_datasource.dart';
 import 'features/settings/presentation/bloc/settings_bloc.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting('id_ID', null);
   runApp(const MyApp());
 }
 

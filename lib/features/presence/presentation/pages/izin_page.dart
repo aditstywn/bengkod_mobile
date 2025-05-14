@@ -180,11 +180,13 @@ class _IzinPageState extends State<IzinPage> {
                   AlertAssigment().fileAlert(context, textContent, 'txt');
                 } else if (extension == 'doc' || extension == 'docx') {
                   AlertAssigment().fileAlert(context, path, 'docs');
+                } else if (extension == 'png' || extension == 'jpg') {
+                  AlertAssigment().fileAlert(context, path, 'image');
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                         content:
-                            Text('Format file tidak dikenali: $extension')),
+                            Text('Format file tidak dikenali : $extension')),
                   );
                 }
               },
@@ -241,12 +243,7 @@ class _IzinPageState extends State<IzinPage> {
                   );
                 },
                 error: (message) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(message),
-                      backgroundColor: AppColors.red,
-                    ),
-                  );
+                  context.showAlert(false, message);
                 },
               );
             },

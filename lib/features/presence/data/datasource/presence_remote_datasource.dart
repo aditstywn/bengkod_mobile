@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bengkod_mobile_app/features/presence/data/models/request/izin_request_model.dart';
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
@@ -144,10 +146,23 @@ class PresenceRemoteDatasource {
       if (response.statusCode == 200) {
         return Right(AbsenceResponseModel.fromJson(body));
       } else {
-        return const Left('Gagal upload absence');
+        final bodyJson = jsonDecode(body);
+
+        // Ambil pesan error paling pertama dari body jika ada
+        final error = bodyJson['meta']?['error'];
+        String errorMessage = 'Gagal kirim izin';
+
+        if (error is Map && error.containsKey('absence_type')) {
+          final messages = error['absence_type'];
+          if (messages is List && messages.isNotEmpty) {
+            errorMessage = messages.join(', ');
+          }
+        }
+
+        return Left(errorMessage);
       }
     } catch (e) {
-      return const Left('Gagal upload absence');
+      return const Left('Gagal kirim izin');
     }
   }
 }

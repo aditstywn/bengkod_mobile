@@ -37,7 +37,7 @@ class Assignment {
   final DateTime startTime;
   final DateTime deadline;
   final bool isUploaded;
-  final List<dynamic> tasks;
+  final List<Task> tasks;
 
   Assignment({
     required this.id,
@@ -65,7 +65,7 @@ class Assignment {
         startTime: DateTime.parse(json["start_time"]),
         deadline: DateTime.parse(json["deadline"]),
         isUploaded: json["is_uploaded"],
-        tasks: List<dynamic>.from(json["tasks"].map((x) => x)),
+        tasks: List<Task>.from(json["tasks"].map((x) => Task.fromMap(x))),
       );
 
   Map<String, dynamic> toMap() => {
@@ -77,7 +77,7 @@ class Assignment {
         "start_time": startTime.toIso8601String(),
         "deadline": deadline.toIso8601String(),
         "is_uploaded": isUploaded,
-        "tasks": List<dynamic>.from(tasks.map((x) => x)),
+        "tasks": List<Task>.from(tasks.map((x) => x.toMap())),
       };
 
   Assignment copyWith({
@@ -96,6 +96,34 @@ class Assignment {
       tasks: tasks,
     );
   }
+}
+
+class Task {
+  final int? id;
+  final int? score;
+  final bool? isSubmitted;
+
+  Task({
+    this.id,
+    this.score,
+    this.isSubmitted,
+  });
+
+  factory Task.fromJson(String str) => Task.fromMap(json.decode(str));
+
+  String toJson() => json.encode(toMap());
+
+  factory Task.fromMap(Map<String, dynamic> json) => Task(
+        id: json["id"],
+        score: json["score"],
+        isSubmitted: json["is_submitted"],
+      );
+
+  Map<String, dynamic> toMap() => {
+        "id": id,
+        "score": score,
+        "is_submitted": isSubmitted,
+      };
 }
 
 class Meta {

@@ -7,14 +7,14 @@ DottedBorder dottedBorder(Color color, Color colorBg, String status) {
     strokeWidth: 2,
     dashPattern: const [5, 5],
     borderType: BorderType.RRect,
-    radius: const Radius.circular(8),
+    radius: const Radius.circular(6),
     child: Container(
       padding: const EdgeInsets.all(5),
       height: 30,
       // width: ,
       decoration: BoxDecoration(
         color: colorBg,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(6),
       ),
       child: Center(
         child: Text(

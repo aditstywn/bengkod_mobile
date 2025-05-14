@@ -76,7 +76,8 @@ class ReplyCard extends StatelessWidget {
                 ],
               ),
             ),
-            if (allReply?.isCreator == 'true') ...[
+            if (allReply?.isCreator == 'true' &&
+                allReply?.user?.id != idUser) ...[
               Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 6,

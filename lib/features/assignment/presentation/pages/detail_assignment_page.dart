@@ -58,7 +58,21 @@ class _DetailAssignmentPageState extends State<DetailAssignmentPage> {
       appBar: AppBar(
         title: const Text('Detail Tugas'),
       ),
-      body: BlocBuilder<DetailAssignmentBloc, DetailAssignmentState>(
+      body: BlocConsumer<DetailAssignmentBloc, DetailAssignmentState>(
+        listener: (context, state) {
+          state.maybeWhen(
+            orElse: () {},
+            error: (message) {
+              if (message == 'Penugasan sudah melewati deadline') {
+                context.pop();
+                context.showAlert(
+                  false,
+                  message,
+                );
+              }
+            },
+          );
+        },
         builder: (context, state) {
           final task = state.maybeWhen(
             orElse: () => null,
@@ -554,8 +568,10 @@ class _DetailAssignmentPageState extends State<DetailAssignmentPage> {
                                                             true
                                                         ? 'Update Tugas'
                                                         : 'Upload Tugas',
-                                                color:
-                                                    detailAssignmentResponseModel
+                                                color: file?.files.isNotEmpty !=
+                                                        true
+                                                    ? AppColors.grey
+                                                    : detailAssignmentResponseModel
                                                                 .data
                                                                 .isUploaded ==
                                                             true

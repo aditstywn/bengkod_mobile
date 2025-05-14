@@ -190,6 +190,9 @@ class _ClassAndAssignmentPageState extends State<ClassAndAssignmentPage> {
                                   .isBefore(DateTime.now())
                               ? 'Telat Dikumpulkan'
                               : 'Belum Dikumpulkan',
+                      score: assignmentResponseModel[index].tasks.isNotEmpty
+                          ? assignmentResponseModel[index].tasks[0].score
+                          : null,
                       color: assignmentResponseModel[index].isUploaded == true
                           ? AppColors.assignGreen
                           : AppColors.pink,

@@ -341,6 +341,10 @@ class _DetailDiscussionPageState extends State<DetailDiscussionPage> {
                                               widget.idArticle,
                                               null),
                                         );
+                                    context.showAlert(
+                                      true,
+                                      'Berhasil menambahkan komentar',
+                                    );
                                   },
                                   error: (message) {
                                     context.showAlert(false, message);

@@ -94,17 +94,14 @@ class _ProfilePageState extends State<ProfilePage> {
                       );
                     },
                     error: (message) {
-                      return Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: RefreshIndicator(
-                          onRefresh: () async {
-                            context
-                                .read<ProfileBloc>()
-                                .add(const ProfileEvent.getProfile());
-                          },
-                          child: ErrorCard(
-                            message: message,
-                          ),
+                      return RefreshIndicator(
+                        onRefresh: () async {
+                          context
+                              .read<ProfileBloc>()
+                              .add(const ProfileEvent.getProfile());
+                        },
+                        child: ErrorCard(
+                          message: message,
                         ),
                       );
                     },

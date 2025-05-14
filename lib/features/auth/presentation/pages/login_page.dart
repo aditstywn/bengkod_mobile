@@ -63,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
         final auth = await account.authentication;
         final idToken = auth.idToken;
 
-        debugPrint('ID Token: $idToken');
+        // debugPrint('ID Token: $idToken');
 
         if (idToken != null) {
           final googleRequest = idToken;
