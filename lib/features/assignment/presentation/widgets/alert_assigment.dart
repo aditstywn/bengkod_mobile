@@ -26,6 +26,14 @@ class AlertAssigment {
             borderRadius: BorderRadius.circular(4),
           ),
           backgroundColor: AppColors.white,
+          title: const Text(
+            'File Tugas',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+              color: AppColors.primary,
+            ),
+          ),
           content: SizedBox(
             height: context.deviceHeight * 0.5,
             width: context.deviceWidth * 0.8,

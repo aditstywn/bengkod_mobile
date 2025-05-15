@@ -240,7 +240,8 @@ class _DetailAssignmentPageState extends State<DetailAssignmentPage> {
 
                                 if (url != null) {
                                   if (['pdf'].contains(fileExtention)) {
-                                    context.showAlertFile('PDF', url, true);
+                                    context.showAlertFile(
+                                        'PDF', url, true, 400);
                                   } else {
                                     context.showAlertFile('Image', url, false);
                                   }
@@ -405,12 +406,17 @@ class _DetailAssignmentPageState extends State<DetailAssignmentPage> {
                                                 extension == 'docx') {
                                               AlertAssigment().fileAlert(
                                                   context, path, 'docs');
+                                            } else if (extension == 'png' ||
+                                                extension == 'jpg' ||
+                                                extension == 'jpeg') {
+                                              AlertAssigment().fileAlert(
+                                                  context, path, 'image');
                                             } else {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
                                                 SnackBar(
                                                     content: Text(
-                                                        'Format file tidak dikenali: $extension')),
+                                                        'Format file tidak dikenali : $extension')),
                                               );
                                             }
                                           },

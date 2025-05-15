@@ -123,6 +123,7 @@ class ListPresensi extends StatelessWidget {
                                     context: context,
                                     builder: (context) {
                                       return AlertDialog(
+                                        insetPadding: EdgeInsets.zero,
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(10),
@@ -134,38 +135,41 @@ class ListPresensi extends StatelessWidget {
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        content: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Text(
-                                              'Room : ${attendance!.presence?.room ?? '-'}',
-                                              style: const TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w400,
-                                                color: AppColors.tertiary,
+                                        content: SizedBox(
+                                          width: context.deviceWidth * 0.7,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Text(
+                                                'Room : ${attendance!.presence?.room ?? '-'}',
+                                                style: const TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: AppColors.tertiary,
+                                                ),
                                               ),
-                                            ),
-                                            const SpaceHeight(8),
-                                            Text(
-                                              'Tanggal : ${attendance.clockInDateFormatted}',
-                                              style: const TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w400,
-                                                color: AppColors.tertiary,
+                                              const SpaceHeight(8),
+                                              Text(
+                                                'Tanggal : ${attendance.clockInDateFormatted}',
+                                                style: const TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: AppColors.tertiary,
+                                                ),
                                               ),
-                                            ),
-                                            const SpaceHeight(8),
-                                            Text(
-                                              'Jam Masuk : ${attendance.clockInTime}',
-                                              style: const TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w400,
-                                                color: AppColors.tertiary,
+                                              const SpaceHeight(8),
+                                              Text(
+                                                'Jam Masuk : ${attendance.clockInTime}',
+                                                style: const TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: AppColors.tertiary,
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                         actions: [
                                           TextButton(
