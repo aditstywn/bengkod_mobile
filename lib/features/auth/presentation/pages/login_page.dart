@@ -173,10 +173,22 @@ class _LoginPageState extends State<LoginPage> {
                 'Simpan Akun',
                 style: TextStyle(
                   color: AppColors.primary,
-                  fontSize: 14,
+                  fontSize: 12,
                   fontWeight: FontWeight.w700,
                 ),
               ),
+              // Spacer(),
+              // GestureDetector(
+              //   onTap: () {},
+              //   child: Text(
+              //     'Lupa Kata Sandi?',
+              //     style: TextStyle(
+              //       color: AppColors.primary,
+              //       fontSize: 12,
+              //       fontWeight: FontWeight.w700,
+              //     ),
+              //   ),
+              // ),
             ],
           ),
           const SpaceHeight(10),
@@ -298,6 +310,16 @@ class _LoginPageState extends State<LoginPage> {
                 },
               );
             },
+          ),
+          const SpaceHeight(5),
+          Text(
+            'v2.0.0',
+            style: TextStyle(
+              color: AppColors.primary,
+              fontSize: 14,
+              fontWeight: FontWeight.w700,
+            ),
+            textAlign: TextAlign.end,
           ),
         ],
       ),
