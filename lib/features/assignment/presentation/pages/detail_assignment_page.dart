@@ -292,7 +292,8 @@ class _DetailAssignmentPageState extends State<DetailAssignmentPage> {
                                           .toLowerCase();
 
                                       if (['pdf'].contains(fileExtention)) {
-                                        context.showAlertFile('PDF', url, true);
+                                        context.showAlertFile(
+                                            'PDF', url, true, 400);
                                       } else if (['jpg', 'jpeg', 'png']
                                           .contains(fileExtention)) {
                                         context.showAlertFile(
