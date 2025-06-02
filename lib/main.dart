@@ -203,6 +203,7 @@ class MyApp extends StatelessWidget {
           ),
         ],
         child: MaterialApp(
+          debugShowCheckedModeBanner: false,
           title: 'Bengkod',
           theme: BengkodTheme.lightTheme,
           // darkTheme: BengkodTheme.darkTheme,
