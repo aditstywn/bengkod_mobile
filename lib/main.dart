@@ -1,4 +1,5 @@
 import 'package:bengkod_mobile_app/features/certificate/presentation/bloc/certificate_bloc.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 import 'core/style/theme/bengkod_theme.dart';
@@ -51,7 +52,12 @@ import 'features/settings/presentation/bloc/settings_bloc.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting('id_ID', null);
-  runApp(const MyApp());
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp, // Hanya mengizinkan portrait atas
+    DeviceOrientation.portraitDown, // (Opsional) Mengizinkan portrait bawah
+  ]).then((_) {
+    runApp(MyApp());
+  });
 }
 
 class MyApp extends StatelessWidget {

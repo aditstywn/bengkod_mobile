@@ -381,6 +381,69 @@ class _InformationPageState extends State<InformationPage> {
                             itemCount: instructorClassResponseModel.data.length,
                             itemBuilder: (context, index) {
                               return ListTile(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        backgroundColor: AppColors.white,
+                                        title: Text(
+                                          instructorClassResponseModel
+                                              .data[index].name,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            color: AppColors.black,
+                                            fontSize: 18,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        content: SizedBox(
+                                          width: context.deviceWidth * 0.7,
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              CircleAvatar(
+                                                radius: 100,
+                                                backgroundColor:
+                                                    AppColors.white,
+                                                child: ClipOval(
+                                                  child: CachedNetworkImage(
+                                                    imageUrl:
+                                                        instructorClassResponseModel
+                                                            .data[index].image,
+                                                    fit: BoxFit.cover,
+                                                    width: 150,
+                                                    height: 150,
+                                                    alignment:
+                                                        Alignment.topCenter,
+                                                    placeholder: (context,
+                                                            url) =>
+                                                        const CircularProgressIndicator(),
+                                                    errorWidget: (context, url,
+                                                            error) =>
+                                                        const Icon(Icons.error),
+                                                  ),
+                                                ),
+                                              ),
+                                              const SpaceHeight(10),
+                                              Text(
+                                                instructorClassResponseModel
+                                                    .data[index].role,
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
                                 leading: CircleAvatar(
                                   radius: 30,
                                   backgroundColor: AppColors.white,
@@ -448,6 +511,62 @@ class _InformationPageState extends State<InformationPage> {
                         itemCount: student.data.length,
                         itemBuilder: (context, index) {
                           return ListTile(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    backgroundColor: AppColors.white,
+                                    title: Text(
+                                      student.data[index].name,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        color: AppColors.black,
+                                        fontSize: 18,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    content: SizedBox(
+                                      width: context.deviceWidth * 0.7,
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          CircleAvatar(
+                                            radius: 100,
+                                            backgroundColor: AppColors.white,
+                                            child: ClipOval(
+                                              child: CachedNetworkImage(
+                                                imageUrl:
+                                                    student.data[index].image,
+                                                fit: BoxFit.cover,
+                                                width: 150,
+                                                height: 150,
+                                                alignment: Alignment.topCenter,
+                                                placeholder: (context, url) =>
+                                                    const CircularProgressIndicator(),
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        const Icon(Icons.error),
+                                              ),
+                                            ),
+                                          ),
+                                          const SpaceHeight(10),
+                                          Text(
+                                            '${student.data[index].identityCode} | Mahasiswa',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            },
                             leading: CircleAvatar(
                               radius: 30,
                               backgroundColor: AppColors.white,

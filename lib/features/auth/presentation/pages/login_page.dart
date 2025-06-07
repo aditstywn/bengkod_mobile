@@ -133,6 +133,7 @@ class _LoginPageState extends State<LoginPage> {
             label: 'Email',
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
+            capizalize: TextCapitalization.none,
           ),
           const SpaceHeight(16),
           CustomTextField(
@@ -140,6 +141,7 @@ class _LoginPageState extends State<LoginPage> {
             label: 'Kata Sandi',
             obscureText: isObscure,
             textInputAction: TextInputAction.done,
+            capizalize: TextCapitalization.none,
             suffixIcon: InkWell(
               onTap: () {
                 setState(() {

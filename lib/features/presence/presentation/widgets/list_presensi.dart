@@ -360,6 +360,7 @@ class ListPresensi extends StatelessWidget {
                                       }
                                     : null,
                         style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(100, 25),
                           backgroundColor: presensi || izin
                               ? AppColors.primary
                               : AppColors.course,

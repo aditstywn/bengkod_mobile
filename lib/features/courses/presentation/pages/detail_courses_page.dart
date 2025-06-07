@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/extensions/build_context_ext.dart';
@@ -273,17 +275,97 @@ class _DetailCoursesPageState extends State<DetailCoursesPage> {
                                   textScaleFactor: 1.2,
                                 ),
                               },
-                              imageBuilder: (uri, title, alt) {
+                              sizedImageBuilder: (config) {
+                                final uri = config.uri;
+                                final uriStr = uri.toString();
+
+                                // Cek apakah URI adalah data URL
+                                if (uriStr.startsWith('data:image')) {
+                                  // Ekstrak base64 string
+                                  final base64Str =
+                                      uri.toString().split(',').last;
+                                  try {
+                                    final bytes = base64Decode(base64Str);
+                                    return Center(
+                                      child: Image.memory(
+                                        bytes,
+                                        errorBuilder:
+                                            (context, error, stackTrace) {
+                                          return const Text(
+                                              'Gagal memuat gambar',
+                                              style: TextStyle(
+                                                color: AppColors.grey,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w500,
+                                              ));
+                                        },
+                                      ),
+                                    );
+                                  } catch (e) {
+                                    return const Text(
+                                        'Format gambar tidak valid',
+                                        style: TextStyle(
+                                          color: AppColors.grey,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w500,
+                                        ));
+                                  }
+                                }
+
+                                // Default: network image
                                 return Center(
                                   child: Image.network(
                                     uri.toString(),
                                     errorBuilder: (context, error, stackTrace) {
                                       return const Text('Gagal memuat gambar',
-                                          style: TextStyle(color: Colors.red));
+                                          style: TextStyle(
+                                            color: AppColors.grey,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500,
+                                          ));
                                     },
                                   ),
                                 );
                               },
+                              // imageBuilder: (uri, title, alt) {
+                              //   final uriStr = uri.toString();
+                              //   if (uriStr.startsWith('data:image')) {
+                              //     // Ekstrak base64 string
+                              //     final base64Str = uriStr.split(',').last;
+                              //     try {
+                              //       final bytes = base64Decode(base64Str);
+                              //       return Center(
+                              //         child: Image.memory(
+                              //           bytes,
+                              //           errorBuilder:
+                              //               (context, error, stackTrace) {
+                              //             return const Text(
+                              //                 'Gagal memuat gambar',
+                              //                 style:
+                              //                     TextStyle(color: Colors.red));
+                              //           },
+                              //         ),
+                              //       );
+                              //     } catch (e) {
+                              //       return const Text(
+                              //           'Format gambar tidak valid',
+                              //           style: TextStyle(color: Colors.red));
+                              //     }
+                              //   } else {
+                              //     // Default: network image
+                              //     return Center(
+                              //       child: Image.network(
+                              //         uriStr,
+                              //         errorBuilder:
+                              //             (context, error, stackTrace) {
+                              //           return const Text('Gagal memuat gambar',
+                              //               style:
+                              //                   TextStyle(color: Colors.red));
+                              //         },
+                              //       ),
+                              //     );
+                              //   }
+                              // },
                               extensionSet: md.ExtensionSet(
                                 [
                                   md.TableSyntax(),
